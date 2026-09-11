@@ -1,0 +1,12 @@
+{
+  "version": "regulatory_registry_v1_empty",
+  "last_verified_at": null,
+  "official_sources": [
+    "https://www.sse.com.cn/lawandrules/sselawsrules/",
+    "https://www.szse.cn/lawrules/rule/",
+    "https://www.bse.cn/important_rules/index.html",
+    "https://www.csrc.gov.cn/csrc/c101864/common_list.shtml"
+  ],
+  "rules": [],
+  "discipline": "Only official text with publish/effective/expiry dates may be added. Do not infer numeric thresholds from posts or examples."
+}
