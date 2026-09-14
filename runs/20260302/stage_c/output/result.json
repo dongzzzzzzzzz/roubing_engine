@@ -1,0 +1,667 @@
+{
+  "as_of": "20260302 CLOSE",
+  "execution_task": {
+    "status": "SELECTED",
+    "task_id": "TASK-20260226-D6F5ECE56E",
+    "task_type": "HIGHEST_LADDER_CONTINUATION",
+    "theme": "商业航天",
+    "missing_function": "商业航天当前有1家3板和4家首板但缺少2板层，明天最缺少最高身位继续确认方向空间、承受分歧且不被更低身位反向替代的功能。",
+    "selection_logic": [
+      "接受Stage B已选商业航天为动态主路径；该选择只是盘后相对优先的延续候选，不改写为主流或主升确认。",
+      "方向当前最高层只有1家3板，且2板层缺失；若最高身位不能继续提供空间，4家首板的扩散也缺少上层确认，因此最高身位延续是明天优先补足的功能。",
+      "该任务候选池状态为READY、anchor_date已统一验证为2026-02-26，动作池只有一个确定对象，可在不使用固定总分或隐藏权重的前提下收敛为SINGLE。",
+      "同板级晋级和首板扩散任务各有4个动作对象，盘后证据不足以在不强排的前提下收敛至两只以内；炸板修复任务的起算状态和两对象偏好均未解决，不能优先于已经明确的最高身位缺口。"
+    ],
+    "supporting_fact_ids": [
+      "F-20260302-DIR-C3440C60D4",
+      "F-20260302-STOCK-5273D82917",
+      "F-20260302-ENV-6070A933AC",
+      "F-20260302-ENV-A856B87611"
+    ],
+    "rule_ids": [
+      "PRIM_SEPARATION",
+      "DISC_NO_HINDSIGHT",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_SNAPSHOT_NOT_THRESHOLD"
+    ],
+    "rejected_task_ids": [
+      "TASK-20260302-C4DE56B7A4",
+      "TASK-20260302-5627F69BD6",
+      "TASK-20260302-7D87305F1D"
+    ]
+  },
+  "paths": {
+    "primary": {
+      "observed_facts": [
+        "Stage B将商业航天选为相对优先路径；F-20260302-DIR-C3440C60D4记录该方向5家涨停、2家炸板、1家3板和4家首板，2板层缺失。",
+        "F-20260302-STOCK-5273D82917记录002843.SZ由上一交易日2板晋级为当日3板，当日09:30:24封板，收盘价27.8高于此前高点25.27。",
+        "facts.previous_buyer_feedback记录002843.SZ上一交易日为商业航天2板、当日继续涨停至3板；同名方向上一交易日样本总体为一正一负。",
+        "facts.data_completeness记录minute_bar和trade_tick均不可用；方向完整非涨停成员扩散数据为BLOCKED_DATA。"
+      ],
+      "ai_inferences": [
+        "明日可行动路径不是直接认定002843.SZ为核心，而是要求其独立完成最高身位延续：承受分歧、保持价格重心，并使商业航天至少另一个层级同窗响应。",
+        "若最高身位完成任务，资金可能先落到方向4板空间；可复制空间来自4家首板中后续出现的晋级与中位层补齐，但这些对象本任务只能用于验证，不能临时加入动作名单。",
+        "002843.SZ当前是唯一动作载体仅源于所选任务的确定性池，不等于市场角色或阶段唯一性已确认。"
+      ],
+      "unknowns": [
+        "缺逐笔成交和完整委托流，资金来源、具体买方和具体卖方数据不足，无法判断。",
+        "缺分钟线与完整非涨停题材成员映射，无法确认002843.SZ的盘中增强是否能带动板块、容量和扩散层。",
+        "缺相邻交易日角色账本，002843.SZ及验证对象的角色和角色族均无法确认。",
+        "监管精确数值阈值未核验，不计算异动距离，也不声称仍有监管空间。"
+      ],
+      "capital_source": {
+        "status": "HYPOTHESIS",
+        "statement": "钱可能来自延续商业航天昨日正反馈的短线接力资金，以及在弱广度环境中仍寻找局部高度载体的活跃资金；因trade_tick缺失，不能确认真实来源。",
+        "evidence": [
+          "F-20260302-STOCK-5273D82917",
+          "F-20260302-ENV-A856B87611",
+          "facts.data_completeness.trade_tick.available=false",
+          "DISC_NO_HINDSIGHT"
+        ]
+      },
+      "buyer": {
+        "status": "HYPOTHESIS",
+        "statement": "明天最可能尝试承接的是做最高身位延续的短线接力买方；其承接依据只能是002843.SZ已从2板推进至3板并在分歧后仍能独立维持重心，同时低位验证对象同窗响应，不能只因前一日封板而买。",
+        "evidence": [
+          "F-20260302-STOCK-5273D82917",
+          "F-20260302-DIR-C3440C60D4",
+          "PRIM_SEPARATION",
+          "DISC_SNAPSHOT_NOT_THRESHOLD"
+        ]
+      },
+      "seller": {
+        "status": "UNKNOWN",
+        "statement": "需要被承接的是3板后的存量获利盘和不愿承担更高身位分歧的持有者；具体谁必须卖、卖压来自何类账户，因无逐笔与委托流而无法确认。",
+        "evidence": [
+          "F-20260302-STOCK-5273D82917",
+          "facts.data_completeness.trade_tick.available=false",
+          "DISC_NO_HINDSIGHT"
+        ]
+      },
+      "destination_layer": {
+        "status": "HYPOTHESIS",
+        "statement": "若任务完成，承接资金可能落到商业航天的4板最高身位层，并以首板验证对象是否出现晋级响应来确认不是孤立单票行为。",
+        "evidence": [
+          "F-20260302-DIR-C3440C60D4",
+          "F-20260302-STOCK-5273D82917",
+          "DISC_NO_FIXED_SCORE"
+        ]
+      },
+      "successor": {
+        "status": "HYPOTHESIS",
+        "statement": "买入后可能接棒的是000070.SZ、001400.SZ、002413.SZ、003009.SZ中能在002843.SZ独立增强后同步完成首板晋级或维持方向响应的对象；本任务不确认具体接棒者，也不将其加入动作叶子。",
+        "evidence": [
+          "F-20260302-DIR-C3440C60D4",
+          "F-20260302-STOCK-DB7CF2D96E",
+          "F-20260302-STOCK-D15A64570A",
+          "F-20260302-STOCK-A6C079F7ED",
+          "F-20260302-STOCK-540856A678",
+          "PRIM_SEPARATION"
+        ]
+      },
+      "confirm": [
+        "09:25只比较002843.SZ自身最高身位延续任务与4个验证对象的相对态度：其不能明显依赖验证对象先增强后反推，且商业航天低位层不能整体失去响应。",
+        "截至09:35已观察到002843.SZ在真实分歧中保持或收回价格重心，并且000070.SZ、001400.SZ、002413.SZ、003009.SZ至少有对象在同一时间窗同向响应，才允许当下行动。",
+        "若截至09:35关系仍未确认，只判定当下NO_ACTION或继续未知，不把五分钟本身写成股票直接失败。"
+      ],
+      "cancel": [
+        "002843.SZ价格重心持续破坏，且4个验证对象同步弱化，最高身位与方向响应同时失效。",
+        "验证对象先独立增强而002843.SZ随后被反推，说明最高身位未完成主动延续并出现被更低身位替代的结构。",
+        "002843.SZ仅孤立增强，商业航天其他层级不响应，所选任务无法证明方向空间。",
+        "Stage B列出的商业航天路径取消事实出现，包括高度失败、首板无晋级且竞争方向形成更完整连续梯队。"
+      ]
+    },
+    "alternative": {
+      "observed_facts": [
+        "F-20260302-DIR-C3440C60D4记录商业航天除1家3板外还有4家同日首板，因而存在低位层继续验证方向的客观对象。",
+        "所选任务的validation_pool仅包含000070.SZ、001400.SZ、002413.SZ、003009.SZ，这些对象天生只能VALIDATION_ONLY。",
+        "所选任务没有BACKUP，盘后未选择的对象次日不得加入动作名单。"
+      ],
+      "ai_inferences": [
+        "若最高身位结构性失败但低位对象独立晋级，商业航天可能转为低位层重新验证，而不是继续执行最高身位买入。",
+        "这种替代路径只能保留方向观察和后续任务生成可能，当前动作仍是NO_ACTION，不能把验证对象临时改成备选。"
+      ],
+      "unknowns": [
+        "哪个低位对象能形成独立晋级与带动尚未知。",
+        "高位卖出资金是否真实迁移到低位层因trade_tick缺失而未知。",
+        "缺分钟线和完整扩散数据，低位响应是否具有板块性数据不足，无法判断。"
+      ],
+      "capital_source": {
+        "status": "HYPOTHESIS",
+        "statement": "若替代路径发生，钱可能来自最高身位失败后的方向内部再配置，但没有逐笔证据证明高位资金实际流向低位。",
+        "evidence": [
+          "F-20260302-DIR-C3440C60D4",
+          "facts.data_completeness.trade_tick.available=false",
+          "DISC_NO_HINDSIGHT"
+        ]
+      },
+      "buyer": {
+        "status": "HYPOTHESIS",
+        "statement": "可能买入低位晋级的是回避最高身位风险、仍愿意验证商业航天延续的短线买方；具体买方无法确认，且本任务禁止据此执行验证对象。",
+        "evidence": [
+          "F-20260302-DIR-C3440C60D4",
+          "PRIM_SEPARATION",
+          "DISC_NO_HINDSIGHT"
+        ]
+      },
+      "seller": {
+        "status": "UNKNOWN",
+        "statement": "可能需要卖出的是最高身位结构失效后的存量持有者，但具体卖方、卖压规模和是否转投低位均无法确认。",
+        "evidence": [
+          "facts.data_completeness.trade_tick.available=false",
+          "DISC_NO_HINDSIGHT"
+        ]
+      },
+      "destination_layer": {
+        "status": "HYPOTHESIS",
+        "statement": "资金若仍留在方向内，可能落到2026-03-02首板队列的晋级层，用于重新补足商业航天缺失的中位层。",
+        "evidence": [
+          "F-20260302-DIR-C3440C60D4",
+          "DISC_NO_FIXED_SCORE"
+        ]
+      },
+      "successor": {
+        "status": "UNKNOWN",
+        "statement": "000070.SZ、001400.SZ、002413.SZ、003009.SZ谁能接棒未知；本任务只记录方向响应，不判断其唯一性或动作资格。",
+        "evidence": [
+          "F-20260302-STOCK-DB7CF2D96E",
+          "F-20260302-STOCK-D15A64570A",
+          "F-20260302-STOCK-A6C079F7ED",
+          "F-20260302-STOCK-540856A678",
+          "DISC_NO_FIXED_SCORE"
+        ]
+      },
+      "trigger": [
+        "只有002843.SZ命中结构性direct_fail_conditions，且低位验证对象出现独立晋级与商业航天方向响应时，替代路径才接管方向观察；由于没有BACKUP，动作仍为NO_ACTION。"
+      ],
+      "cancel": [
+        "002843.SZ与4个低位验证对象同步弱化，商业航天没有可验证的层级响应。",
+        "低位对象仅在其他对象先增强后被动跟随，无法证明方向内部再配置。",
+        "竞争方向形成更高、更连续的梯队并使Stage B商业航天主路径取消。"
+      ]
+    },
+    "no_action": {
+      "observed_facts": [
+        "全市场上涨1142家、下跌4265家，成交额较上一交易日增加21.57%，属于广度偏弱而局部结构活跃的分化截面。",
+        "商业航天为1家3板、4家首板、2家炸板且缺2板层，方向尚未完成主流确认。",
+        "minute_bar、trade_tick、公告和热点上下文不可用，非涨停题材成员扩散为BLOCKED_DATA。",
+        "所选任务只有002843.SZ一个动作对象且没有BACKUP；4个验证对象均不能进入动作叶子。"
+      ],
+      "ai_inferences": [
+        "在弱广度和方向层级断档下，若最高身位不能独立承压并获得其他层级响应，买方承接依据不足。",
+        "即使验证对象意外走强，只要002843.SZ未直接失败或验证对象没有独立完成其方向响应，也不能随意切换；本任务不存在可切换BACKUP。"
+      ],
+      "unknowns": [
+        "资金来源、具体买卖双方和盘中委托变化未知。",
+        "方向非事件成员是否扩散未知。",
+        "截至09:25与09:35的次日关系尚未发生，盘后不能预先写成确认。"
+      ],
+      "trigger": [
+        "截至09:35仍没有观察到002843.SZ独立维持价格重心以及商业航天至少另一层同窗响应，证据不足，当下NO_ACTION。",
+        "002843.SZ只能被000070.SZ、001400.SZ、002413.SZ或003009.SZ先增强后反推，最高身位任务未完成。",
+        "002843.SZ价格重心持续破坏且验证对象同步弱化，买方承接失败。",
+        "002843.SZ孤立脉冲而方向、验证对象不响应，资金只落到单票而非方向层。",
+        "商业航天高度失败、首板无晋级，或竞争方向形成更完整梯队，主路径被事实推翻。",
+        "次日仍缺足以判断竞价、分时或成交关系的数据，数据不足，无法判断。"
+      ]
+    }
+  },
+  "competition_groups": [
+    {
+      "group_id": "商业航天-MAINSTREAM_CONFIRMATION_OBSERVATION-最高身位延续-2026-02-26",
+      "generator": null,
+      "anchor_date": "2026-02-26",
+      "theme": "商业航天",
+      "comparison_basis": [
+        "仅纳入TASK-20260226-D6F5ECE56E确定性pool中承担最高身位延续功能、required_anchor_date为2026-02-26的ACTION_COMPETITOR。",
+        "该动作池只有002843.SZ，不能与required_anchor_date为2026-03-02且仅负责方向响应验证的对象比较封板先后或角色唯一性。"
+      ],
+      "members": [
+        "002843.SZ"
+      ],
+      "not_comparable_with": [
+        "000070.SZ：required_anchor_date为2026-03-02且仅为VALIDATION_ONLY，不承担最高身位延续。",
+        "001400.SZ：required_anchor_date为2026-03-02且仅为VALIDATION_ONLY，不承担最高身位延续。",
+        "002413.SZ：required_anchor_date为2026-03-02且仅为VALIDATION_ONLY，不承担最高身位延续。",
+        "003009.SZ：required_anchor_date为2026-03-02且仅为VALIDATION_ONLY，不承担最高身位延续。"
+      ],
+      "leader_state": {
+        "status": "UNRESOLVED",
+        "thscode": null,
+        "evidence": [
+          "role_assignment_contract.leader_state=UNRESOLVED",
+          "动作池只有一个对象不等于其角色、主动性或阶段唯一性已经确认",
+          "F-20260302-STOCK-5273D82917",
+          "PRIM_SEPARATION"
+        ]
+      },
+      "pairwise_relations": [],
+      "next_confirmation": [
+        "次日验证002843.SZ是否独立完成最高身位延续，而非由更低身位对象先增强后反推。",
+        "验证002843.SZ承受分歧时能否保持或收回价格重心，并使商业航天至少另一层同窗响应。",
+        "若其重心持续破坏并带来方向同步弱化，则取消该组的行动资格。"
+      ],
+      "coverage_status": "COMPLETE",
+      "rule_ids": [
+        "PRIM_SEPARATION",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ],
+      "next_day_tasks": [
+        "002843.SZ逐项验证竞价相对态度、分歧承接、价格重心和方向响应。",
+        "记录000070.SZ、001400.SZ、002413.SZ、003009.SZ是否在002843.SZ增强后同窗响应，或是否先增强并反向替代。",
+        "若截至09:35任务关系仍未确认，只决定当下NO_ACTION，不以时间到点宣布股票失败。"
+      ],
+      "uniqueness_status": "UNRESOLVED"
+    }
+  ],
+  "action_competition_group": {
+    "task_id": "TASK-20260226-D6F5ECE56E",
+    "members": [
+      "002843.SZ"
+    ],
+    "validation_objects": [
+      "000070.SZ",
+      "001400.SZ",
+      "002413.SZ",
+      "003009.SZ"
+    ],
+    "comparison_basis": [
+      "002843.SZ是所选任务确定性pool内唯一承担最高身位延续的对象；没有同任务第二个ACTION_COMPETITOR可做盘后两两强排。",
+      "4个validation_pool对象只验证低位层是否响应、002843.SZ是否被反推或方向是否同步弱化，不能成为PRIMARY或BACKUP。"
+    ],
+    "resolved_out": [],
+    "rule_ids": [
+      "PRIM_SEPARATION",
+      "DISC_NO_HINDSIGHT",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_SNAPSHOT_NOT_THRESHOLD"
+    ],
+    "unresolved": [
+      "002843.SZ虽是唯一动作载体，但角色、主动性、方向带动和阶段唯一性仍未解决。",
+      "缺分钟线与逐笔成交，盘后无法确认其分歧承接以及与验证对象的先后因果关系。"
+    ]
+  },
+  "pairwise_comparison": [],
+  "action_plan": {
+    "status": "SINGLE",
+    "task_id": "TASK-20260226-D6F5ECE56E",
+    "primary": {
+      "thscode": "002843.SZ",
+      "task_to_complete": "独立完成商业航天最高身位延续：承受3板后的分歧、维持或收回价格重心，不被低位验证对象反向替代，并使方向至少另一层出现同窗响应。",
+      "auction_conditions": [
+        "09:25相对其盘后最高身位任务表现出继续承接意愿，且不能明显落后于000070.SZ、001400.SZ、002413.SZ、003009.SZ后再被动跟随；不使用固定高开百分比。",
+        "4个验证对象不能全部呈现方向同步弱化；若只有002843.SZ孤立强而方向层无响应，竞价证据不足。"
+      ],
+      "open_conditions": [
+        "截至09:35已观察到002843.SZ经历真实分歧后仍保持或收回价格重心，而不是持续下移。",
+        "截至09:35已观察到002843.SZ的增强先于或独立于低位验证对象，未出现验证对象先增强、002843.SZ随后被反推的关系。",
+        "截至09:35已观察到000070.SZ、001400.SZ、002413.SZ、003009.SZ至少有对象与002843.SZ在同一时间窗同向响应，使行动依据落在方向关系而非单票脉冲。"
+      ],
+      "downgrade_conditions": [
+        "09:25相对态度没有明显完成任务，但也未出现价格重心持续破坏或被低位反向替代，只保留NEEDS_OPEN_VALIDATION，不触发任何切换。",
+        "开盘出现分歧但价格重心尚未持续破坏，方向响应仍在形成，只降级等待截至09:35的关系证据。",
+        "截至09:35任务仍未确认时，当下NO_ACTION；这表示证据不足，不把时间到点本身定义为直接失败。"
+      ],
+      "direct_fail_conditions": [
+        "002843.SZ价格重心持续破坏，且000070.SZ、001400.SZ、002413.SZ、003009.SZ同步弱化，最高身位与方向承接同时失败。",
+        "000070.SZ、001400.SZ、002413.SZ或003009.SZ先独立增强，002843.SZ随后才被反推，最高身位被更低层关系替代。",
+        "002843.SZ只能孤立脉冲，商业航天验证对象持续不响应或同步转弱，最高身位无法确认方向空间。"
+      ]
+    },
+    "backup": null,
+    "validation_objects": [
+      "000070.SZ",
+      "001400.SZ",
+      "002413.SZ",
+      "003009.SZ"
+    ],
+    "rule_ids": [
+      "PRIM_SEPARATION",
+      "DISC_NO_HINDSIGHT",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_SNAPSHOT_NOT_THRESHOLD"
+    ],
+    "switch_rule": "PRIMARY直接失败且BACKUP独立完成自身任务才切换；降级不切换。本计划backup=null，因此PRIMARY直接失败后也是NO_ACTION。",
+    "no_action_conditions": [
+      "截至09:25或09:35缺少足以判断相对任务、承接、分离和方向响应的数据，数据不足，无法判断。",
+      "截至09:35仍未同时观察到002843.SZ维持或收回重心以及商业航天至少另一层同窗响应。",
+      "002843.SZ命中任一direct_fail_conditions；因没有BACKUP，直接放弃。",
+      "002843.SZ只是DOWNGRADED或NEEDS_OPEN_VALIDATION时不切换验证对象，只等待或当下NO_ACTION。",
+      "商业航天路径被高度失败、低位无晋级、失败反馈扩大或竞争方向形成更完整梯队等事实推翻。"
+    ]
+  },
+  "candidates": [
+    {
+      "thscode": "002843.SZ",
+      "name": "泰嘉股份",
+      "theme": "商业航天",
+      "task_id": "TASK-20260226-D6F5ECE56E",
+      "observed_function": "所选任务中唯一的最高身位延续载体；明天负责继续确认方向空间并避免被低位反向替代。",
+      "task_relation": "ACTION_COMPETITOR",
+      "node": "MAINSTREAM_CONFIRMATION_OBSERVATION",
+      "generator": null,
+      "anchor_date": "2026-02-26",
+      "role": "UNKNOWN",
+      "role_family": "UNKNOWN",
+      "capacity_tasks": {
+        "price_progression": "从当日3板关系继续推进最高身位任务；不能用固定涨幅或封单阈值代替任务完成。",
+        "pullback_recovery": "出现分歧时保持或收回价格重心，证明承接存在；若持续下移则任务失败。",
+        "sector_leadership": "增强时至少带来商业航天一个低位验证对象同窗响应，不能只有单票脉冲。",
+        "center_of_gravity": "截至09:35观察真实分歧后的重心是否稳定或修复；时间截点本身不是失败阈值。",
+        "replacement_state": "不得在000070.SZ、001400.SZ、002413.SZ或003009.SZ先增强后才被反推，否则记录为最高身位被替代。"
+      },
+      "agency_event_model": {
+        "reference": "000070.SZ、001400.SZ、002413.SZ、003009.SZ仅作为方向响应与反推关系参照。",
+        "event_sequence": [
+          "截至20260302仅确认002843.SZ为3板、09:30:24封板并由上一交易日2板继续涨停。",
+          "T+1先观察002843.SZ是否独立增强或先失去价格重心。",
+          "再观察4个验证对象是否同窗响应、先增强反推或同步弱化。"
+        ],
+        "target_behavior": "独立承压并维持重心，同时获得方向另一层响应；不能由验证对象先走强后反推。",
+        "data_sufficiency": "INSUFFICIENT",
+        "conclusion": "UNKNOWN"
+      },
+      "letter_carrier": "UNKNOWN",
+      "competition_group": "商业航天-2026-02-26-最高身位延续",
+      "competitors": [],
+      "observed_state": [
+        "F-20260302-STOCK-5273D82917记录当日limit_up、3板、limit_time为09:30:24。",
+        "required_anchor_date为2026-02-26，上一交易日为2板且当日继续涨停至3板。",
+        "当日收盘27.8，高于此前高点25.27；该数值只作为本对象事实，不推广为其他对象规则。",
+        "previous_role_task不可用，当前角色没有获批历史账本。"
+      ],
+      "tomorrow_must_do": [
+        "相对自身最高身位任务表现出继续承接，而不是等待低位验证对象先增强后被动跟随。",
+        "在分歧中维持或收回价格重心，并使商业航天至少另一层同窗响应。",
+        "若截至09:35关系证据齐备才允许当下行动；证据未齐则NO_ACTION而非预判失败。"
+      ],
+      "acceptable_variants": [
+        "竞价未直接完成任务，但开盘分歧后独立收回重心并得到低位层同步响应，可保留至截至09:35验证。",
+        "不以最快封板为唯一标准；只要独立承压、重心稳定且方向响应成立，仍可视为任务完成方式之一。"
+      ],
+      "failure_signals": [
+        "价格重心持续破坏且验证对象同步弱化。",
+        "验证对象先独立增强，002843.SZ随后才被反推。",
+        "自身孤立脉冲而商业航天其他层级持续不响应。"
+      ],
+      "cancel_if": [
+        "命中任一结构性direct_fail_conditions。",
+        "商业航天主路径被Stage B定义的取消事实推翻。",
+        "次日关键关系数据继续缺失，数据不足，无法判断。"
+      ],
+      "output_tier": "主候选",
+      "evidence": [
+        "F-20260302-STOCK-5273D82917",
+        "F-20260302-DIR-C3440C60D4",
+        "PRIM_SEPARATION",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ]
+    },
+    {
+      "thscode": "000070.SZ",
+      "name": "特发信息",
+      "theme": "商业航天",
+      "task_id": "TASK-20260226-D6F5ECE56E",
+      "observed_function": "验证2026-03-02首板层是否在002843.SZ独立增强后响应，并识别最高身位是否被低位反推。",
+      "task_relation": "VALIDATION_ONLY",
+      "node": "MAINSTREAM_CONFIRMATION_OBSERVATION",
+      "generator": null,
+      "anchor_date": "2026-03-02",
+      "role": "UNKNOWN",
+      "role_family": "UNKNOWN",
+      "capacity_tasks": {
+        "price_progression": "只验证首板层次日能否保持或晋级，不承担本任务买入。",
+        "pullback_recovery": "观察分歧后是否保持方向响应，不能据此直接命名角色。",
+        "sector_leadership": "验证商业航天低位层是否响应002843.SZ，而非确认自身领导地位。",
+        "center_of_gravity": "记录价格重心是否与方向同窗稳定或同步弱化。",
+        "replacement_state": "若先于002843.SZ独立增强且002843.SZ随后被反推，只记录替代压力，不升级为动作对象。"
+      },
+      "agency_event_model": {
+        "reference": "002843.SZ与商业航天方向响应。",
+        "event_sequence": [
+          "截至20260302确认000070.SZ为1板、09:32:06封板。",
+          "T+1观察002843.SZ先增强或先弱。",
+          "再记录000070.SZ是同窗响应、先行反推还是同步弱化。"
+        ],
+        "target_behavior": "在002843.SZ独立完成任务时提供低位层响应，或用先行增强揭示最高身位被反推。",
+        "data_sufficiency": "INSUFFICIENT",
+        "conclusion": "UNKNOWN"
+      },
+      "letter_carrier": "UNKNOWN",
+      "competition_group": "商业航天-2026-03-02-方向响应验证（非动作竞争组）",
+      "competitors": [],
+      "observed_state": [
+        "F-20260302-STOCK-DB7CF2D96E记录当日limit_up、1板、limit_time为09:32:06。",
+        "required_anchor_date为2026-03-02，当日收盘未高于此前高点19.99。",
+        "previous_role_task不可用，角色无法确认。"
+      ],
+      "tomorrow_must_do": [
+        "只确认商业航天低位层是否与002843.SZ同窗响应。",
+        "记录其是否先独立增强并导致002843.SZ被反推，或是否与方向同步弱化。",
+        "不得进入PRIMARY或BACKUP。"
+      ],
+      "acceptable_variants": [
+        "不要求固定高开或固定封板速度；保持方向响应即可完成验证功能。",
+        "若自身未晋级但价格重心稳定且其他验证对象响应，仍可保留方向验证，不获得动作资格。"
+      ],
+      "failure_signals": [
+        "与002843.SZ同步弱化，不能提供方向响应。",
+        "只有孤立波动，无法确认与最高身位的时间关系。"
+      ],
+      "cancel_if": [
+        "商业航天方向整体不响应。",
+        "缺分钟线或成交关系数据，数据不足，无法判断。"
+      ],
+      "output_tier": "待验证候选",
+      "evidence": [
+        "F-20260302-STOCK-DB7CF2D96E",
+        "F-20260302-DIR-C3440C60D4",
+        "PRIM_SEPARATION",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ]
+    },
+    {
+      "thscode": "001400.SZ",
+      "name": "江顺科技",
+      "theme": "商业航天",
+      "task_id": "TASK-20260226-D6F5ECE56E",
+      "observed_function": "验证2026-03-02首板层是否在002843.SZ独立增强后响应，并识别最高身位是否被低位反推。",
+      "task_relation": "VALIDATION_ONLY",
+      "node": "MAINSTREAM_CONFIRMATION_OBSERVATION",
+      "generator": null,
+      "anchor_date": "2026-03-02",
+      "role": "UNKNOWN",
+      "role_family": "UNKNOWN",
+      "capacity_tasks": {
+        "price_progression": "只验证首板层次日能否保持或晋级，不承担本任务买入。",
+        "pullback_recovery": "观察分歧后是否保持方向响应，不能据此直接命名角色。",
+        "sector_leadership": "验证商业航天低位层是否响应002843.SZ，而非确认自身领导地位。",
+        "center_of_gravity": "记录价格重心是否与方向同窗稳定或同步弱化。",
+        "replacement_state": "若先于002843.SZ独立增强且002843.SZ随后被反推，只记录替代压力，不升级为动作对象。"
+      },
+      "agency_event_model": {
+        "reference": "002843.SZ与商业航天方向响应。",
+        "event_sequence": [
+          "截至20260302确认001400.SZ为1板、10:04:45封板。",
+          "T+1观察002843.SZ先增强或先弱。",
+          "再记录001400.SZ是同窗响应、先行反推还是同步弱化。"
+        ],
+        "target_behavior": "在002843.SZ独立完成任务时提供低位层响应，或用先行增强揭示最高身位被反推。",
+        "data_sufficiency": "INSUFFICIENT",
+        "conclusion": "UNKNOWN"
+      },
+      "letter_carrier": "UNKNOWN",
+      "competition_group": "商业航天-2026-03-02-方向响应验证（非动作竞争组）",
+      "competitors": [],
+      "observed_state": [
+        "F-20260302-STOCK-D15A64570A记录当日limit_up、1板、limit_time为10:04:45。",
+        "required_anchor_date为2026-03-02，当日收盘133.45高于此前高点131.44；该数值只作本对象事实。",
+        "previous_role_task不可用，角色无法确认。"
+      ],
+      "tomorrow_must_do": [
+        "只确认商业航天低位层是否与002843.SZ同窗响应。",
+        "记录其是否先独立增强并导致002843.SZ被反推，或是否与方向同步弱化。",
+        "不得进入PRIMARY或BACKUP。"
+      ],
+      "acceptable_variants": [
+        "不要求固定高开或固定封板速度；保持方向响应即可完成验证功能。",
+        "若自身未晋级但价格重心稳定且其他验证对象响应，仍可保留方向验证，不获得动作资格。"
+      ],
+      "failure_signals": [
+        "与002843.SZ同步弱化，不能提供方向响应。",
+        "只有孤立波动，无法确认与最高身位的时间关系。"
+      ],
+      "cancel_if": [
+        "商业航天方向整体不响应。",
+        "缺分钟线或成交关系数据，数据不足，无法判断。"
+      ],
+      "output_tier": "待验证候选",
+      "evidence": [
+        "F-20260302-STOCK-D15A64570A",
+        "F-20260302-DIR-C3440C60D4",
+        "PRIM_SEPARATION",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ]
+    },
+    {
+      "thscode": "002413.SZ",
+      "name": "雷科防务",
+      "theme": "商业航天",
+      "task_id": "TASK-20260226-D6F5ECE56E",
+      "observed_function": "验证2026-03-02首板层是否在002843.SZ独立增强后响应，并识别最高身位是否被低位反推。",
+      "task_relation": "VALIDATION_ONLY",
+      "node": "MAINSTREAM_CONFIRMATION_OBSERVATION",
+      "generator": null,
+      "anchor_date": "2026-03-02",
+      "role": "UNKNOWN",
+      "role_family": "UNKNOWN",
+      "capacity_tasks": {
+        "price_progression": "只验证首板层次日能否保持或晋级，不承担本任务买入。",
+        "pullback_recovery": "观察分歧后是否保持方向响应，不能据此直接命名角色。",
+        "sector_leadership": "验证商业航天低位层是否响应002843.SZ，而非确认自身领导地位。",
+        "center_of_gravity": "记录价格重心是否与方向同窗稳定或同步弱化。",
+        "replacement_state": "若先于002843.SZ独立增强且002843.SZ随后被反推，只记录替代压力，不升级为动作对象。"
+      },
+      "agency_event_model": {
+        "reference": "002843.SZ与商业航天方向响应。",
+        "event_sequence": [
+          "截至20260302确认002413.SZ为1板、09:37:12封板。",
+          "20260105存在旧任务记录但非相邻交易日，不能迁移为当前角色证据。",
+          "T+1记录其是同窗响应、先行反推还是同步弱化。"
+        ],
+        "target_behavior": "在002843.SZ独立完成任务时提供低位层响应，或用先行增强揭示最高身位被反推。",
+        "data_sufficiency": "INSUFFICIENT",
+        "conclusion": "UNKNOWN"
+      },
+      "letter_carrier": "UNKNOWN",
+      "competition_group": "商业航天-2026-03-02-方向响应验证（非动作竞争组）",
+      "competitors": [],
+      "observed_state": [
+        "F-20260302-STOCK-A6C079F7ED记录当日limit_up、1板、limit_time为09:37:12。",
+        "required_anchor_date为2026-03-02，当日收盘未高于此前高点20.29。",
+        "仅有20260105旧任务记录，非实际前一交易日角色账本，当前角色保持UNKNOWN。"
+      ],
+      "tomorrow_must_do": [
+        "只确认商业航天低位层是否与002843.SZ同窗响应。",
+        "记录其是否先独立增强并导致002843.SZ被反推，或是否与方向同步弱化。",
+        "不得进入PRIMARY或BACKUP。"
+      ],
+      "acceptable_variants": [
+        "不要求固定高开或固定封板速度；保持方向响应即可完成验证功能。",
+        "若自身未晋级但价格重心稳定且其他验证对象响应，仍可保留方向验证，不获得动作资格。"
+      ],
+      "failure_signals": [
+        "与002843.SZ同步弱化，不能提供方向响应。",
+        "只有孤立波动，无法确认与最高身位的时间关系。"
+      ],
+      "cancel_if": [
+        "商业航天方向整体不响应。",
+        "缺分钟线或成交关系数据，数据不足，无法判断。"
+      ],
+      "output_tier": "待验证候选",
+      "evidence": [
+        "F-20260302-STOCK-A6C079F7ED",
+        "F-20260302-DIR-C3440C60D4",
+        "PRIM_SEPARATION",
+        "DISC_NO_HINDSIGHT"
+      ]
+    },
+    {
+      "thscode": "003009.SZ",
+      "name": "中天火箭",
+      "theme": "商业航天",
+      "task_id": "TASK-20260226-D6F5ECE56E",
+      "observed_function": "验证2026-03-02首板层是否在002843.SZ独立增强后响应，并识别最高身位是否被低位反推。",
+      "task_relation": "VALIDATION_ONLY",
+      "node": "MAINSTREAM_CONFIRMATION_OBSERVATION",
+      "generator": null,
+      "anchor_date": "2026-03-02",
+      "role": "UNKNOWN",
+      "role_family": "UNKNOWN",
+      "capacity_tasks": {
+        "price_progression": "只验证首板层次日能否保持或晋级，不承担本任务买入。",
+        "pullback_recovery": "观察分歧后是否保持方向响应，不能据此直接命名角色。",
+        "sector_leadership": "验证商业航天低位层是否响应002843.SZ，而非确认自身领导地位。",
+        "center_of_gravity": "记录价格重心是否与方向同窗稳定或同步弱化。",
+        "replacement_state": "若先于002843.SZ独立增强且002843.SZ随后被反推，只记录替代压力，不升级为动作对象。"
+      },
+      "agency_event_model": {
+        "reference": "002843.SZ与商业航天方向响应。",
+        "event_sequence": [
+          "截至20260302确认003009.SZ为1板、10:02:12封板。",
+          "T+1观察002843.SZ先增强或先弱。",
+          "再记录003009.SZ是同窗响应、先行反推还是同步弱化。"
+        ],
+        "target_behavior": "在002843.SZ独立完成任务时提供低位层响应，或用先行增强揭示最高身位被反推。",
+        "data_sufficiency": "INSUFFICIENT",
+        "conclusion": "UNKNOWN"
+      },
+      "letter_carrier": "UNKNOWN",
+      "competition_group": "商业航天-2026-03-02-方向响应验证（非动作竞争组）",
+      "competitors": [],
+      "observed_state": [
+        "F-20260302-STOCK-540856A678记录当日limit_up、1板、limit_time为10:02:12。",
+        "required_anchor_date为2026-03-02，当日收盘未高于此前高点100.6。",
+        "previous_role_task不可用，角色无法确认。"
+      ],
+      "tomorrow_must_do": [
+        "只确认商业航天低位层是否与002843.SZ同窗响应。",
+        "记录其是否先独立增强并导致002843.SZ被反推，或是否与方向同步弱化。",
+        "不得进入PRIMARY或BACKUP。"
+      ],
+      "acceptable_variants": [
+        "不要求固定高开或固定封板速度；保持方向响应即可完成验证功能。",
+        "若自身未晋级但价格重心稳定且其他验证对象响应，仍可保留方向验证，不获得动作资格。"
+      ],
+      "failure_signals": [
+        "与002843.SZ同步弱化，不能提供方向响应。",
+        "只有孤立波动，无法确认与最高身位的时间关系。"
+      ],
+      "cancel_if": [
+        "商业航天方向整体不响应。",
+        "缺分钟线或成交关系数据，数据不足，无法判断。"
+      ],
+      "output_tier": "待验证候选",
+      "evidence": [
+        "F-20260302-STOCK-540856A678",
+        "F-20260302-DIR-C3440C60D4",
+        "PRIM_SEPARATION",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ]
+    }
+  ],
+  "excluded_candidates": [],
+  "unknowns": [
+    "minute_bar与trade_tick缺失，资金来源、买卖主体、盘中主动性、承接和委托撤单原因无法确认。",
+    "商业航天非涨停题材成员映射为BLOCKED_DATA，完整板块扩散与容量响应无法确认。",
+    "实际前一交易日方向与角色状态账本缺失；20260105旧记录不能迁移为20260302角色证据。",
+    "公告与热点上下文为BLOCKED_DATA，催化持续性无法确认。",
+    "风险提示、重点监控与停牌数据为BLOCKED_DATA；监管精确数值阈值未核验，不得计算异动距离。",
+    "所选任务只有一个ACTION_COMPETITOR，角色领导状态与阶段唯一性仍为UNRESOLVED；唯一入池不等于已确认核心或必买。",
+    "截至09:25和09:35的次日关系尚未发生，所有买方、卖方、资金迁移和接棒判断只能保持HYPOTHESIS或UNKNOWN。"
+  ]
+}

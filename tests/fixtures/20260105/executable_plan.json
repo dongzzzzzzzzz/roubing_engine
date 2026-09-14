@@ -1,0 +1,46 @@
+{
+  "version": "2.0",
+  "plan_date": "20260105",
+  "as_of": "20260105 CLOSE",
+  "primary_path": {
+    "status": "SELECTED",
+    "theme": "商业航天",
+    "direction_fact_id": "F-20260105-DIR-6F713D1AA3"
+  },
+  "execution_task": {
+    "status": "SELECTED",
+    "task_id": "TASK-20260105-GOLDEN",
+    "task_type": "SUB_DIRECTION_LEVEL_CONTINUATION",
+    "theme": "商业航天"
+  },
+  "action_plan": {
+    "status": "CONDITIONAL_PAIR",
+    "task_id": "TASK-20260105-GOLDEN",
+    "primary": {
+      "leaf_id": "LEAF-20260105-BDXT",
+      "tier": "PRIMARY",
+      "thscode": "002151.SZ",
+      "task_to_complete": "卫星导航同板级竞争中主动延续，并获得高位验证对象响应",
+      "auction_conditions": ["相对同任务对手保持任务优势，且高位验证对象未否定分支"],
+      "open_conditions": ["开盘后承受分歧并重新取得同任务主动性"],
+      "downgrade_conditions": ["竞价未完成主动延续，但尚不能证明任务资格直接消失"],
+      "direct_fail_conditions": ["竞价行为直接否定自身延续任务且无法等待开盘修复"]
+    },
+    "backup": {
+      "leaf_id": "LEAF-20260105-FHTX",
+      "tier": "BACKUP",
+      "thscode": "600498.SH",
+      "task_to_complete": "PRIMARY直接失败后，独立承担卫星导航同板级主动延续任务",
+      "auction_conditions": ["不依赖PRIMARY转弱而独立满足自身延续条件"],
+      "open_conditions": ["开盘后独立维持价格重心并获得分支响应"],
+      "downgrade_conditions": ["仍需开盘确认，尚未独立取得任务"],
+      "direct_fail_conditions": ["竞价和开盘均不能独立承担分支延续"]
+    },
+    "validation_objects": ["002413.SZ"],
+    "switch_policy": "PRIMARY_DIRECT_FAIL_AND_BACKUP_INDEPENDENT_PASS",
+    "no_action_conditions": ["PRIMARY只降级而未直接失败", "两只均未独立完成任务"]
+  },
+  "allowed_action_codes": ["002151.SZ", "600498.SH"],
+  "forbidden_new_candidates": true,
+  "source_task_pool_status": "READY"
+}

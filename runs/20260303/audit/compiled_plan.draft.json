@@ -1,0 +1,120 @@
+{
+  "verdict": "PASS",
+  "violations": [],
+  "executable_plan": {
+    "version": "3.0",
+    "plan_date": "20260303",
+    "as_of": "20260303 CLOSE",
+    "primary_path": {
+      "status": "NONE",
+      "theme": null,
+      "direction_fact_id": null,
+      "selection_logic": [
+        "在环境层判为整体下跌风险、局部方向延续后，再逐一评估全部44个精确方向。题材父层级只作上下文，油服工程、石油化工、油气开采、天然气、燃气及其他精确标签均未合并。",
+        "path_comparison_contract明确当日横截面可比，44个方向具有方向ID、事件计数和梯队分布；因此不使用BLOCKED_DATA。缺少动态容量和完整扩散降低确认级别，而不抹掉已有横截面比较资格。",
+        "先排除当前仅孤立单票、无共同延续或只有失败事件的方向；个股仍有正收益或晋级不等于其精确方向能组织市场。燃气、油服工程、石油化工、航运港口、天然气、油气开采进入主要竞争，光伏设备及电网设备以低确认重建可能进入边缘比较，共完成八方向两两28组比较。",
+        "燃气启动宽度大但跨日样本少、二板断层且有炸板；油服工程九名买方全部晋级且无失败事件，但无新增层；石油化工1至3板完整、买方全正且承载较大，但队列晋级一致性和低位宽度并非所有关系都领先。三者互有反向优势，无法以涨停数、最高板或总成交确定胜者。",
+        "航运港口承载和新增响应较强但三只炸板；天然气清洁双层延续但承载较小；油气开采清洁延续且承载较大但新增宽度较小。其优势均不能自动合并进某个油气父题材，更不能以一个字段固定优先序淘汰。",
+        "石油化工对电网设备及光伏设备等局部配对形成多关系支配，但未对主要真实竞争组形成支配。环境下跌也不是选择NONE的唯一原因；当日证据本身的连续性、梯队、失败反馈、承载与新增响应存在冲突，因此NONE而非SELECTED。",
+        "NONE只表示2026-03-03盘后尚无可指定的唯一相对优先路径，不等于八方向等强，也不等于不能保留有效同日起算队列。随后只识别观察节点，不选个股买点，不产生执行任务。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260303-DIR-709720EF00",
+        "F-20260303-DIRBUY-A6DB3FDF28",
+        "F-20260303-DIR-F846A51E1C",
+        "F-20260303-DIRBUY-272B794042",
+        "F-20260303-DIR-EC80F8FACD",
+        "F-20260303-DIRBUY-9D1FE33F74",
+        "F-20260303-DIR-7094288777",
+        "F-20260303-DIRBUY-D8E6C44AB4",
+        "F-20260303-DIR-DD059BC951",
+        "F-20260303-DIRBUY-2B161E1813",
+        "F-20260303-DIR-D30B28FBA9",
+        "F-20260303-DIRBUY-2C0321A5CB",
+        "F-20260303-DIR-07CDE59CDB",
+        "F-20260303-DIRBUY-21BCE6853C",
+        "F-20260303-DIR-9D87EDF53F",
+        "F-20260303-DIRBUY-E4B5108364",
+        "F-20260303-CTX-9FB8370FAF"
+      ],
+      "counter_fact_ids": [
+        "F-20260303-DIR-709720EF00",
+        "F-20260303-DIR-F846A51E1C",
+        "F-20260303-DIR-EC80F8FACD",
+        "F-20260303-DIR-7094288777",
+        "F-20260303-DIR-DD059BC951",
+        "F-20260303-DIR-D30B28FBA9",
+        "F-20260303-CTX-E979EFD6B4",
+        "F-20260303-CTX-764B8954DC",
+        "F-20260303-CTX-2A4F187DA1"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "NODE_UNIQUENESS",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_NO_HINDSIGHT",
+        "ENV_DECLINE"
+      ],
+      "competitor_themes": [
+        "燃气",
+        "油服工程",
+        "石油化工",
+        "航运港口",
+        "天然气",
+        "油气开采",
+        "光伏设备",
+        "电网设备"
+      ],
+      "cancel_conditions": [
+        "2026-03-04若某精确方向同时在跨日买方反馈、梯队推进、失败反馈收敛及容量/内部响应上形成相对多关系支配，取消NONE并重评SELECTED；SELECTED仍不等于正式主流。",
+        "油服工程共同首板队列若次日大面积失去溢价且没有新增承接，退出主要竞争；若延续且出现新层与容量带动，则提高相对优先级。",
+        "燃气首板队列若大面积无延续或三板与低位同时走弱，撤销广度优势；若连续补齐层级且失败收敛，重新比较而非沿用今日排序。",
+        "石油化工若高层失去带动、买方转负或容量不推进，不保留任何基于三板的永久优先权。",
+        "航运港口、天然气、油气开采若连续正反馈与真实容量推进推翻现有冲突，应重新纳入支配检验；不得语义合并其证据。",
+        "光伏设备需启动留存和失败反馈改善，电网设备需买方反馈及梯队重建；任一重建失败退出观察竞争。",
+        "若最低横截面字段后续被证实不可用才改为BLOCKED_DATA；指数和尾部风险继续恶化时保持观察，不把相对强误作执行许可。"
+      ]
+    },
+    "execution_task": {
+      "status": "NONE",
+      "task_id": null,
+      "task_type": null,
+      "theme": null,
+      "anchor_date": null,
+      "path_kind": null
+    },
+    "execution_tasks": [],
+    "action_plan": {
+      "status": "NO_ACTION",
+      "task_id": null,
+      "primary": null,
+      "backup": null,
+      "validation_objects": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "NODE_UNIQUENESS",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_NO_HINDSIGHT",
+        "ENV_DECLINE",
+        "G08_UNIQUENESS",
+        "G06_DIVERGENCE_REPAIR",
+        "G07_CAPACITY_CORE",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ],
+      "switch_policy": "PRIMARY_DIRECT_FAIL_AND_BACKUP_INDEPENDENT_PASS",
+      "no_action_conditions": [
+        "截至20260303 CLOSE，主、替代路径均无独立成立的合法执行任务，所有节点均为OBSERVATION_ONLY，正式不行动；2026-03-04必须依据当时可用信息另行验证，不能将盘前条件当作已发生事实。",
+        "方向关系仍未拉开，或虽出现相对优先方向但未触发ACTION_READY方法节点时，不打开任务；同一路径任务若无法按节点前态、阻力变化、功能及可验证性区分，仍输出NONE，不使用固定总分或隐藏权重。",
+        "替代路径没有自身正反馈、持续推进与方向响应时不行动；主路径走弱或失败不构成替代路径的正向确认。",
+        "同起算日同功能的真实竞争关系未确认，或只有局部推进而方向响应缺失时，观察节点不升级；不重置起算日，不以高度或任何个案数值代替节点任务。",
+        "2026-03-04竞价、分时成交或方向响应未能提供所需证据时，数据不足，无法判断行动资格，维持不行动；不把固定观察时刻到达当作成功或失败。",
+        "G06_DIVERGENCE_REPAIR的既有主流或强分支及板块级大分歧前提未确认，或G07_CAPACITY_CORE的分歧后价格推进与带动未确认时，不打开对应任务。",
+        "指数下行和尾部风险继续扩散，或公告、停牌、监管适用性等必要风险核验仍未解决时，不以相对强度替代行动许可；风险材料BLOCKED_DATA时不计算异动距离，不声称仍有监管空间。",
+        "C1已冻结primary_task.status=NONE及alternative_task.status=NONE；selected_candidate_pools为空且facts.c2_allowed_stock_codes为空。无选中执行任务，path_plans必须为空，不生成股票、竞争组或PRIMARY/BACKUP行动叶子。空池不是任务正确性或个股唯一性的证据。"
+      ]
+    },
+    "allowed_action_codes": [],
+    "forbidden_new_candidates": true,
+    "source_task_pool_status": {}
+  }
+}

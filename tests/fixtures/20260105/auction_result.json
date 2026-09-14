@@ -1,0 +1,41 @@
+{
+  "tplus1": "2026-01-06",
+  "snapshot": "AUCTION_0925",
+  "as_of": "2026-01-06T09:25:00+08:00",
+  "market_check": {"index_held": null, "note": "指数和板块竞价分时缺失"},
+  "context_check": {
+    "validation_objects": ["002413.SZ"],
+    "status": "DATA_INSUFFICIENT",
+    "observed": ["高位验证对象竞价事实可见，但仅凭竞价不能确认分支响应"]
+  },
+  "leaf_results": [
+    {
+      "thscode": "002151.SZ",
+      "leaf_id": "LEAF-20260105-BDXT",
+      "tier": "PRIMARY",
+      "leaf_state": "DOWNGRADED",
+      "observed": ["竞价过程价格明显回落，09:25撮合接近平开"],
+      "vs_plan": "没有完成盘后要求的同任务主动延续，但未定义为直接失去全部开盘修复资格",
+      "reason": ["冻结竞价事实"]
+    },
+    {
+      "thscode": "600498.SH",
+      "leaf_id": "LEAF-20260105-FHTX",
+      "tier": "BACKUP",
+      "leaf_state": "NEEDS_OPEN_VALIDATION",
+      "observed": ["09:25撮合强于PRIMARY，但仅凭竞价不能证明已独立承担分支任务"],
+      "vs_plan": "具备开盘验证条件，但PRIMARY不是DIRECT_FAIL，因此不能接管",
+      "reason": ["冻结竞价事实"]
+    }
+  ],
+  "condition_tree_hit": {
+    "branch": "PRIMARY_DOWNGRADED_NO_SWITCH",
+    "primary_state": "DOWNGRADED",
+    "backup_state": "NEEDS_OPEN_VALIDATION",
+    "reasoning": ["PRIMARY只是降级，不满足切换BACKUP的直接失败前提"]
+  },
+  "current_action_candidate": null,
+  "next_stage": "STOP",
+  "decision": "NO_ACTION",
+  "unknowns": ["缺指数和板块竞价分时"]
+}

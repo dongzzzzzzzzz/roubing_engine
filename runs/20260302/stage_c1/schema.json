@@ -1,0 +1,220 @@
+{
+  "type": "object",
+  "required": [
+    "as_of",
+    "decision_order",
+    "primary_task",
+    "alternative_task",
+    "no_action_conditions",
+    "unknowns"
+  ],
+  "properties": {
+    "as_of": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision_order": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "primary_task": {
+      "type": "object",
+      "required": [
+        "path_kind",
+        "status",
+        "task_id",
+        "task_type",
+        "theme",
+        "node_id",
+        "missing_function",
+        "selection_logic",
+        "supporting_fact_ids",
+        "rule_ids",
+        "rejected_task_ids"
+      ],
+      "properties": {
+        "path_kind": {
+          "type": "string",
+          "enum": [
+            "PRIMARY",
+            "ALTERNATIVE"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "SELECTED",
+            "NONE",
+            "BLOCKED_DATA"
+          ]
+        },
+        "task_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "theme": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "node_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "missing_function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selection_logic": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "supporting_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rule_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rejected_task_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "alternative_task": {
+      "type": "object",
+      "required": [
+        "path_kind",
+        "status",
+        "task_id",
+        "task_type",
+        "theme",
+        "node_id",
+        "missing_function",
+        "selection_logic",
+        "supporting_fact_ids",
+        "rule_ids",
+        "rejected_task_ids"
+      ],
+      "properties": {
+        "path_kind": {
+          "type": "string",
+          "enum": [
+            "PRIMARY",
+            "ALTERNATIVE"
+          ]
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "SELECTED",
+            "NONE",
+            "BLOCKED_DATA"
+          ]
+        },
+        "task_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "task_type": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "theme": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "node_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "missing_function": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selection_logic": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "supporting_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rule_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rejected_task_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "no_action_conditions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

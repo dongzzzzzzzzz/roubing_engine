@@ -1,0 +1,11 @@
+{
+  "PATH": "/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Users/lee.dong/.codex/tmp/arg0/codex-arg0gQLhKD:/Users/lee.dong/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/lee.dong/.local/bin:/Users/lee.dong/.local/share/pnpm/bin:/Users/lee.dong/.local/share/pnpm:/Users/lee.dong/Library/Android/sdk/platform-tools:/Users/lee.dong/.local/jdks/temurin-17/Contents/Home/bin:/Users/lee.dong/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback:/Applications/ChatGPT.app/Contents/Resources",
+  "isolation": {
+    "codex_home": "ephemeral_minimal",
+    "model_provider": "preserved_from_user_config",
+    "model_override": "gpt-5.6-sol",
+    "user_rules": "disabled",
+    "plugins": "disabled",
+    "external_skills": "disabled_and_scanned"
+  }
+}

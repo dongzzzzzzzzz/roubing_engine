@@ -1,0 +1,16 @@
+{
+  "as_of": "20260302 CLOSE",
+  "status": "NO_PRIMARY_PATH",
+  "tasks": [],
+  "no_action_rule_ids": [
+    "NODE_MAINSTREAM_CONFIRM",
+    "NODE_UNIQUENESS",
+    "DISC_NO_FIXED_SCORE",
+    "DISC_NO_HINDSIGHT",
+    "G08_UNIQUENESS"
+  ],
+  "discipline": [
+    "本文件故意不包含候选代码、候选数量、池大小或盘后叶子顺序",
+    "任务必须由节点当前缺失功能决定，不能由是否容易选出股票决定"
+  ]
+}

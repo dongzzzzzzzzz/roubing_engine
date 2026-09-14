@@ -11,7 +11,7 @@ from pathlib import Path
 
 from roubing_engine.config import PROJECT_ROOT
 
-RULES_VERSION = "units_v1_37+corpus282_full+theme_registry_v1+regulatory_registry_v1"
+RULES_VERSION = "units_v1_37+historical_versions_v1+corpus282_full+theme_registry_v2+regulatory_registry_v2"
 
 
 def _hash_file(p: Path) -> str | None:
@@ -63,3 +63,21 @@ def stamp(result: dict, backend: str, task_dir: Path, input_names: list[str]) ->
 
 def write(result: dict, path: Path) -> None:
     path.write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+def model_view(value):
+    """Remove wall-clock/runtime metadata before feeding an output downstream.
+
+    Historical replay outputs keep ``_provenance`` in their canonical files so
+    humans can audit when and how they were produced.  A later reasoning stage
+    must not see that wall-clock timestamp: it is neither market data nor part
+    of the frozen as-of state and can be mistaken for the replay date.
+    """
+    if isinstance(value, dict):
+        return {
+            key: model_view(child) for key, child in value.items()
+            if key != "_provenance"
+        }
+    if isinstance(value, list):
+        return [model_view(child) for child in value]
+    return value

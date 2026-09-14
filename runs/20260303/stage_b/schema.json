@@ -1,0 +1,519 @@
+{
+  "type": "object",
+  "required": [
+    "as_of",
+    "environment",
+    "direction_evaluations",
+    "primary_path",
+    "direction_comparisons",
+    "nodes",
+    "data_gaps"
+  ],
+  "properties": {
+    "as_of": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "status",
+        "reasoning",
+        "supporting_fact_ids",
+        "counter_fact_ids",
+        "rule_ids",
+        "migrated_from",
+        "tomorrow_checks"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "MAIN_TREND",
+            "ROTATION",
+            "DECLINE",
+            "REGIME_SWITCH",
+            "DATA_INSUFFICIENT"
+          ]
+        },
+        "reasoning": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "supporting_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "counter_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rule_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "migrated_from": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tomorrow_checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "direction_evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "theme",
+          "direction_fact_id",
+          "stage",
+          "market_relation",
+          "path_status",
+          "observed_facts",
+          "inferences",
+          "supporting_fact_ids",
+          "counter_fact_ids",
+          "rule_ids",
+          "competitors",
+          "data_gaps"
+        ],
+        "properties": {
+          "theme": {
+            "type": "string",
+            "minLength": 1
+          },
+          "direction_fact_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "stage": {
+            "type": "string",
+            "minLength": 1
+          },
+          "market_relation": {
+            "type": "string",
+            "enum": [
+              "LEADS",
+              "CONFIRMS",
+              "FOLLOWS",
+              "WEAKENS",
+              "ISOLATED",
+              "UNRESOLVED"
+            ]
+          },
+          "path_status": {
+            "type": "string",
+            "enum": [
+              "PRIMARY",
+              "COMPETITOR",
+              "OBSERVATION",
+              "REJECTED",
+              "BLOCKED_DATA"
+            ]
+          },
+          "observed_facts": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "inferences": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "supporting_fact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "counter_fact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "competitors": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "data_gaps": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "direction_comparisons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "left_theme",
+          "right_theme",
+          "dimensions",
+          "relation",
+          "reasoning",
+          "supporting_fact_ids",
+          "counter_fact_ids",
+          "rule_ids"
+        ],
+        "properties": {
+          "left_theme": {
+            "type": "string",
+            "minLength": 1
+          },
+          "right_theme": {
+            "type": "string",
+            "minLength": 1
+          },
+          "dimensions": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "relation": {
+            "type": "string",
+            "enum": [
+              "LEFT_DOMINATES",
+              "RIGHT_DOMINATES",
+              "INCOMPARABLE",
+              "BOTH_REJECTED"
+            ]
+          },
+          "reasoning": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "supporting_fact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "counter_fact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "primary_path": {
+      "type": "object",
+      "required": [
+        "status",
+        "theme",
+        "direction_fact_id",
+        "selection_logic",
+        "supporting_fact_ids",
+        "counter_fact_ids",
+        "rule_ids",
+        "competitor_themes",
+        "cancel_conditions"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "SELECTED",
+            "NONE",
+            "BLOCKED_DATA"
+          ]
+        },
+        "theme": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "direction_fact_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "selection_logic": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "supporting_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "counter_fact_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rule_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "competitor_themes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "cancel_conditions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "node_type",
+          "anchor_date",
+          "theme",
+          "trigger_facts",
+          "trigger_fact_ids",
+          "method_reasoning",
+          "generator",
+          "node_id",
+          "action_status",
+          "candidate_scope",
+          "candidate_ids",
+          "rule_ids",
+          "confirm",
+          "cancel"
+        ],
+        "properties": {
+          "node_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "node_type": {
+            "type": "string",
+            "minLength": 1
+          },
+          "action_status": {
+            "type": "string",
+            "enum": [
+              "ACTION_READY",
+              "OBSERVATION_ONLY",
+              "BLOCKED"
+            ]
+          },
+          "anchor_date": {
+            "type": "string",
+            "format": "date"
+          },
+          "theme": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "trigger_facts": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "trigger_fact_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "method_reasoning": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "generator": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "G1",
+              "G2",
+              "G3",
+              "G4",
+              "G5",
+              "G6",
+              "G7",
+              "G8",
+              "G9",
+              "G10",
+              "G11",
+              "G12",
+              null
+            ]
+          },
+          "candidate_scope": {
+            "type": "object",
+            "required": [
+              "event_statuses",
+              "board_levels",
+              "sub_directions",
+              "candidate_ids",
+              "validation_ids",
+              "scope_reason"
+            ],
+            "properties": {
+              "event_statuses": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "board_levels": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "sub_directions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "candidate_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "validation_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "scope_reason": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "candidate_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "rule_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "confirm": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "cancel": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "data_gaps": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

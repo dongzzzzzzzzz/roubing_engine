@@ -30,11 +30,15 @@ def active_rules(as_of: str, market: str | None = None,
     return {
         "available": bool(selected),
         "status": "READY" if selected else "BLOCKED_DATA",
+        "numeric_thresholds_available": bool(selected) and all(
+            rule.get("numeric_thresholds_verified", False) for rule in selected
+        ),
         "as_of": as_of,
         "registry_version": registry().get("version"),
         "last_verified_at": registry().get("last_verified_at"),
         "rules": selected,
         "official_sources": registry().get("official_sources") or [],
-        "data_block": None if selected else "尚未录入并核验当时有效的官方规则版本",
+        "data_block": (None if selected and all(rule.get("numeric_thresholds_verified", False)
+                                               for rule in selected)
+                       else "官方规则背景已登记，但精确异动阈值条款尚未逐条核验；不得计算异动距离"),
     }
-

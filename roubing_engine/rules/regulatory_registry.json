@@ -1,12 +1,35 @@
 {
-  "version": "regulatory_registry_v1_empty",
-  "last_verified_at": null,
+  "version": "regulatory_registry_v2_official_rules_20260910",
+  "last_verified_at": "2026-09-10",
   "official_sources": [
     "https://www.sse.com.cn/lawandrules/sselawsrules/",
     "https://www.szse.cn/lawrules/rule/",
     "https://www.bse.cn/important_rules/index.html",
     "https://www.csrc.gov.cn/csrc/c101864/common_list.shtml"
   ],
-  "rules": [],
-  "discipline": "Only official text with publish/effective/expiry dates may be added. Do not infer numeric thresholds from posts or examples."
+  "rules": [
+    {
+      "id": "SSE_TRADING_RULES_2023",
+      "title": "上海证券交易所交易规则（2023年修订）",
+      "market": "SSE",
+      "effective_from": "2023-02-17",
+      "effective_to": null,
+      "official_source": "https://www.sse.com.cn/lawandrules/sselawsrules/",
+      "verification": "官方规则栏目登记；生效日按修订发布信息核验",
+      "usable_for": ["交易制度背景", "异常交易监控需结合上交所公告/自律监管措施"],
+      "numeric_thresholds_verified": false
+    },
+    {
+      "id": "SZSE_TRADING_RULES_2023",
+      "title": "深圳证券交易所交易规则（2023年修订）",
+      "market": "SZSE",
+      "effective_from": "2023-02-17",
+      "effective_to": null,
+      "official_source": "https://www.szse.cn/lawrules/rule/",
+      "verification": "官方规则栏目登记；生效日按修订发布信息核验",
+      "usable_for": ["交易制度背景", "异常交易监控需结合深交所公告/自律监管措施"],
+      "numeric_thresholds_verified": false
+    }
+  ],
+  "discipline": "Only official text with publish/effective/expiry dates may be added. Numeric thresholds are not enabled until the exact official clause is separately captured and verified."
 }

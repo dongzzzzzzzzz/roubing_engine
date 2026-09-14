@@ -1,5 +1,51 @@
 {
-  "version": "theme_registry_v1",
-  "description": "Only evidence-backed aliases may be added. Unknown reasons remain separate; semantic similarity is never auto-merged.",
-  "themes": {}
+  "version": "theme_registry_v2",
+  "description": "Exact direction labels stay separate. Parent themes are context only and never authorize executable merging.",
+  "themes": {
+    "油服工程": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=油服工程", "ENGINEERING_BOUNDARY:oilfield-service-is-not-oil-production"]
+    },
+    "油田技术服务": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=油田技术服务", "ENGINEERING_BOUNDARY:service-subdirection"]
+    },
+    "油气装备": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=油气装备", "ENGINEERING_BOUNDARY:equipment-subdirection"]
+    },
+    "油气设备": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=油气设备", "ENGINEERING_BOUNDARY:equipment-subdirection"]
+    },
+    "油气开采": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=油气开采", "ENGINEERING_BOUNDARY:upstream-production"]
+    },
+    "油气": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=油气", "ENGINEERING_BOUNDARY:generic-label-kept-separate"]
+    },
+    "石油化工": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=石油化工", "ENGINEERING_BOUNDARY:downstream-petrochemical"]
+    },
+    "天然气": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=天然气", "ENGINEERING_BOUNDARY:gas-commodity-chain"]
+    },
+    "燃气": {
+      "aliases": [], "parent_theme": "油气能源链", "valid_from": "2026-03-02", "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "evidence": ["WAREHOUSE:universe/date=20260302 reason=燃气", "ENGINEERING_BOUNDARY:gas-utility-distribution"]
+    }
+  }
 }

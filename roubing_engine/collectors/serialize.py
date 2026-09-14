@@ -78,6 +78,12 @@ def serialize_opening(auction, thscode, trade_date):
         row["open_price"] = getattr(auction, "open_price", None)
         row["open_change_pct"] = getattr(auction, "open_change_pct", None)
         row["open_amount"] = getattr(auction, "open_amount", None)
+        # eltdx versions differ: some expose the normalized names above while
+        # older responses only expose the 09:25 snapshot price.  Preserve the
+        # raw price as the canonical opening-match field; downstream code can
+        # derive the change percentage from the previous daily close.
+        if row.get("open_price") is None:
+            row["open_price"] = row.get("price")
         rows = [row]
     return _stamp(rows, thscode, trade_date, default_seconds=9 * 3600 + 25 * 60)
 

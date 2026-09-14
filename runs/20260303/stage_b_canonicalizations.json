@@ -1,0 +1,17 @@
+{
+  "changes": [
+    {
+      "path": "nodes[0].generator",
+      "from": "G8",
+      "to": null,
+      "reason": "非 ACTION_READY 节点在结构上禁止打开任何候选生成器"
+    },
+    {
+      "path": "nodes[1].generator",
+      "from": "G8",
+      "to": null,
+      "reason": "非 ACTION_READY 节点在结构上禁止打开任何候选生成器"
+    }
+  ],
+  "status": "CHANGED"
+}

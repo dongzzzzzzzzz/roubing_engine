@@ -41,5 +41,6 @@
   {"id": "PRIM_BEST_ASSIST", "kind": "primitive", "title": "最佳助攻锚定", "tags": ["PRIMITIVE", "ASSIST"], "source_dates": ["2024-07-31"], "observation": "用最佳助攻是否延续前一日惯性反推总龙是否仍有外部支撑。", "confirm": "助攻延续=总龙支撑仍在。", "cancel": "最佳助攻批量断板/核按钮=总龙持有逻辑降级。", "evidence_level": "STABLE_SYNTHESIS", "caveat": ""},
 
   {"id": "DISC_NO_HINDSIGHT", "kind": "discipline", "title": "反后验与证据分离", "tags": ["DISCIPLINE"], "source_dates": [], "observation": "只用as_of前事实；五栏分离(已观察/作者规则/AI推断/无法确认/截止后结果)；缺竞价/分时/委托数据必须拒答相关问题。", "confirm": "", "cancel": "", "evidence_level": "ENGINEERING", "caveat": "非作者原话，是工程纪律。"},
-  {"id": "DISC_NO_FIXED_SCORE", "kind": "discipline", "title": "禁止全市场固定打分与个案泛化", "tags": ["DISCIPLINE"], "source_dates": [], "observation": "不用固定总分/隐藏权重全市场排名；不把个案高开/封单/成交额/天数泛化；不自动定义A/B/C/D；不二分所有主动/被动炸板。", "confirm": "", "cancel": "", "evidence_level": "ENGINEERING", "caveat": ""}
+  {"id": "DISC_NO_FIXED_SCORE", "kind": "discipline", "title": "禁止全市场固定打分与个案泛化", "tags": ["DISCIPLINE"], "source_dates": [], "observation": "不用固定总分/隐藏权重全市场排名；不把个案高开/封单/成交额/天数泛化；不自动定义A/B/C/D；不二分所有主动/被动炸板。", "confirm": "", "cancel": "", "evidence_level": "ENGINEERING", "caveat": ""},
+  {"id": "DISC_SNAPSHOT_NOT_THRESHOLD", "kind": "discipline", "title": "盘中快照不是作者固定阈值", "tags": ["DISCIPLINE", "SNAPSHOT"], "source_dates": [], "observation": "09:25与09:35只是工程系统允许作出当下动作决定的信息截点，不是作者规定的统一高开、分钟数或股票成败阈值。", "confirm": "截至快照已有任务关系、承接、分离或方向响应证据时，只判断当下是否具备行动资格。", "cancel": "截至快照尚未确认时可以NO_ACTION或继续保持未知，但不得仅因五分钟已到就把股票或方向定义为失败。", "evidence_level": "ENGINEERING", "caveat": "非作者原话，是防止把工程观察窗口泛化为交易规律的纪律。"}
 ]

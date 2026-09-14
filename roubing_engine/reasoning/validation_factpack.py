@@ -51,6 +51,16 @@ def _auction_summary(df):
     df = df.assign(_event_seconds=df.apply(row_seconds, axis=1)).sort_values("_event_seconds")
     prices = df["price"].tolist()
     matched = df["matched_volume"].tolist()
+    # These are raw unmatched-order observations.  They are deliberately
+    # exposed as a time-ordered snapshot, not translated into a withdrawal or
+    # aggressor conclusion: matched trades alone cannot identify who cancelled
+    # or which side initiated the change.
+    def column_values(name):
+        return [_clean(v) for v in df[name].tolist()] if name in df.columns else []
+
+    unmatched = column_values("unmatched_volume")
+    unmatched_signed = column_values("unmatched_signed_raw")
+    unmatched_direction = column_values("unmatched_direction_raw")
     first_p, last_p = prices[0], prices[-1]
     peak_matched = max(matched) if matched else 0
     last_matched = matched[-1] if matched else 0
@@ -65,6 +75,13 @@ def _auction_summary(df):
         "matched_last_observed_vol": int(last_matched),
         # raw ratio only; 成交明细≠委托流，不断言“撤单”（见方案纪律）
         "matched_last_over_peak": round(last_matched / peak_matched, 3) if peak_matched else None,
+        "unmatched_first_observed_vol": unmatched[0] if unmatched else None,
+        "unmatched_last_observed_vol": unmatched[-1] if unmatched else None,
+        "unmatched_peak_vol": max(unmatched) if unmatched else None,
+        "unmatched_signed_first_raw": unmatched_signed[0] if unmatched_signed else None,
+        "unmatched_signed_last_raw": unmatched_signed[-1] if unmatched_signed else None,
+        "unmatched_direction_first_raw": unmatched_direction[0] if unmatched_direction else None,
+        "unmatched_direction_last_raw": unmatched_direction[-1] if unmatched_direction else None,
     }
 
 
@@ -118,8 +135,84 @@ def _first5m_activity(trades_df):
     }
 
 
-def build(plan_candidates: list[dict], tplus1: str, client=None,
-          snapshot: str = "OPEN_0935") -> dict:
+def _record(leaf: dict, op_by: dict, auc: pd.DataFrame, mn: pd.DataFrame,
+            tr: pd.DataFrame, snapshot: str, previous_close: dict[str, float]) -> dict:
+    code = leaf.get("thscode")
+    oprow = op_by.get(code)
+    open_price = None
+    pre_close = previous_close.get(code)
+    open_change = None
+    if oprow is not None:
+        open_price = _clean(oprow.get("open_price")) or _clean(oprow.get("price"))
+        pre_close = _clean(oprow.get("pre_close_price")) or pre_close
+        open_change = _clean(oprow.get("open_change_pct"))
+        if open_change is None and open_price is not None and pre_close:
+            open_change = round((float(open_price) / float(pre_close) - 1) * 100, 2)
+    rec = {
+        "thscode": code,
+        "leaf_id": leaf.get("leaf_id"),
+        "tier": leaf.get("tier"),
+        "path_kind": leaf.get("path_kind"),
+        "task_id": leaf.get("task_id"),
+        "node_id": leaf.get("node_id"),
+        "anchor_date": leaf.get("anchor_date"),
+        "stock_start_date": leaf.get("stock_start_date"),
+        "current_function": leaf.get("current_function"),
+        "entry_event": leaf.get("entry_event") or [],
+        "exit_conditions": leaf.get("exit_conditions") or [],
+        "task_to_complete": leaf.get("task_to_complete"),
+        "auction_conditions": leaf.get("auction_conditions") or [],
+        "open_conditions": leaf.get("open_conditions") or [],
+        "downgrade_conditions": leaf.get("downgrade_conditions") or [],
+        "direct_fail_conditions": leaf.get("direct_fail_conditions") or [],
+        "auction_open_change_pct": open_change,
+        "auction_open_change_text": (
+            f"{float(open_change):+.2f}%" if open_change is not None else None),
+        "pre_close": pre_close,
+        "open_price": open_price,
+        "auction_summary": _auction_summary(auc[auc["thscode"] == code]) if not auc.empty else None,
+        "open_5min": (_open5m(mn[mn["thscode"] == code], open_price, pre_close)
+                       if snapshot == "OPEN_0935" and not mn.empty else None),
+        "first5m_activity": (_first5m_activity(tr[tr["thscode"] == code])
+                              if snapshot == "OPEN_0935" and not tr.empty else None),
+    }
+    open5_points = len((rec.get("open_5min") or {}).get("path", []))
+    rec["data_completeness"] = {
+        "opening_match": "AVAILABLE" if oprow is not None else "MISSING",
+        "opening_auction": "AVAILABLE" if rec["auction_summary"] is not None else "MISSING",
+        "open_5min": (
+            "AVAILABLE" if open5_points >= 5 else "PARTIAL" if open5_points else "MISSING"
+        ) if snapshot == "OPEN_0935" else "NOT_IN_SNAPSHOT",
+        "first5m_activity": (
+            "AVAILABLE" if rec["first5m_activity"] is not None else "MISSING"
+        ) if snapshot == "OPEN_0935" else "NOT_IN_SNAPSHOT",
+    }
+    return rec
+
+
+def _relative_auction_contract(records: list[dict], snapshot: str) -> dict:
+    if snapshot != "AUCTION_0925" or len(records) != 2:
+        return {"status": "NOT_APPLICABLE", "stronger_code": None,
+                "weaker_code": None, "comparison_text": "当前快照不需要双叶子竞价比较"}
+    if any(row.get("auction_open_change_pct") is None for row in records):
+        return {"status": "DATA_INSUFFICIENT", "stronger_code": None,
+                "weaker_code": None, "comparison_text": "竞价开盘变动数据不足，无法判断"}
+    stronger, weaker = sorted(
+        records, key=lambda row: float(row["auction_open_change_pct"]), reverse=True)
+    spread = float(stronger["auction_open_change_pct"]) - float(weaker["auction_open_change_pct"])
+    return {
+        "status": "AVAILABLE",
+        "stronger_code": stronger.get("thscode"),
+        "weaker_code": weaker.get("thscode"),
+        "comparison_text": (
+            f"{stronger.get('thscode')} {stronger.get('auction_open_change_text')} 强于 "
+            f"{weaker.get('thscode')} {weaker.get('auction_open_change_text')}，"
+            f"相差约 {spread:.2f} 个百分点"),
+    }
+
+
+def build(executable_plan: dict, tplus1: str, client=None,
+          snapshot: str = "OPEN_0935", prior_result: dict | None = None) -> dict:
     """Build a time-clean Stage-D fact pack.
 
     ``client`` is retained for call-site compatibility but deliberately unused:
@@ -134,50 +227,71 @@ def build(plan_candidates: list[dict], tplus1: str, client=None,
     auc = _read("auction_point", yyyymmdd)
     mn = _read("minute_bar", yyyymmdd)
     tr = _read("trade_tick", yyyymmdd)
+    from roubing_engine.features.index_ctx import intraday_market_context
+    market_context = intraday_market_context(tplus1, snapshot)
 
-    out_candidates = []
-    for cand in plan_candidates:
-        code = cand.get("thscode")
-        oprow = op_by.get(code)
-        open_price = _clean(oprow.get("open_price")) if oprow is not None else None
-        pre_close = _clean(oprow.get("pre_close_price")) if oprow is not None else None
-        rec = {
+    from roubing_engine.reasoning.condition_tree import expected_action_codes
+    from roubing_engine.reasoning.day_factpack import _previous_close_map
+    previous_close = _previous_close_map(yyyymmdd)
+    plan = executable_plan.get("action_plan") or {}
+    leaf_by_code = {
+        leaf.get("thscode"): leaf for leaf in (plan.get("primary"), plan.get("backup")) if leaf
+    }
+    action_codes = expected_action_codes(executable_plan, snapshot, prior_result)
+    action_leaf_facts = [
+        _record(leaf_by_code[code], op_by, auc, mn, tr, snapshot, previous_close)
+        for code in action_codes if code in leaf_by_code
+    ]
+    context_leaves = [{
+        "thscode": code, "leaf_id": f"VALIDATION-{code}", "tier": "VALIDATION_ONLY",
+        "task_to_complete": "验证方向/分支是否响应，不具备动作资格",
+        "auction_conditions": [], "open_conditions": [],
+        "downgrade_conditions": [], "direct_fail_conditions": [],
+    } for code in plan.get("validation_objects") or []]
+    validation_context_facts = [
+        _record(leaf, op_by, auc, mn, tr, snapshot, previous_close) for leaf in context_leaves
+    ]
+    path_validation_contexts = []
+    seen_context_tasks = set()
+    for action_leaf in (plan.get("primary"), plan.get("backup")):
+        if not action_leaf or not action_leaf.get("path_kind") \
+                or action_leaf.get("task_id") in seen_context_tasks:
+            continue
+        seen_context_tasks.add(action_leaf.get("task_id"))
+        path_context_leaves = [{
             "thscode": code,
-            "plan_tier": cand.get("output_tier"),
-            "plan_role": cand.get("role"),
-            "plan_theme": cand.get("theme"),
-            "plan_tomorrow_must_do": cand.get("tomorrow_must_do"),
-            "plan_failure_signals": cand.get("failure_signals"),
-            "auction_open_change_pct": _clean(oprow.get("open_change_pct")) if oprow is not None else None,
-            "pre_close": pre_close,
-            "open_price": open_price,
-            "auction_summary": _auction_summary(auc[auc["thscode"] == code]) if not auc.empty else None,
-            "open_5min": (_open5m(mn[mn["thscode"] == code], open_price, pre_close)
-                           if snapshot == "OPEN_0935" and not mn.empty else None),
-            "first5m_activity": (_first5m_activity(tr[tr["thscode"] == code])
-                                  if snapshot == "OPEN_0935" and not tr.empty else None),
-        }
-        open5_points = len((rec.get("open_5min") or {}).get("path", []))
-        rec["data_completeness"] = {
-            "opening_match": "AVAILABLE" if oprow is not None else "MISSING",
-            "opening_auction": "AVAILABLE" if rec["auction_summary"] is not None else "MISSING",
-            "open_5min": (
-                "AVAILABLE" if open5_points >= 5 else "PARTIAL" if open5_points else "MISSING"
-            ) if snapshot == "OPEN_0935" else "NOT_IN_SNAPSHOT",
-            "first5m_activity": (
-                "AVAILABLE" if rec["first5m_activity"] is not None else "MISSING"
-            ) if snapshot == "OPEN_0935" else "NOT_IN_SNAPSHOT",
-        }
-        out_candidates.append(rec)
+            "leaf_id": f"VALIDATION-{action_leaf.get('task_id')}-{code}",
+            "tier": "VALIDATION_ONLY", "path_kind": action_leaf.get("path_kind"),
+            "task_id": action_leaf.get("task_id"), "node_id": action_leaf.get("node_id"),
+            "anchor_date": action_leaf.get("anchor_date"),
+            "task_to_complete": "只验证该叶子所属路径/分支响应，不具备动作资格",
+            "auction_conditions": [], "open_conditions": [],
+            "downgrade_conditions": [], "direct_fail_conditions": [],
+        } for code in action_leaf.get("path_validation_objects") or []]
+        path_validation_contexts.append({
+            "path_kind": action_leaf.get("path_kind"),
+            "task_id": action_leaf.get("task_id"),
+            "node_id": action_leaf.get("node_id"),
+            "validation_objects": [leaf["thscode"] for leaf in path_context_leaves],
+            "facts": [_record(leaf, op_by, auc, mn, tr, snapshot, previous_close)
+                      for leaf in path_context_leaves],
+        })
 
     facts = {
         "tplus1": tplus1,
         "snapshot": snapshot,
         "as_of": snapshot_as_of(tplus1, snapshot),
-        "candidates": out_candidates,
-        "market_check_data": {
-            "available": False,
-            "reason": "未接入截至该快照的指数/板块分时；禁止使用T+1收盘指数替代",
+        "action_leaf_facts": action_leaf_facts,
+        "relative_auction_contract": _relative_auction_contract(action_leaf_facts, snapshot),
+        "validation_context_facts": validation_context_facts,
+        "path_validation_contexts": path_validation_contexts,
+        "prior_auction_result": prior_result if snapshot == "OPEN_0935" else None,
+        "market_check_data": market_context,
+        "execution_context": {
+            "primary_path": executable_plan.get("primary_path") or {},
+            "execution_task": executable_plan.get("execution_task") or {},
+            "execution_tasks": executable_plan.get("execution_tasks") or [
+                executable_plan.get("execution_task") or {}],
         },
     }
     problems = validate_snapshot_payload(facts)
@@ -211,7 +325,11 @@ def validate_snapshot_payload(facts: dict) -> list[str]:
     if cutoff is None:
         problems.append(f"$.snapshot: unknown snapshot {snapshot!r}")
         return problems
-    for index, candidate in enumerate(facts.get("candidates", [])):
+    rows = ((facts.get("action_leaf_facts") or [])
+            + (facts.get("validation_context_facts") or [])
+            + [row for context in facts.get("path_validation_contexts") or []
+               for row in context.get("facts") or []])
+    for index, candidate in enumerate(rows):
         auction = candidate.get("auction_summary") or {}
         last_auction = row_seconds({"time_label": auction.get("last_time")})
         if last_auction is not None and last_auction > SNAPSHOT_CUTOFFS["AUCTION_0925"]:
@@ -221,5 +339,93 @@ def validate_snapshot_payload(facts: dict) -> list[str]:
             event = row_seconds({"time_label": point.get("t")})
             if event is not None and event > cutoff:
                 problems.append(
-                    f"$.candidates[{index}].open_5min.path[{point_index}]: future event")
+                    f"$.snapshot_rows[{index}].open_5min.path[{point_index}]: future event")
+    return problems
+
+
+def validate_stage_d_result(result: dict, facts: dict) -> list[str]:
+    """Hard semantic gates for Stage-D conclusions against frozen coverage."""
+    problems: list[str] = []
+    snapshot = facts.get("snapshot")
+    market = facts.get("market_check_data") or {}
+    if not market.get("available") and (result.get("market_check") or {}).get("index_held") is not None:
+        problems.append("market_check.index_held: market snapshot is BLOCKED_DATA and must be null")
+    trace = result.get("reasoning_trace") or {}
+    if trace.get("step_order") != ["MARKET_AND_PATH", "EXECUTION_NODE", "ACTION_LEAVES"]:
+        problems.append("reasoning_trace.step_order: 必须先环境/主路径，再执行节点，最后个股叶子")
+    if not market.get("available") and (trace.get("market_and_path") or {}).get("status") != "DATA_INSUFFICIENT":
+        problems.append("reasoning_trace.market_and_path: 缺指数/板块分时时必须 DATA_INSUFFICIENT")
+    if not market.get("available") and "数据不足，无法判断" not in " ".join(
+            (trace.get("market_and_path") or {}).get("observed") or []):
+        problems.append("reasoning_trace.market_and_path: 数据缺失时必须明示‘数据不足，无法判断’")
+    context = result.get("context_check") or {}
+    if context.get("status") == "DATA_INSUFFICIENT" and "数据不足，无法判断" not in " ".join(
+            context.get("observed") or []):
+        problems.append("context_check: DATA_INSUFFICIENT 必须明示‘数据不足，无法判断’")
+    for index, item in enumerate(result.get("path_context_checks") or []):
+        if item.get("status") == "DATA_INSUFFICIENT" and "数据不足，无法判断" not in " ".join(
+                item.get("observed") or []):
+            problems.append(
+                f"path_context_checks[{index}]: DATA_INSUFFICIENT 必须明示‘数据不足，无法判断’")
+    expected_node = (facts.get("execution_context") or {}).get("execution_task") or {}
+    actual_node = trace.get("execution_node") or {}
+    for field in ("task_id", "task_type", "theme", "anchor_date"):
+        if field in expected_node and actual_node.get(field) != expected_node.get(field):
+            problems.append(f"reasoning_trace.execution_node.{field}: 与冻结执行节点不一致")
+    expected_nodes = (facts.get("execution_context") or {}).get("execution_tasks") or []
+    actual_nodes = trace.get("execution_nodes") or []
+    expected_by_task = {item.get("task_id"): item for item in expected_nodes}
+    actual_by_task = {item.get("task_id"): item for item in actual_nodes}
+    if set(actual_by_task) != set(expected_by_task) or \
+            len(actual_by_task) != len(actual_nodes) or len(expected_by_task) != len(expected_nodes):
+        problems.append("reasoning_trace.execution_nodes: 必须完整逐项抄写所有冻结路径任务")
+    else:
+        for task_id, expected in expected_by_task.items():
+            actual = actual_by_task.get(task_id) or {}
+            for field in ("path_kind", "task_type", "theme", "node_id", "anchor_date"):
+                if actual.get(field) != expected.get(field):
+                    problems.append(
+                        f"reasoning_trace.execution_nodes[{task_id}].{field}: 与冻结任务不一致")
+    for index, candidate in enumerate(result.get("leaf_results", [])):
+        facts_row = next((row for row in facts.get("action_leaf_facts", [])
+                          if row.get("thscode") == candidate.get("thscode")), None)
+        if not facts_row:
+            continue
+        for field in ("path_kind", "task_id", "node_id", "anchor_date", "stock_start_date",
+                      "current_function", "entry_event", "exit_conditions"):
+            if candidate.get(field) != facts_row.get(field):
+                problems.append(f"leaf_results[{index}].{field}: 未原样引用冻结叶子来源/角色合同")
+        coverage = facts_row.get("data_completeness") or {}
+        expected_change_text = facts_row.get("auction_open_change_text")
+        if expected_change_text and expected_change_text not in " ".join(candidate.get("observed") or []):
+            problems.append(
+                f"leaf_results[{index}].observed: 必须原样引用竞价涨跌幅 {expected_change_text}")
+        if snapshot == "AUCTION_0925" and coverage.get("open_5min") == "NOT_IN_SNAPSHOT":
+            missing_text = " ".join(candidate.get("observed") or []) + " " + str(
+                candidate.get("vs_plan") or "") + " " + " ".join(candidate.get("reason") or [])
+            if "数据不足，无法判断" not in missing_text:
+                problems.append(
+                    f"leaf_results[{index}]: 缺开盘五分钟时必须明示‘数据不足，无法判断’")
+        if snapshot == "AUCTION_0925":
+            if candidate.get("leaf_state") in {"MEETS_OPEN_TASK", "OPEN_TASK_FAILED"}:
+                problems.append(f"leaf_results[{index}].leaf_state: 09:25 forbids open-five-minute conclusion")
+        elif coverage.get("open_5min") != "AVAILABLE":
+            if candidate.get("leaf_state") != "DATA_INSUFFICIENT":
+                problems.append(f"leaf_results[{index}].leaf_state: open_5min coverage is {coverage.get('open_5min')}")
+        if coverage.get("opening_match") != "AVAILABLE" and candidate.get("leaf_state") in {
+            "MEETS_AUCTION_TASK", "NEEDS_OPEN_VALIDATION", "DOWNGRADED"
+        }:
+            problems.append(f"leaf_results[{index}].leaf_state: opening_match missing")
+        if coverage.get("opening_auction") != "AVAILABLE" \
+                and candidate.get("leaf_state") == "MEETS_AUCTION_TASK":
+            problems.append(f"leaf_results[{index}].leaf_state: opening auction summary missing")
+        if snapshot == "OPEN_0935" and coverage.get("first5m_activity") != "AVAILABLE":
+            text = " ".join(candidate.get("observed") or []) + " " + str(candidate.get("vs_plan") or "")
+            if any(word in text for word in ("主动带动", "主动增强", "主动买", "真实承接")):
+                problems.append(f"leaf_results[{index}]: first5m_activity missing; cannot assert active/real support")
+    expected_comparison = facts.get("relative_auction_contract") or {}
+    actual_comparison = result.get("auction_pair_comparison") or {}
+    for field in ("status", "stronger_code", "weaker_code", "comparison_text"):
+        if actual_comparison.get(field) != expected_comparison.get(field):
+            problems.append(f"auction_pair_comparison.{field}: 未原样引用冻结竞价比较合同")
     return problems

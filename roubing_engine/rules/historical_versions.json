@@ -1,0 +1,61 @@
+{
+  "version": "historical_rule_versions_v1",
+  "description": "Source-bounded snapshots for synthesized rules that later received additional evidence.",
+  "units": {
+    "ENV_ROTATION": [{
+      "version_id": "ENV_ROTATION@2025-03-01", "valid_from": "2025-03-01",
+      "source_dates": ["2024-12-21", "2025-03-01"],
+      "observation": "指数区间震荡；板块强弱轮动；缺少能够持续组织市场的稳定方向，赚钱效应集中在少数有辨识度对象。",
+      "confirm": "只保留节点明确、功能清楚的核心或短周期候选，不追普通后排。",
+      "cancel": "某方向开始连续走强，容量加入且分歧后能够修复时，重新评估是否升级为主流候选。",
+      "caveat": "不能把一天的方向切换直接确认成轮动环境。"
+    }],
+    "NODE_FIRST_DIVERGENCE_REPAIR": [{
+      "version_id": "NODE_FIRST_DIVERGENCE_REPAIR@2025-05-11", "valid_from": "2025-05-11",
+      "source_dates": ["2024-11-16", "2025-05-11"],
+      "observation": "方向此前已经是主流或强分支，T日发生板块级大分歧，但仍有前排或核心维持热度。",
+      "confirm": "T+1板块止跌或反包，原核心、容量或抗跌者率先修复并获得板块响应。",
+      "cancel": "核心不能修复、后排继续大跌，或只有一只孤立小票上涨。",
+      "caveat": "普通下跌方向的单票反抽不能叫主流修复。"
+    }],
+    "G06_DIVERGENCE_REPAIR": [{
+      "version_id": "G06_DIVERGENCE_REPAIR@2025-05-30", "valid_from": "2025-05-30",
+      "source_dates": ["2024-11-16", "2025-05-11", "2025-05-30"],
+      "observation": "方向此前是主流或强分支，T日发生板块级大分歧，候选来自原核心、容量、分支前排和分歧日仍能维持的对象。",
+      "confirm": "T+1板块止跌或反包，候选先于同组修复，价格重新推进并获得板块响应。",
+      "cancel": "核心无法修复、后排继续大面积负反馈、只有孤立小票上涨或方向没有资金回流。",
+      "caveat": "没有已确认的主流前态和板块级大分歧时不得打开。"
+    }],
+    "G09_CORE_SWITCH": [{
+      "version_id": "G09_CORE_SWITCH@2026-01-03", "valid_from": "2026-01-03",
+      "source_dates": ["2023-10-11", "2025-08-19", "2025-12-20", "2026-01-03"],
+      "observation": "主线或板块整体仍有效；旧核心先出现该强不强、滞涨、破位或竞价弱，新候选随后独立高开、突破、上板或逆板块推进。",
+      "confirm": "新候选主动带动板块并持续完成新任务，旧核心失去原任务和唯一性。",
+      "cancel": "新候选只是被旧核心带起，或主线失效、新旧对象一起弱。",
+      "caveat": "被反推只是否定独立性；只有同任务接管和板块响应成立后才能确认角色替代。"
+    }],
+    "ROLE_TOTAL_CORE": [{
+      "version_id": "ROLE_TOTAL_CORE@2025-02-22", "valid_from": "2025-02-22",
+      "source_dates": ["2023-12-05", "2024-07-31", "2025-02-22"],
+      "observation": "在主线中打开空间、维持辨识度，并通过自身强弱影响方向其他层级。",
+      "confirm": "经历分歧后仍率先修复，能够带动板块、容量或助攻继续响应。",
+      "cancel": "高位放量滞涨、不再带动、修复落后、助攻批量走弱或新对象已经接管原任务。",
+      "caveat": "不能按单日涨幅、最高板或封板时间直接确认总核心。"
+    }],
+    "ROLE_ASSIST_LETTER": [{
+      "version_id": "ROLE_ASSIST@2024-07-31", "valid_from": "2024-07-31",
+      "source_dates": ["2024-07-31"], "title": "最佳助攻/伴飞",
+      "observation": "围绕总核心扩散赚钱效应，并通过自身延续验证总核心是否仍有外部支撑。",
+      "confirm": "在对应节点出现，后续继续晋级或获得溢价；最佳助攻延续时总核心支撑仍在。",
+      "cancel": "次日无溢价、竞争失败或助攻批量断板。",
+      "caveat": "该历史版本不包含后来出现的A/B/C/D字母解释；新股票字母保持UNKNOWN。"
+    }],
+    "EXIT_STRUCTURE": [{
+      "version_id": "EXIT_STRUCTURE@2025-06-10", "valid_from": "2025-06-10",
+      "source_dates": ["2025-03-01", "2025-06-10"],
+      "observation": "平台、前日分时、趋势支撑或均线关系被破坏。",
+      "confirm": "交易前先声明使用左侧还是右侧退出，并根据角色任务和结构破坏执行。",
+      "cancel": "", "caveat": "5日线不是统一最后防线，不同前态的退出位置不同。"
+    }]
+  }
+}

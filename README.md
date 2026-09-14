@@ -31,10 +31,15 @@
 ## 安装与测试
 
 ```bash
-cd /Users/lee.dong/Documents/ChatGPT/test-stock-1/roubing_engine
+git clone --branch codex/20260303-reasoning-handoff \
+  git@github.com:dongzzzzzzzzz/roubing_engine.git
+cd roubing_engine
 python -m pip install -e .
 PYTHONPATH=. python -m unittest discover -s tests -v
 ```
+
+当前分支的交接入口、2026-03-03 推演结果、文件阅读顺序和继续运行方式见
+[HANDOFF_20260303.md](docs/HANDOFF_20260303.md)。
 
 ## 只生成任务包，不调用模型
 
@@ -103,12 +108,15 @@ PYTHONPATH=. python -m roubing_engine.reasoning.walk_forward \
 
 ## 原帖知识库
 
-运行时同时使用：
+仓库内置 282 篇原帖语料及其编译结果。正式推演和审计严格分层：
 
-- 37 条结构化规则；
-- 282 篇原帖全文索引；
-- 按阶段检索的原文节选。
+- Stage B、C1、C2 只读取已经编译的规则和当天冻结事实，不读取原帖；
+- 独立审计根据本次实际用到的方法动态检索原帖，只用于寻找误用、反例和个案泛化；
+- 原帖中的历史题材、股票和数字不得回填为当天市场事实或通用阈值。
 
-原帖节选用于恢复语境，不允许把案例数字升级成通用阈值。
+原始语料位于 `reference/corpus/`。如需使用外部语料目录，可设置
+`ROUBING_CORPUS_DIR=/absolute/path/to/corpus`。
+
+核心设计方案及历次架构说明位于 `docs/design/`。
 
 当前剩余工作见 [IMPLEMENTATION_TODO.md](IMPLEMENTATION_TODO.md)。

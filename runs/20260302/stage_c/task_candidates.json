@@ -1,0 +1,362 @@
+{
+  "as_of": "20260302 CLOSE",
+  "status": "READY",
+  "primary_theme": "商业航天",
+  "primary_direction_fact_id": "F-20260302-DIR-C3440C60D4",
+  "task_candidates": [
+    {
+      "task_id": "TASK-20260226-D6F5ECE56E",
+      "task_type": "HIGHEST_LADDER_CONTINUATION",
+      "task_name": "最高身位延续",
+      "status": "READY",
+      "theme": "商业航天",
+      "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+      "anchor_date": "2026-02-26",
+      "anchor_status": "VERIFIED_COMMON",
+      "candidate_anchor_dates": [
+        "2026-02-26"
+      ],
+      "validation_anchor_dates": {
+        "000070.SZ": "2026-03-02",
+        "002413.SZ": "2026-03-02",
+        "003009.SZ": "2026-03-02",
+        "001400.SZ": "2026-03-02"
+      },
+      "method_node_types": [
+        "MAINSTREAM_CONFIRMATION_OBSERVATION"
+      ],
+      "method_generators": [],
+      "required_function": "最高身位继续确认方向空间，并在分歧中不被更低身位反向替代",
+      "required_rule_ids": [
+        "PRIM_SEPARATION",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ],
+      "scope_logic": [
+        "方向当日最高板级为3板；该层全部对象进入同任务比较"
+      ],
+      "candidate_ids": [
+        "002843.SZ"
+      ],
+      "validation_ids": [
+        "000070.SZ",
+        "001400.SZ",
+        "002413.SZ",
+        "003009.SZ"
+      ],
+      "eligibility_fact_ids": [
+        "F-20260302-DIR-C3440C60D4",
+        "F-20260302-STOCK-5273D82917",
+        "F-20260302-STOCK-DB7CF2D96E",
+        "F-20260302-STOCK-A6C079F7ED",
+        "F-20260302-STOCK-540856A678",
+        "F-20260302-STOCK-D15A64570A"
+      ],
+      "comparison_dimensions": [
+        "竞价是否完成各自盘后任务，而不是比较固定高开数值",
+        "同任务对象谁先主动增强、谁只是跟随",
+        "开盘后是否承受分歧并维持价格重心",
+        "对象增强时方向和验证对象是否响应"
+      ],
+      "pair_preference_contract": {
+        "status": "NOT_APPLICABLE",
+        "primary_hint": null,
+        "backup_hint": null,
+        "reasoning": [
+          "动作竞争者不是恰好两只"
+        ]
+      },
+      "role_assignment_contract": {
+        "status": "UNRESOLVED",
+        "required_unknown_codes": [
+          "000070.SZ",
+          "001400.SZ",
+          "002843.SZ",
+          "003009.SZ"
+        ],
+        "leader_state": "UNRESOLVED",
+        "reasoning": [
+          "PRIMARY/BACKUP是动作叶子验证顺序，不是核心角色确认",
+          "缺前日角色账本及主动带动/承压完成证据时，角色和角色族必须保持UNKNOWN",
+          "VALIDATION_ONLY只说明验证功能，不能据板级直接命名为总核心或容量核心"
+        ]
+      },
+      "completion_signals": [
+        "候选独立完成该任务且同任务对手未同时占优",
+        "方向或验证对象对候选行为产生同步响应"
+      ],
+      "failure_signals": [
+        "候选没有完成任务，或强度只能由同组其他对象解释",
+        "方向与验证对象不响应，任务关系被证伪"
+      ],
+      "data_gaps": []
+    },
+    {
+      "task_id": "TASK-20260302-C4DE56B7A4",
+      "task_type": "SAME_LEVEL_PROMOTION",
+      "task_name": "同板级晋级",
+      "status": "READY",
+      "theme": "商业航天",
+      "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+      "anchor_date": "2026-03-02",
+      "anchor_status": "VERIFIED_COMMON",
+      "candidate_anchor_dates": [
+        "2026-03-02"
+      ],
+      "validation_anchor_dates": {
+        "002843.SZ": "2026-02-26"
+      },
+      "method_node_types": [
+        "MAINSTREAM_CONFIRMATION_OBSERVATION"
+      ],
+      "method_generators": [],
+      "required_function": "1板同身位对象竞争下一交易日的晋级与带动权",
+      "required_rule_ids": [
+        "PRIM_SEPARATION",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ],
+      "scope_logic": [
+        "同一方向、同为1板且起点可比，保留完整同期竞争组"
+      ],
+      "candidate_ids": [
+        "000070.SZ",
+        "001400.SZ",
+        "002413.SZ",
+        "003009.SZ"
+      ],
+      "validation_ids": [
+        "002843.SZ"
+      ],
+      "eligibility_fact_ids": [
+        "F-20260302-DIR-C3440C60D4",
+        "F-20260302-STOCK-DB7CF2D96E",
+        "F-20260302-STOCK-A6C079F7ED",
+        "F-20260302-STOCK-540856A678",
+        "F-20260302-STOCK-D15A64570A",
+        "F-20260302-STOCK-5273D82917"
+      ],
+      "comparison_dimensions": [
+        "竞价是否完成各自盘后任务，而不是比较固定高开数值",
+        "同任务对象谁先主动增强、谁只是跟随",
+        "开盘后是否承受分歧并维持价格重心",
+        "对象增强时方向和验证对象是否响应"
+      ],
+      "pair_preference_contract": {
+        "status": "NOT_APPLICABLE",
+        "primary_hint": null,
+        "backup_hint": null,
+        "reasoning": [
+          "动作竞争者不是恰好两只"
+        ]
+      },
+      "role_assignment_contract": {
+        "status": "UNRESOLVED",
+        "required_unknown_codes": [
+          "000070.SZ",
+          "001400.SZ",
+          "002843.SZ",
+          "003009.SZ"
+        ],
+        "leader_state": "UNRESOLVED",
+        "reasoning": [
+          "PRIMARY/BACKUP是动作叶子验证顺序，不是核心角色确认",
+          "缺前日角色账本及主动带动/承压完成证据时，角色和角色族必须保持UNKNOWN",
+          "VALIDATION_ONLY只说明验证功能，不能据板级直接命名为总核心或容量核心"
+        ]
+      },
+      "completion_signals": [
+        "候选独立完成该任务且同任务对手未同时占优",
+        "方向或验证对象对候选行为产生同步响应"
+      ],
+      "failure_signals": [
+        "候选没有完成任务，或强度只能由同组其他对象解释",
+        "方向与验证对象不响应，任务关系被证伪"
+      ],
+      "data_gaps": []
+    },
+    {
+      "task_id": "TASK-20260302-5627F69BD6",
+      "task_type": "FIRST_BOARD_DIFFUSION",
+      "task_name": "首板扩散",
+      "status": "READY",
+      "theme": "商业航天",
+      "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+      "anchor_date": "2026-03-02",
+      "anchor_status": "VERIFIED_COMMON",
+      "candidate_anchor_dates": [
+        "2026-03-02"
+      ],
+      "validation_anchor_dates": {
+        "002843.SZ": "2026-02-26"
+      },
+      "method_node_types": [
+        "MAINSTREAM_CONFIRMATION_OBSERVATION"
+      ],
+      "method_generators": [],
+      "required_function": "首板层验证方向是否继续扩散，并区分主动扩散与高位反推",
+      "required_rule_ids": [
+        "PRIM_SEPARATION",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ],
+      "scope_logic": [
+        "方向内全部首板构成扩散观察层，不按成交额或封板时间截断"
+      ],
+      "candidate_ids": [
+        "000070.SZ",
+        "001400.SZ",
+        "002413.SZ",
+        "003009.SZ"
+      ],
+      "validation_ids": [
+        "002843.SZ"
+      ],
+      "eligibility_fact_ids": [
+        "F-20260302-DIR-C3440C60D4",
+        "F-20260302-STOCK-DB7CF2D96E",
+        "F-20260302-STOCK-A6C079F7ED",
+        "F-20260302-STOCK-540856A678",
+        "F-20260302-STOCK-D15A64570A",
+        "F-20260302-STOCK-5273D82917"
+      ],
+      "comparison_dimensions": [
+        "竞价是否完成各自盘后任务，而不是比较固定高开数值",
+        "同任务对象谁先主动增强、谁只是跟随",
+        "开盘后是否承受分歧并维持价格重心",
+        "对象增强时方向和验证对象是否响应"
+      ],
+      "pair_preference_contract": {
+        "status": "NOT_APPLICABLE",
+        "primary_hint": null,
+        "backup_hint": null,
+        "reasoning": [
+          "动作竞争者不是恰好两只"
+        ]
+      },
+      "role_assignment_contract": {
+        "status": "UNRESOLVED",
+        "required_unknown_codes": [
+          "000070.SZ",
+          "001400.SZ",
+          "002843.SZ",
+          "003009.SZ"
+        ],
+        "leader_state": "UNRESOLVED",
+        "reasoning": [
+          "PRIMARY/BACKUP是动作叶子验证顺序，不是核心角色确认",
+          "缺前日角色账本及主动带动/承压完成证据时，角色和角色族必须保持UNKNOWN",
+          "VALIDATION_ONLY只说明验证功能，不能据板级直接命名为总核心或容量核心"
+        ]
+      },
+      "completion_signals": [
+        "候选独立完成该任务且同任务对手未同时占优",
+        "方向或验证对象对候选行为产生同步响应"
+      ],
+      "failure_signals": [
+        "候选没有完成任务，或强度只能由同组其他对象解释",
+        "方向与验证对象不响应，任务关系被证伪"
+      ],
+      "data_gaps": []
+    },
+    {
+      "task_id": "TASK-20260302-7D87305F1D",
+      "task_type": "BROKEN_BOARD_REPAIR",
+      "task_name": "炸板修复",
+      "status": "READY",
+      "theme": "商业航天",
+      "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+      "anchor_date": "2026-03-02",
+      "anchor_status": "UNRESOLVED",
+      "candidate_anchor_dates": [],
+      "validation_anchor_dates": {
+        "002843.SZ": "2026-02-26",
+        "000070.SZ": "2026-03-02",
+        "002413.SZ": "2026-03-02",
+        "003009.SZ": "2026-03-02",
+        "001400.SZ": "2026-03-02"
+      },
+      "method_node_types": [
+        "MAINSTREAM_CONFIRMATION_OBSERVATION"
+      ],
+      "method_generators": [],
+      "required_function": "炸板对象次日证明是可修复分歧，而不是推进失败后的继续弱化",
+      "required_rule_ids": [
+        "PRIM_SEPARATION",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ],
+      "scope_logic": [
+        "方向内所有炸板对象进入修复观察，主动/被动原因仍保持未知"
+      ],
+      "candidate_ids": [
+        "002149.SZ",
+        "600118.SH"
+      ],
+      "validation_ids": [
+        "000070.SZ",
+        "001400.SZ",
+        "002413.SZ",
+        "002843.SZ",
+        "003009.SZ"
+      ],
+      "eligibility_fact_ids": [
+        "F-20260302-DIR-C3440C60D4",
+        "F-20260302-STOCK-001BCBBF09",
+        "F-20260302-STOCK-467531458D",
+        "F-20260302-STOCK-5273D82917",
+        "F-20260302-STOCK-DB7CF2D96E",
+        "F-20260302-STOCK-A6C079F7ED",
+        "F-20260302-STOCK-540856A678",
+        "F-20260302-STOCK-D15A64570A"
+      ],
+      "comparison_dimensions": [
+        "竞价是否完成各自盘后任务，而不是比较固定高开数值",
+        "同任务对象谁先主动增强、谁只是跟随",
+        "开盘后是否承受分歧并维持价格重心",
+        "对象增强时方向和验证对象是否响应"
+      ],
+      "pair_preference_contract": {
+        "status": "UNRESOLVED",
+        "primary_hint": null,
+        "backup_hint": null,
+        "attitude_structure_leader": null,
+        "seal_efficiency_leader": null,
+        "reasoning": [
+          "开盘展示态度与成交活跃结构没有由同一对象同时领先，禁止用总分强排顺序"
+        ]
+      },
+      "role_assignment_contract": {
+        "status": "UNRESOLVED",
+        "required_unknown_codes": [
+          "000070.SZ",
+          "001400.SZ",
+          "002149.SZ",
+          "002843.SZ",
+          "003009.SZ",
+          "600118.SH"
+        ],
+        "leader_state": "UNRESOLVED",
+        "reasoning": [
+          "PRIMARY/BACKUP是动作叶子验证顺序，不是核心角色确认",
+          "缺前日角色账本及主动带动/承压完成证据时，角色和角色族必须保持UNKNOWN",
+          "VALIDATION_ONLY只说明验证功能，不能据板级直接命名为总核心或容量核心"
+        ]
+      },
+      "completion_signals": [
+        "候选独立完成该任务且同任务对手未同时占优",
+        "方向或验证对象对候选行为产生同步响应"
+      ],
+      "failure_signals": [
+        "候选没有完成任务，或强度只能由同组其他对象解释",
+        "方向与验证对象不响应，任务关系被证伪"
+      ],
+      "data_gaps": []
+    }
+  ],
+  "reason": "任务由动态主路径的当日结构和方法节点生成；尚未选择具体任务"
+}

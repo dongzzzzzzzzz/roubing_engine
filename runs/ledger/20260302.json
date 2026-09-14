@@ -1,0 +1,3032 @@
+{
+  "trade_date": "20260302",
+  "as_of": "20260302 CLOSE",
+  "environment": {
+    "status": "DATA_INSUFFICIENT",
+    "reasoning": [
+      "先看当日环境截面：84只涨停、32只炸板、4只跌停，涨停梯队为64只首板、18只二板、2只三板，短线事件活跃且低位启动广。",
+      "全市场上涨1142只、下跌4265只，成交额较前一交易日增加21.57%，说明放量下跌家数占优，与涨停数量较多并存，呈现明显分化截面。",
+      "全市场昨日涨停买方反馈为43只正反馈、32只负反馈，既非普遍无溢价，也不足以单凭一天确认稳定主流。",
+      "指数日线环境被标记为BLOCKED_DATA，实际前一交易日状态账本缺失；按规则不能把单日分化直接确认成轮动、退潮或切换，也不能确认历史主升，因此环境状态为DATA_INSUFFICIENT。",
+      "当日截面偏向局部短线活跃、全市场多数个股偏弱；这只描述2026-03-02收盘关系，不自动阻止从方向结构中制定次日条件观察优先级。"
+    ],
+    "supporting_fact_ids": [
+      "F-20260302-ENV-A856B87611",
+      "F-20260302-ENV-F6F7FA26F6",
+      "F-20260302-ENV-6070A933AC",
+      "F-20260302-CTX-3DD7E49656",
+      "F-20260302-CTX-D59F26FC1C",
+      "F-20260302-CTX-C0D7A86AFD"
+    ],
+    "counter_fact_ids": [
+      "F-20260302-ENV-A856B87611",
+      "F-20260302-ENV-6070A933AC"
+    ],
+    "rule_ids": [
+      "ENV_MAIN_TREND",
+      "ENV_ROTATION",
+      "ENV_DECLINE",
+      "ENV_REGIME_SWITCH"
+    ],
+    "migrated_from": null,
+    "tomorrow_checks": [
+      "补齐指数日线并验证上涨/下跌广度是否同步修复，区分局部活跃与系统性转强。",
+      "建立2026-03-02状态账本，跟踪2026-03-03各方向昨日买方正负反馈及连板延续。",
+      "观察领先方向是否出现先锋、容量、低位扩散共同响应，或仅剩孤立前排。",
+      "观察炸板与跌停是否扩散，以及高标和昨日强板是否出现普遍负反馈。"
+    ]
+  },
+  "direction_evaluations": [
+    {
+      "theme": "油服工程",
+      "direction_fact_id": "F-20260302-DIR-4E5BED5B7D",
+      "stage": "启动候选",
+      "market_relation": "LEADS",
+      "path_status": "COMPETITOR",
+      "observed_facts": [
+        "当日事件集合为9只涨停、0只炸板、0只跌停，最高1板，梯队为1板9只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约103.51亿元；涨停/炸板/跌停事件开盘匹配覆盖9/9。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "九只共同首板且无炸板，构成当日最整齐的低位启动队列；但全部停留在首板，尚无相邻日买方反馈，不能确认延续或主流。",
+        "事件集合成交额约103.51亿元，具备一定承载截面；完整板块扩散和盘中带动数据缺失，无法判断是否由前排向容量与后排传导。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-4E5BED5B7D"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-C45CCA65B5"
+      ],
+      "rule_ids": [
+        "NODE_UNIQUENESS",
+        "G08_UNIQUENESS",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [
+        "石油化工",
+        "商业航天",
+        "电网设备",
+        "稀有金属"
+      ],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "启动候选",
+      "migration_evidence": [
+        "F-20260302-DIR-4E5BED5B7D"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-C45CCA65B5"
+      ]
+    },
+    {
+      "theme": "石油化工",
+      "direction_fact_id": "F-20260302-DIR-6635B4FA65",
+      "stage": "延续候选",
+      "market_relation": "LEADS",
+      "path_status": "COMPETITOR",
+      "observed_facts": [
+        "当日事件集合为6只涨停、2只炸板、0只跌停，最高2板，梯队为1板5只、2板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约158.63亿元；涨停/炸板/跌停事件开盘匹配覆盖8/8。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "五只首板与一只二板同时存在，且唯一昨日样本继续涨停，持续性和梯队完整性优于纯首板脉冲。",
+        "两只炸板说明失败反馈并非空白；昨日反馈仅一只样本，不能把延续候选升级为已确认主流。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-6635B4FA65",
+        "F-20260302-DIRBUY-34D5833B74"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIR-6635B4FA65"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [
+        "油服工程",
+        "商业航天",
+        "电网设备",
+        "稀有金属"
+      ],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-6635B4FA65",
+        "F-20260302-DIRBUY-34D5833B74"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIR-6635B4FA65"
+      ]
+    },
+    {
+      "theme": "商业航天",
+      "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+      "stage": "延续候选",
+      "market_relation": "CONFIRMS",
+      "path_status": "COMPETITOR",
+      "observed_facts": [
+        "当日事件集合为5只涨停、2只炸板、0只跌停，最高3板，梯队为1板4只、3板1只。",
+        "昨日买方样本2只，正反馈1只、负反馈1只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约241.96亿元；涨停/炸板/跌停事件开盘匹配覆盖7/7。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "三板高度与四只首板形成高低呼应，事件集合成交额约241.96亿元，保留路径竞争资格。",
+        "二板层缺失、两只炸板且昨日买方一正一负，梯队断层和反馈分化使其不能凭最高板获得固定优先权。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-C3440C60D4"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-1DE0E95E70"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [
+        "油服工程",
+        "石油化工",
+        "电网设备",
+        "稀有金属"
+      ],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅2只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-C3440C60D4"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-1DE0E95E70"
+      ]
+    },
+    {
+      "theme": "黄金概念",
+      "direction_fact_id": "F-20260302-DIR-1A7B20D9A8",
+      "stage": "启动候选",
+      "market_relation": "WEAKENS",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为5只涨停、6只炸板、0只跌停，最高1板，梯队为1板5只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约543亿元；涨停/炸板/跌停事件开盘匹配覆盖11/11。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "虽有多只涨停，但炸板数量不低于涨停数量，失败反馈抵消了启动宽度，暂不进入主路径竞争组。",
+        "若次日失败反馈收敛并出现层级推进，可重新评估。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-1A7B20D9A8"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-91CAA159BF"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "启动候选",
+      "migration_evidence": [
+        "F-20260302-DIR-1A7B20D9A8"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-91CAA159BF"
+      ]
+    },
+    {
+      "theme": "航运港口",
+      "direction_fact_id": "F-20260302-DIR-E5E07C7FE4",
+      "stage": "启动候选",
+      "market_relation": "FOLLOWS",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为4只涨停、1只炸板、0只跌停，最高1板，梯队为1板4只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约162.75亿元；涨停/炸板/跌停事件开盘匹配覆盖5/5。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日出现多只同方向涨停，具备启动候选截面，但缺少前态和相邻日确认。",
+        "相较五个主要竞争方向，其梯队、昨日买方或容量关系尚未形成多维优势，维持观察。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-E5E07C7FE4"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-97106B297C"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "启动候选",
+      "migration_evidence": [
+        "F-20260302-DIR-E5E07C7FE4"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-97106B297C"
+      ]
+    },
+    {
+      "theme": "军工信息化",
+      "direction_fact_id": "F-20260302-DIR-3F1225856B",
+      "stage": "启动候选",
+      "market_relation": "FOLLOWS",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为3只涨停、0只炸板、0只跌停，最高1板，梯队为1板3只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约8.08亿元；涨停/炸板/跌停事件开盘匹配覆盖3/3。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日出现多只同方向涨停，具备启动候选截面，但缺少前态和相邻日确认。",
+        "相较五个主要竞争方向，其梯队、昨日买方或容量关系尚未形成多维优势，维持观察。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-3F1225856B"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-2624DDC777"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "启动候选",
+      "migration_evidence": [
+        "F-20260302-DIR-3F1225856B"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-2624DDC777"
+      ]
+    },
+    {
+      "theme": "农用化工",
+      "direction_fact_id": "F-20260302-DIR-91A6A59A5E",
+      "stage": "启动候选",
+      "market_relation": "FOLLOWS",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为3只涨停、0只炸板、0只跌停，最高1板，梯队为1板3只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约17.4亿元；涨停/炸板/跌停事件开盘匹配覆盖3/3。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日出现多只同方向涨停，具备启动候选截面，但缺少前态和相邻日确认。",
+        "相较五个主要竞争方向，其梯队、昨日买方或容量关系尚未形成多维优势，维持观察。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-91A6A59A5E"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-E4597DB40A"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "启动候选",
+      "migration_evidence": [
+        "F-20260302-DIR-91A6A59A5E"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-E4597DB40A"
+      ]
+    },
+    {
+      "theme": "天然气",
+      "direction_fact_id": "F-20260302-DIR-07988B0D2D",
+      "stage": "启动候选",
+      "market_relation": "FOLLOWS",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为3只涨停、0只炸板、0只跌停，最高1板，梯队为1板3只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约27.18亿元；涨停/炸板/跌停事件开盘匹配覆盖3/3。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日出现多只同方向涨停，具备启动候选截面，但缺少前态和相邻日确认。",
+        "相较五个主要竞争方向，其梯队、昨日买方或容量关系尚未形成多维优势，维持观察。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-07988B0D2D"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-C0F36B7402"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "启动候选",
+      "migration_evidence": [
+        "F-20260302-DIR-07988B0D2D"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-C0F36B7402"
+      ]
+    },
+    {
+      "theme": "油气开采",
+      "direction_fact_id": "F-20260302-DIR-F743A36D15",
+      "stage": "启动候选",
+      "market_relation": "FOLLOWS",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为3只涨停、0只炸板、0只跌停，最高1板，梯队为1板3只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约178.73亿元；涨停/炸板/跌停事件开盘匹配覆盖3/3。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日出现多只同方向涨停，具备启动候选截面，但缺少前态和相邻日确认。",
+        "相较五个主要竞争方向，其梯队、昨日买方或容量关系尚未形成多维优势，维持观察。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-F743A36D15"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-71EDFAA100"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "启动候选",
+      "migration_evidence": [
+        "F-20260302-DIR-F743A36D15"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-71EDFAA100"
+      ]
+    },
+    {
+      "theme": "电网设备",
+      "direction_fact_id": "F-20260302-DIR-0274FAA4A8",
+      "stage": "延续候选",
+      "market_relation": "CONFIRMS",
+      "path_status": "COMPETITOR",
+      "observed_facts": [
+        "当日事件集合为3只涨停、0只炸板、0只跌停，最高2板，梯队为1板1只、2板2只。",
+        "昨日买方样本4只，正反馈4只、负反馈0只、今日继续涨停2只、今日炸板0只。",
+        "事件集合成交额约14.79亿元；涨停/炸板/跌停事件开盘匹配覆盖3/3。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "两只二板加一只首板，昨日四个样本全部正反馈且两只继续涨停，持续性与昨日买方反馈较强。",
+        "事件集合仅三只且成交额约14.79亿元，完整扩散数据缺失，容量承载和板块普遍响应尚不足以确认。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-0274FAA4A8",
+        "F-20260302-DIRBUY-770302E690"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [
+        "油服工程",
+        "石油化工",
+        "商业航天",
+        "稀有金属"
+      ],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅4只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-0274FAA4A8",
+        "F-20260302-DIRBUY-770302E690"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "燃气",
+      "direction_fact_id": "F-20260302-DIR-DB1DB97E6B",
+      "stage": "延续候选",
+      "market_relation": "FOLLOWS",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为2只涨停、0只炸板、0只跌停，最高2板，梯队为1板1只、2板1只。",
+        "昨日买方样本2只，正反馈1只、负反馈1只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约24.74亿元；涨停/炸板/跌停事件开盘匹配覆盖2/2。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日出现多只同方向涨停，具备启动候选截面，但缺少前态和相邻日确认。",
+        "相较五个主要竞争方向，其梯队、昨日买方或容量关系尚未形成多维优势，维持观察。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-DB1DB97E6B"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-EDCD546398"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅2只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-DB1DB97E6B"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-EDCD546398"
+      ]
+    },
+    {
+      "theme": "电力",
+      "direction_fact_id": "F-20260302-DIR-8711B558AE",
+      "stage": "延续候选",
+      "market_relation": "FOLLOWS",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为2只涨停、0只炸板、0只跌停，最高2板，梯队为1板1只、2板1只。",
+        "昨日买方样本4只，正反馈2只、负反馈2只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约14.6亿元；涨停/炸板/跌停事件开盘匹配覆盖2/2。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日出现多只同方向涨停，具备启动候选截面，但缺少前态和相邻日确认。",
+        "相较五个主要竞争方向，其梯队、昨日买方或容量关系尚未形成多维优势，维持观察。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-8711B558AE"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-8467066069"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅4只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-8711B558AE"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-8467066069"
+      ]
+    },
+    {
+      "theme": "稀有金属",
+      "direction_fact_id": "F-20260302-DIR-87D87B0FEE",
+      "stage": "延续候选",
+      "market_relation": "CONFIRMS",
+      "path_status": "COMPETITOR",
+      "observed_facts": [
+        "当日事件集合为2只涨停、0只炸板、0只跌停，最高2板，梯队为2板2只。",
+        "昨日买方样本3只，正反馈3只、负反馈0只、今日继续涨停2只、今日炸板0只。",
+        "事件集合成交额约68.94亿元；涨停/炸板/跌停事件开盘匹配覆盖2/2。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "两只二板且昨日三个样本均为正反馈、两只继续涨停，短期持续性清晰。",
+        "缺少首板补充且事件集合只有两只，梯队宽度和低位响应不足，仍是竞争方向而非主路径。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-87D87B0FEE",
+        "F-20260302-DIRBUY-12AF38B8C5"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [
+        "油服工程",
+        "石油化工",
+        "商业航天",
+        "电网设备"
+      ],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅3只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-87D87B0FEE",
+        "F-20260302-DIRBUY-12AF38B8C5"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "AI智能体",
+      "direction_fact_id": "F-20260302-DIR-3FB4D90147",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、1只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约17.77亿元；涨停/炸板/跌停事件开盘匹配覆盖2/2。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-3FB4D90147"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-7E937483CA"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-3FB4D90147"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-7E937483CA"
+      ]
+    },
+    {
+      "theme": "AI服务器",
+      "direction_fact_id": "F-20260302-DIR-92451A5C96",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约4.38亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-92451A5C96"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-E5CB642CE5"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-92451A5C96"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-E5CB642CE5"
+      ]
+    },
+    {
+      "theme": "CPO概念",
+      "direction_fact_id": "F-20260302-DIR-463C8BAECA",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约10.75亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-463C8BAECA"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-A9940C339E"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-463C8BAECA"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-A9940C339E"
+      ]
+    },
+    {
+      "theme": "CPO硅光模块",
+      "direction_fact_id": "F-20260302-DIR-EA914A951D",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约17.39亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-EA914A951D"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-21441607E3"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-EA914A951D"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-21441607E3"
+      ]
+    },
+    {
+      "theme": "光伏设备",
+      "direction_fact_id": "F-20260302-DIR-F44A37AB91",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "昨日买方样本1只，正反馈0只、负反馈1只、今日继续涨停0只、今日炸板0只。",
+        "事件集合成交额约17.92亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-F44A37AB91"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-1DD0B14F3D"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-F44A37AB91"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-1DD0B14F3D"
+      ]
+    },
+    {
+      "theme": "光刻机滤光片",
+      "direction_fact_id": "F-20260302-DIR-21BC8AB61F",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约5.51亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-21BC8AB61F"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-4DAA167C98"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-21BC8AB61F"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-4DAA167C98"
+      ]
+    },
+    {
+      "theme": "光纤概念",
+      "direction_fact_id": "F-20260302-DIR-E1540D1837",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、2只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约92.89亿元；涨停/炸板/跌停事件开盘匹配覆盖3/3。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-E1540D1837"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-7513EBBE8D"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-E1540D1837"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-7513EBBE8D"
+      ]
+    },
+    {
+      "theme": "光通信",
+      "direction_fact_id": "F-20260302-DIR-3A0B555A08",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约52.14亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-3A0B555A08"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-5964DD166E"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-3A0B555A08"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-5964DD166E"
+      ]
+    },
+    {
+      "theme": "医疗器械",
+      "direction_fact_id": "F-20260302-DIR-54F0C8DC91",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约24.54亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-54F0C8DC91"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-42ED3C0A5D"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-54F0C8DC91"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-42ED3C0A5D"
+      ]
+    },
+    {
+      "theme": "华为算力",
+      "direction_fact_id": "F-20260302-DIR-D567AAB339",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本4只，正反馈1只、负反馈3只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约19.84亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-D567AAB339"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-9994C8F084"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅4只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-D567AAB339"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-9994C8F084"
+      ]
+    },
+    {
+      "theme": "卡塔尔40亿订单",
+      "direction_fact_id": "F-20260302-DIR-77DDA19C6C",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约20.33亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-77DDA19C6C"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-B19D6F04A9"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-77DDA19C6C"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-B19D6F04A9"
+      ]
+    },
+    {
+      "theme": "可控核聚变",
+      "direction_fact_id": "F-20260302-DIR-71AAE82343",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约20.06亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-71AAE82343"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-E7A5D89837"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-71AAE82343"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-E7A5D89837"
+      ]
+    },
+    {
+      "theme": "地面兵装",
+      "direction_fact_id": "F-20260302-DIR-D6FABF3B60",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约31.84亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-D6FABF3B60"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-9F56D624A8"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-D6FABF3B60"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-9F56D624A8"
+      ]
+    },
+    {
+      "theme": "油气",
+      "direction_fact_id": "F-20260302-DIR-D1F2F074A2",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约19.56亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-D1F2F074A2"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-B209322DCC"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-D1F2F074A2"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-B209322DCC"
+      ]
+    },
+    {
+      "theme": "油气装备",
+      "direction_fact_id": "F-20260302-DIR-8D9F2809BB",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约8.31亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-8D9F2809BB"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-2B9481D83D"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-8D9F2809BB"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-2B9481D83D"
+      ]
+    },
+    {
+      "theme": "油气设备",
+      "direction_fact_id": "F-20260302-DIR-2ABECE1469",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约14.11亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-2ABECE1469"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-17DF21BC5C"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-2ABECE1469"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-17DF21BC5C"
+      ]
+    },
+    {
+      "theme": "油田技术服务",
+      "direction_fact_id": "F-20260302-DIR-60CAE0D404",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约7.85亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-60CAE0D404"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-770379AE34"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-60CAE0D404"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-770379AE34"
+      ]
+    },
+    {
+      "theme": "液冷服务器",
+      "direction_fact_id": "F-20260302-DIR-2D5CE5DB6E",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约23.71亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-2D5CE5DB6E"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-F57142EB95"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-2D5CE5DB6E"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-F57142EB95"
+      ]
+    },
+    {
+      "theme": "煤制烯烃",
+      "direction_fact_id": "F-20260302-DIR-A1A9A4FB86",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约60.77亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-A1A9A4FB86"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-CE5DAEB9BD"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-A1A9A4FB86"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-CE5DAEB9BD"
+      ]
+    },
+    {
+      "theme": "玉柴合作",
+      "direction_fact_id": "F-20260302-DIR-FB0A76C018",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高3板，梯队为3板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约10.82亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-FB0A76C018",
+        "F-20260302-DIRBUY-9F39608699"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-FB0A76C018",
+        "F-20260302-DIRBUY-9F39608699"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "甲醇",
+      "direction_fact_id": "F-20260302-DIR-064F6861C0",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约2.11亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-064F6861C0"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-3F8D488754"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-064F6861C0"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-3F8D488754"
+      ]
+    },
+    {
+      "theme": "石英晶振",
+      "direction_fact_id": "F-20260302-DIR-E00C26C6BB",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约17.07亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-E00C26C6BB",
+        "F-20260302-DIRBUY-6AF88A9CA9"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-E00C26C6BB",
+        "F-20260302-DIRBUY-6AF88A9CA9"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "种植业",
+      "direction_fact_id": "F-20260302-DIR-DD7C1835A2",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约3.07亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-DD7C1835A2",
+        "F-20260302-DIRBUY-479CE37207"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-DD7C1835A2",
+        "F-20260302-DIRBUY-479CE37207"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "稀土永磁",
+      "direction_fact_id": "F-20260302-DIR-A0B34CBF4D",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约30.76亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-A0B34CBF4D",
+        "F-20260302-DIRBUY-1BC09A5D24"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-A0B34CBF4D",
+        "F-20260302-DIRBUY-1BC09A5D24"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "算力租赁",
+      "direction_fact_id": "F-20260302-DIR-1DF01C4AFB",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本2只，正反馈1只、负反馈1只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约27.9亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-1DF01C4AFB"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-7940A2A364"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅2只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-1DF01C4AFB"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-7940A2A364"
+      ]
+    },
+    {
+      "theme": "绿氢绿醇",
+      "direction_fact_id": "F-20260302-DIR-BD5F293ED0",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约7.65亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-BD5F293ED0",
+        "F-20260302-DIRBUY-DA21B1F1D1"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-BD5F293ED0",
+        "F-20260302-DIRBUY-DA21B1F1D1"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "绿色甲醇",
+      "direction_fact_id": "F-20260302-DIR-9743ABBBDC",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约9.63亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-9743ABBBDC"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-2C3F37A1AB"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-9743ABBBDC"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-2C3F37A1AB"
+      ]
+    },
+    {
+      "theme": "航空装备",
+      "direction_fact_id": "F-20260302-DIR-9A78F43254",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约33.37亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-9A78F43254"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-A754C12124"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-9A78F43254"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-A754C12124"
+      ]
+    },
+    {
+      "theme": "重组复牌",
+      "direction_fact_id": "F-20260302-DIR-140D394841",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约107.3亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-140D394841",
+        "F-20260302-DIRBUY-0306477EF6"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-140D394841",
+        "F-20260302-DIRBUY-0306477EF6"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "钨价上涨",
+      "direction_fact_id": "F-20260302-DIR-0870635FA6",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、1只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本2只，正反馈2只、负反馈0只、今日继续涨停1只、今日炸板1只。",
+        "事件集合成交额约95.96亿元；涨停/炸板/跌停事件开盘匹配覆盖2/2。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-0870635FA6",
+        "F-20260302-DIRBUY-9C847C4BAE"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIR-0870635FA6"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅2只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-0870635FA6",
+        "F-20260302-DIRBUY-9C847C4BAE"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIR-0870635FA6"
+      ]
+    },
+    {
+      "theme": "钽铌锡矿复产",
+      "direction_fact_id": "F-20260302-DIR-99BBFE635A",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约14.48亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-99BBFE635A",
+        "F-20260302-DIRBUY-24BA2BC899"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-99BBFE635A",
+        "F-20260302-DIRBUY-24BA2BC899"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "铜冶炼",
+      "direction_fact_id": "F-20260302-DIR-8F67E2B4E6",
+      "stage": "延续候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高2板，梯队为2板1只。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停1只、今日炸板0只。",
+        "事件集合成交额约7.63亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "存在单只二板或三板延续载体，但方向内缺少同层或低位响应，当前更接近孤立延续观察。",
+        "单票高度不能替代梯队、失败反馈、昨日买方与容量关系，不能据此进入主路径竞争组。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-8F67E2B4E6",
+        "F-20260302-DIRBUY-2F23A824F7"
+      ],
+      "counter_fact_ids": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "延续候选",
+      "migration_evidence": [
+        "F-20260302-DIR-8F67E2B4E6",
+        "F-20260302-DIRBUY-2F23A824F7"
+      ],
+      "counter_evidence": []
+    },
+    {
+      "theme": "锂电池概念",
+      "direction_fact_id": "F-20260302-DIR-66AB14AF35",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约6.01亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-66AB14AF35"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-4E68836D12"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-66AB14AF35"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-4E68836D12"
+      ]
+    },
+    {
+      "theme": "锶盐",
+      "direction_fact_id": "F-20260302-DIR-600EEDF0D0",
+      "stage": "热点候选",
+      "market_relation": "ISOLATED",
+      "path_status": "OBSERVATION",
+      "observed_facts": [
+        "当日事件集合为1只涨停、0只炸板、0只跌停，最高1板，梯队为1板1只。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约0.81亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "仅有单只首板，尚未形成可验证的方向内部响应，作为热点候选观察。",
+        "需要后续新增同方向响应或连续买方正反馈，否则维持孤立状态。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-600EEDF0D0"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-D69981EE87"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "热点候选",
+      "migration_evidence": [
+        "F-20260302-DIR-600EEDF0D0"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-D69981EE87"
+      ]
+    },
+    {
+      "theme": "TDI涨价",
+      "direction_fact_id": "F-20260302-DIR-5C51061992",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停0只、今日炸板1只。",
+        "事件集合成交额约11.39亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-5C51061992",
+        "F-20260302-DIRBUY-6B06C21EFD"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIR-5C51061992"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-5C51061992",
+        "F-20260302-DIRBUY-6B06C21EFD"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIR-5C51061992"
+      ]
+    },
+    {
+      "theme": "个股调整",
+      "direction_fact_id": "F-20260302-DIR-7F665F1117",
+      "stage": "无法确认",
+      "market_relation": "WEAKENS",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、0只炸板、2只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约19.67亿元；涨停/炸板/跌停事件开盘匹配覆盖2/2。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-7F665F1117"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-66C7B05DFA"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-7F665F1117"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-66C7B05DFA"
+      ]
+    },
+    {
+      "theme": "光伏",
+      "direction_fact_id": "F-20260302-DIR-959D6A8B2B",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "昨日买方样本1只，正反馈1只、负反馈0只、今日继续涨停0只、今日炸板1只。",
+        "事件集合成交额约24.62亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-959D6A8B2B",
+        "F-20260302-DIRBUY-7D85182C4E"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIR-959D6A8B2B"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-959D6A8B2B",
+        "F-20260302-DIRBUY-7D85182C4E"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIR-959D6A8B2B"
+      ]
+    },
+    {
+      "theme": "化肥概念",
+      "direction_fact_id": "F-20260302-DIR-FFCC68F221",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "昨日买方样本1只，正反馈0只、负反馈1只、今日继续涨停0只、今日炸板1只。",
+        "事件集合成交额约31.36亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-FFCC68F221"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-07ABB384C8"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅1只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-FFCC68F221"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-07ABB384C8"
+      ]
+    },
+    {
+      "theme": "厨卫电器",
+      "direction_fact_id": "F-20260302-DIR-DFD311A16D",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约12.98亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-DFD311A16D"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-F62A53B8C5"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-DFD311A16D"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-F62A53B8C5"
+      ]
+    },
+    {
+      "theme": "地缘冲突",
+      "direction_fact_id": "F-20260302-DIR-504D4937E4",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约11.37亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-504D4937E4"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-4DD9BF5588"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-504D4937E4"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-4DD9BF5588"
+      ]
+    },
+    {
+      "theme": "存储芯片",
+      "direction_fact_id": "F-20260302-DIR-2585D7A10D",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约12.64亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-2585D7A10D"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-CD373DBC56"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-2585D7A10D"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-CD373DBC56"
+      ]
+    },
+    {
+      "theme": "拟收购厦芝精密",
+      "direction_fact_id": "F-20260302-DIR-7E7ED378E3",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约13.35亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-7E7ED378E3"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-C960B834E7"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-7E7ED378E3"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-C960B834E7"
+      ]
+    },
+    {
+      "theme": "无人机",
+      "direction_fact_id": "F-20260302-DIR-FC0E558E7D",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约31.84亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-FC0E558E7D"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-22427CCF09"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-FC0E558E7D"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-22427CCF09"
+      ]
+    },
+    {
+      "theme": "机器人概念",
+      "direction_fact_id": "F-20260302-DIR-B445E07864",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、2只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "昨日买方样本2只，正反馈2只、负反馈0只、今日继续涨停1只、今日炸板1只。",
+        "事件集合成交额约17.81亿元；涨停/炸板/跌停事件开盘匹配覆盖2/2。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-B445E07864",
+        "F-20260302-DIRBUY-078F693C5C"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIR-B445E07864"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该方向昨日买方反馈样本仅2只，样本边界需保留。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-B445E07864",
+        "F-20260302-DIRBUY-078F693C5C"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIR-B445E07864"
+      ]
+    },
+    {
+      "theme": "橡胶",
+      "direction_fact_id": "F-20260302-DIR-4AC8749279",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约19.11亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-4AC8749279"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-180C308B60"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-4AC8749279"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-180C308B60"
+      ]
+    },
+    {
+      "theme": "煤炭开采",
+      "direction_fact_id": "F-20260302-DIR-5D85E4860C",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约19.53亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-5D85E4860C"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-39C057E0B3"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-5D85E4860C"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-39C057E0B3"
+      ]
+    },
+    {
+      "theme": "煤电一体",
+      "direction_fact_id": "F-20260302-DIR-64A37CDFA1",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约69.02亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-64A37CDFA1"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-133E117530"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-64A37CDFA1"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-133E117530"
+      ]
+    },
+    {
+      "theme": "硫铁矿",
+      "direction_fact_id": "F-20260302-DIR-CF8C00A9F6",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约21.15亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-CF8C00A9F6"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-2B5B841D9D"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-CF8C00A9F6"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-2B5B841D9D"
+      ]
+    },
+    {
+      "theme": "筹划收购英中电气",
+      "direction_fact_id": "F-20260302-DIR-FECE1EB371",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约6.31亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-FECE1EB371"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-FDF7214DD7"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-FECE1EB371"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-FDF7214DD7"
+      ]
+    },
+    {
+      "theme": "装修装饰",
+      "direction_fact_id": "F-20260302-DIR-33CC0BC1E0",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约7.78亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-33CC0BC1E0"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-80A086CF8A"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-33CC0BC1E0"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-80A086CF8A"
+      ]
+    },
+    {
+      "theme": "证监会立案",
+      "direction_fact_id": "F-20260302-DIR-562D444A3E",
+      "stage": "无法确认",
+      "market_relation": "WEAKENS",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、0只炸板、2只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约2.11亿元；涨停/炸板/跌停事件开盘匹配覆盖2/2。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-562D444A3E"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-F32ECAA577"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-562D444A3E"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-F32ECAA577"
+      ]
+    },
+    {
+      "theme": "造纸",
+      "direction_fact_id": "F-20260302-DIR-CDD0D48B43",
+      "stage": "无法确认",
+      "market_relation": "ISOLATED",
+      "path_status": "REJECTED",
+      "observed_facts": [
+        "当日事件集合为0只涨停、1只炸板、0只跌停，最高0板，梯队为无涨停梯队。",
+        "该精确方向无相邻交易日昨日买方样本。",
+        "事件集合成交额约9.52亿元；涨停/炸板/跌停事件开盘匹配覆盖1/1。",
+        "当前仅有事件集合，没有完整非涨停题材成员映射。"
+      ],
+      "inferences": [
+        "当日没有涨停承载，仅见炸板或跌停，明确不满足当前路径的基本结构条件，先从主路径竞争中排除。",
+        "缺少完整成员映射和盘中委托流，无法进一步断言失败属于主动撤退或被动破板。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-CDD0D48B43"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-DIRBUY-0D85F2B1A0"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "competitors": [],
+      "data_gaps": [
+        "实际前一交易日状态账本缺失，历史阶段与角色迁移无法确认。",
+        "完整非涨停题材成员映射缺失，方向扩散、容量带动和板块内部响应数据不足，无法判断。",
+        "分钟线与逐笔成交缺失，竞价后分时主动性、带动先后和委托流数据不足，无法判断。",
+        "该精确方向无相邻交易日昨日买方样本，持续性数据不足，无法判断。"
+      ],
+      "stage_yesterday": null,
+      "stage_today": "无法确认",
+      "migration_evidence": [
+        "F-20260302-DIR-CDD0D48B43"
+      ],
+      "counter_evidence": [
+        "F-20260302-DIRBUY-0D85F2B1A0"
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "node_id": "N-20260302-G8-OILFIELD-SERVICES-FIRST-BOARD",
+      "node_type": "UNIQUENESS_OBSERVATION",
+      "action_status": "OBSERVATION_ONLY",
+      "anchor_date": "2026-03-02",
+      "theme": "油服工程",
+      "trigger_facts": [
+        "油服工程当日有9只涨停、0只炸板、0只跌停，全部为首板。",
+        "通源石油、贝肯能源、石化油服、中油工程、中海油服、潜能恒信、惠博普、博迈科、仁智股份的事件起算日均由交易日历与连续涨停天数推导为2026-03-02。",
+        "九只对象同属油服工程，但承担不同精确细分，只在同起算日、同方向启动任务下构成真实竞争组。"
+      ],
+      "trigger_fact_ids": [
+        "F-20260302-DIR-4E5BED5B7D",
+        "F-20260302-STOCK-DEDDB5FDFC",
+        "F-20260302-STOCK-F6D1B54B6E",
+        "F-20260302-STOCK-E4D65D35BF",
+        "F-20260302-STOCK-C22717064E",
+        "F-20260302-STOCK-68FEBA233B",
+        "F-20260302-STOCK-15B6EACDFA",
+        "F-20260302-STOCK-34A4112CF5",
+        "F-20260302-STOCK-3D837FB093",
+        "F-20260302-STOCK-5138A5400D"
+      ],
+      "method_reasoning": [
+        "G8要求先确定共同首板日和功能相近的真实竞争组；九只对象均在2026-03-02进入油服工程首板启动事件，满足建立同期竞争观察组的前提。",
+        "当前功能是验证共同启动队列能否在后续运行中形成阶段唯一载体；进入事件为2026-03-02共同首板，退出条件是队列次日整体无延续、出现新对手主动胜出，或原候选不能完成同组任务。",
+        "起算日当日尚未运行若干日，且分钟线、逐笔成交、完整板块扩散和前一日角色账本缺失，数据不足，无法判断换手主动性、带动先后或阶段唯一性，因此仅为OBSERVATION_ONLY。",
+        "该节点不把石油化工、商业航天等混合三板/二板/首板梯队重置到2026-03-02，也不生成买点任务。"
+      ],
+      "generator": null,
+      "candidate_scope": {
+        "event_statuses": [
+          "limit_up"
+        ],
+        "board_levels": [
+          1
+        ],
+        "sub_directions": [
+          "北美巨头合作",
+          "海外权益",
+          "海外大单",
+          "一带一路",
+          "天然气",
+          "地缘冲突",
+          "油气EPC",
+          "FPSO订单",
+          "光伏EPC"
+        ],
+        "candidate_ids": [
+          "300164.SZ",
+          "002828.SZ",
+          "600871.SH",
+          "600339.SH",
+          "601808.SH",
+          "300191.SZ",
+          "002554.SZ",
+          "603727.SH",
+          "002629.SZ"
+        ],
+        "validation_ids": [],
+        "scope_reason": "这些对象均在2026-03-02以油服工程首板进入同一启动任务；当前只验证同组延续、分离与方向响应，不预设唯一载体。"
+      },
+      "candidate_ids": [],
+      "rule_ids": [
+        "NODE_UNIQUENESS",
+        "G08_UNIQUENESS",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE"
+      ],
+      "confirm": [
+        "2026-03-03起观察同组是否出现连续推进、失败反馈收敛及明确分离，并核对方向内新增首板或容量响应。",
+        "补齐分钟线与逐笔成交后，只在真实同组内比较主动性、承接和带动，不使用固定总分。",
+        "运行若干交易日后，只有某一载体完成阶段任务且新对手未主动胜出，才确认唯一性。"
+      ],
+      "cancel": [
+        "九只共同首板次日大面积无溢价、炸板或跌停，且方向无新增响应。",
+        "其他同任务新对手主动胜出，原观察组对象失去带动或不能完成应有任务。",
+        "完整数据表明这些对象并非同一功能竞争组，或方向仅有孤立小票而无板块响应。"
+      ]
+    }
+  ],
+  "competition_groups": [],
+  "roles": [],
+  "excluded_candidates": [],
+  "paths": {},
+  "primary_path": {
+    "status": "NONE",
+    "theme": null,
+    "direction_fact_id": null,
+    "selection_logic": [
+      "当日最低比较字段齐全，故不是BLOCKED_DATA；五个仍有路径可能的方向可以进行横向比较。",
+      "石油化工支配商业航天，但与油服工程、电网设备、稀有金属分别在启动宽度、昨日买方、失败反馈和容量承载上互有优劣。",
+      "电网设备支配商业航天和稀有金属，但无法同时支配油服工程的九只清洁首板队列与石油化工的更大宽度和承载。",
+      "油服工程启动最整齐但没有任何相邻日买方确认；石油化工梯队更完整但有炸板；电网设备反馈最好但方向宽度和事件承载较小。不存在对真实竞争组的多关系全面支配，因此不强选主路径。",
+      "primary_path.NONE仅表示2026-03-02盘后边界不清，不表示所有方向等强，也不把最高板、涨停家数或成交额设为固定优先级。"
+    ],
+    "supporting_fact_ids": [
+      "F-20260302-DIR-4E5BED5B7D",
+      "F-20260302-DIRBUY-C45CCA65B5",
+      "F-20260302-DIR-6635B4FA65",
+      "F-20260302-DIRBUY-34D5833B74",
+      "F-20260302-DIR-C3440C60D4",
+      "F-20260302-DIRBUY-1DE0E95E70",
+      "F-20260302-DIR-0274FAA4A8",
+      "F-20260302-DIRBUY-770302E690",
+      "F-20260302-DIR-87D87B0FEE",
+      "F-20260302-DIRBUY-12AF38B8C5"
+    ],
+    "counter_fact_ids": [
+      "F-20260302-CTX-C0D7A86AFD",
+      "F-20260302-CTX-D59F26FC1C"
+    ],
+    "rule_ids": [
+      "NODE_MAINSTREAM_CONFIRM",
+      "NODE_UNIQUENESS",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_NO_HINDSIGHT"
+    ],
+    "competitor_themes": [
+      "油服工程",
+      "石油化工",
+      "电网设备",
+      "稀有金属",
+      "商业航天"
+    ],
+    "cancel_conditions": [
+      "任一竞争方向在2026-03-03形成连续买方正反馈、梯队推进、失败反馈收敛、容量承载推进与方向内部扩散的多关系支配时，取消NONE并重新选择。",
+      "若油服工程共同首板队列次日大面积无延续，取消其启动竞争资格。",
+      "若石油化工二板与首板同时负反馈或炸板继续扩散，取消其延续竞争资格。",
+      "若电网设备二板未推进且首板无新增响应，取消其反馈优势。",
+      "若补充数据后最低比较字段实际不可用，改为BLOCKED_DATA而非强行排序。"
+    ]
+  },
+  "execution_task": {},
+  "execution_tasks": [
+    {}
+  ],
+  "action_plan": {},
+  "unknowns": [
+    "指数日线环境为BLOCKED_DATA，实际前一交易日状态账本缺失，数据不足，无法判断历史环境、方向阶段和角色迁移。",
+    "2026-03-03竞价、分时与成交事实不在as_of范围内，数据不足，无法判断明日买方反馈、主动性、承接、分离和带动先后。",
+    "截至as_of分钟线与逐笔成交缺失，数据不足，无法判断完整分时主动性、委托流及撤单主体。",
+    "完整非涨停方向成员映射缺失，数据不足，无法判断方向扩散、容量带动和普遍响应。",
+    "公告与热点数据缺失，数据不足，无法核验催化持续性或新增信息。",
+    "精确监管阈值未逐条核验，风险提示、重点监控与停牌数据为BLOCKED_DATA；数据不足，无法判断完整监管边界，不计算异动距离或监管空间。"
+  ],
+  "stage_b_provenance": {
+    "backend": "codex",
+    "rules_version": "units_v1_37+historical_versions_v1+corpus282_full+theme_registry_v2+regulatory_registry_v2",
+    "code_version": "c9e2cb6",
+    "code_tree_hash": "c30e43423292",
+    "working_tree_dirty": true,
+    "instructions_hash": "bdae250937f5",
+    "generated_at": "2026-09-14T09:18:21.339835+00:00",
+    "input_hashes": {
+      "facts.json": "b67dc2065562",
+      "rules.md": "16ea5ac60776",
+      "yesterday_state.json": "bf21a9e8fbc5",
+      "schema.json": "56f2344b5ee9"
+    }
+  },
+  "stage_c_provenance": {
+    "backend": "codex",
+    "rules_version": "units_v1_37+historical_versions_v1+corpus282_full+theme_registry_v2+regulatory_registry_v2",
+    "code_version": "c9e2cb6",
+    "code_tree_hash": "4ed6fab3ebc6",
+    "working_tree_dirty": true,
+    "instructions_hash": "14fb753d0452",
+    "generated_at": "2026-09-14T09:37:25.240644+00:00",
+    "input_hashes": {
+      "facts.json": "28782c726bd0",
+      "rules.md": "b9d1b966caf8",
+      "stage_b.json": "53a579321047",
+      "c1_decision.json": "a53ff39db2ac",
+      "selected_candidate_pools.json": "97d170e1550e",
+      "schema.json": "11c2fcd47334"
+    }
+  },
+  "approval_status": "APPROVED"
+}

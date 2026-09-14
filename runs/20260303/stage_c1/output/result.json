@@ -1,0 +1,102 @@
+{
+  "as_of": "20260303 CLOSE",
+  "decision_order": ["方向关系", "节点前态与阻力变化", "节点所缺功能", "匹配执行任务"],
+  "primary_task": {
+    "path_kind": "PRIMARY",
+    "status": "NONE",
+    "task_id": null,
+    "task_type": null,
+    "theme": null,
+    "node_id": null,
+    "missing_function": "2026-03-04首先需要验证未决方向关系能否通过跨日反馈、梯队延续、失败反馈收敛及容量与方向响应形成可辨识的相对优先路径，再由符合前态的方法节点承担具体功能；当前没有PRIMARY路径的ACTION_READY节点，不能提前指定执行任务。",
+    "selection_logic": [
+      "接受Stage B的环境DECLINE、方向关系及primary_path.status=NONE，不重选主流，不合并精确方向。方向之间的延续、梯队、新增响应、失败反馈与承载优势相互冲突；NONE不是对方向等强的判断，也不是仅因环境偏弱而放弃比较。",
+      "分别核验PRIMARY资格：Stage B所有节点均为OBSERVATION_ONLY，没有已归属PRIMARY的ACTION_READY节点。N-20260303-PATH-RELATION-UNRESOLVED的观察日起算为2026-03-03，当前功能是验证方向组织关系，进入事件是方向间已有延续但相对支配未决，退出或迁移条件是形成可验证支配或路径基础消失；该日期不重置各方向启动日。",
+      "按节点前态及阻力变化，局部延续尚未消除方向关系冲突，亦未确认同功能竞争分离与动态容量带动。N-20260302-G8-OILFIELD-SERVICES-FIRST-BOARD沿用2026-03-02起算，功能为启动后延续竞争观察，进入事件为同方向共同首板，退出条件为失去延续、方向响应或被同组对手替代；该观察节点不能升级为本阶段执行任务。",
+      "先明确所缺功能，再匹配任务：当前缺的是路径关系确认及相应方法节点的执行资格，而非预设某种执行类型。task_summaries.status=NO_PRIMARY_PATH且tasks为空，没有合法任务承担该功能，故task_id、task_type、theme与node_id保持null，rejected_task_ids为空。",
+      "G08_UNIQUENESS不能以尚未确认的同组关系授予唯一性；G06_DIVERGENCE_REPAIR缺已确认主流或强分支前态及板块级大分歧证据，G07_CAPACITY_CORE缺分歧后推进与带动证据。数据不足，无法判断这些执行前提是否成立，不以成交规模或高度替代功能验证。",
+      "按facts.path_comparison_contract，当日横截面比较资格存在；本次NONE直接继承路径未决及节点未获执行授权，不把局部数据缺口泛化为全局BLOCKED_DATA。完整保留no_action_rule_ids作为不打开任务的规则合同。"
+    ],
+    "supporting_fact_ids": [
+      "F-20260303-ENV-A0D3DD8E24",
+      "F-20260303-CTX-764B8954DC",
+      "F-20260303-CTX-9FB8370FAF",
+      "F-20260303-CTX-E979EFD6B4",
+      "F-20260303-DIR-F846A51E1C",
+      "F-20260303-DIRBUY-272B794042",
+      "F-20260303-DIR-709720EF00",
+      "F-20260303-DIRBUY-A6DB3FDF28",
+      "F-20260303-DIR-EC80F8FACD",
+      "F-20260303-DIRBUY-9D1FE33F74"
+    ],
+    "rule_ids": [
+      "NODE_MAINSTREAM_CONFIRM",
+      "NODE_UNIQUENESS",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_NO_HINDSIGHT",
+      "ENV_DECLINE",
+      "G08_UNIQUENESS",
+      "G06_DIVERGENCE_REPAIR",
+      "G07_CAPACITY_CORE"
+    ],
+    "rejected_task_ids": []
+  },
+  "alternative_task": {
+    "path_kind": "ALTERNATIVE",
+    "status": "NONE",
+    "task_id": null,
+    "task_type": null,
+    "theme": null,
+    "node_id": null,
+    "missing_function": "替代路径需要自身出现持续正向买方反馈、有效梯队推进、失败反馈改善与容量及方向响应，并在相应前态下触发可验证的方法节点；主路径未决或失败不能替代这些正向成立条件。当前没有ALTERNATIVE路径的ACTION_READY节点。",
+    "selection_logic": [
+      "在接受Stage B环境和方向关系后，单独核验ALTERNATIVE资格：Stage B没有授予替代路径执行地位，全部节点仍为OBSERVATION_ONLY；不能把COMPETITOR或观察方向自动改写为ALTERNATIVE。",
+      "先检查自身前态与尚未解除的阻力：新增响应尚需跨日留存、失败反馈改善及真实方向带动验证，不能借主路径NONE推断替代方向已经独立成立。",
+      "N-20260303-G8-GAS-UTILITY-FIRST-BOARD仅保留观察身份，起算日为2026-03-03；当前功能为新增低位响应的延续竞争观察，进入事件为同方向共同首板，退出条件为次日无延续、失去方向响应或同组对手胜出。这是观察节点功能说明，不是将其指定为替代任务。",
+      "先明确替代路径所缺的独立延续、组织响应与方法确认功能，再检查任务匹配。task_summaries没有ALTERNATIVE任务，亦无可执行节点承接该功能，因此正式输出NONE，不虚构任务标识或排除名单。",
+      "G08_UNIQUENESS只允许同起算日同功能竞争验证；G06_DIVERGENCE_REPAIR和G07_CAPACITY_CORE各自前提未得到完整验证，不能将观察延续改称修复或容量执行任务。缺少分时成交、完整方向响应及次日竞价，数据不足，无法判断替代路径的独立主动带动与行动资格。完整保留no_action_rule_ids，不因不选择而省略规则合同。"
+    ],
+    "supporting_fact_ids": [
+      "F-20260303-ENV-A0D3DD8E24",
+      "F-20260303-CTX-9FB8370FAF",
+      "F-20260303-CTX-E979EFD6B4",
+      "F-20260303-DIR-709720EF00",
+      "F-20260303-DIRBUY-A6DB3FDF28",
+      "F-20260303-DIR-7094288777",
+      "F-20260303-DIRBUY-D8E6C44AB4",
+      "F-20260303-DIR-DD059BC951",
+      "F-20260303-DIRBUY-2B161E1813",
+      "F-20260303-DIR-D30B28FBA9",
+      "F-20260303-DIRBUY-2C0321A5CB"
+    ],
+    "rule_ids": [
+      "NODE_MAINSTREAM_CONFIRM",
+      "NODE_UNIQUENESS",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_NO_HINDSIGHT",
+      "ENV_DECLINE",
+      "G08_UNIQUENESS",
+      "G06_DIVERGENCE_REPAIR",
+      "G07_CAPACITY_CORE"
+    ],
+    "rejected_task_ids": []
+  },
+  "no_action_conditions": [
+    "截至20260303 CLOSE，主、替代路径均无独立成立的合法执行任务，所有节点均为OBSERVATION_ONLY，正式不行动；2026-03-04必须依据当时可用信息另行验证，不能将盘前条件当作已发生事实。",
+    "方向关系仍未拉开，或虽出现相对优先方向但未触发ACTION_READY方法节点时，不打开任务；同一路径任务若无法按节点前态、阻力变化、功能及可验证性区分，仍输出NONE，不使用固定总分或隐藏权重。",
+    "替代路径没有自身正反馈、持续推进与方向响应时不行动；主路径走弱或失败不构成替代路径的正向确认。",
+    "同起算日同功能的真实竞争关系未确认，或只有局部推进而方向响应缺失时，观察节点不升级；不重置起算日，不以高度或任何个案数值代替节点任务。",
+    "2026-03-04竞价、分时成交或方向响应未能提供所需证据时，数据不足，无法判断行动资格，维持不行动；不把固定观察时刻到达当作成功或失败。",
+    "G06_DIVERGENCE_REPAIR的既有主流或强分支及板块级大分歧前提未确认，或G07_CAPACITY_CORE的分歧后价格推进与带动未确认时，不打开对应任务。",
+    "指数下行和尾部风险继续扩散，或公告、停牌、监管适用性等必要风险核验仍未解决时，不以相对强度替代行动许可；风险材料BLOCKED_DATA时不计算异动距离，不声称仍有监管空间。"
+  ],
+  "unknowns": [
+    "本次明天仅指2026-03-04。该日竞价、开盘及盘中结果均不在facts.as_of之前，数据不足，无法判断次日确认、任务成功或失败。",
+    "facts.data_completeness显示2026-03-03竞价点与开盘撮合可用，但minute_bar、trade_tick不可用；数据不足，无法判断主动带动、承接及同时间轴共振。无完整委托流，不断言撤单者，也不将所有炸板二分为主动或被动。",
+    "完整非事件成员、板块指数及同口径跨日容量推进证据不足，数据不足，无法判断正式主流、全方向扩散与真实资金功能迁移；接受Stage B既有结论而不补造历史前态。",
+    "rules.md未提供NODE_MAINSTREAM_CONFIRM、NODE_UNIQUENESS、ENV_DECLINE的规则正文；两条路径仍按task_summaries.no_action_rule_ids完整引用这些合同标识，但数据不足，无法判断未提供正文的完整适用细节，不自行补写规则。",
+    "facts.fact_catalog提供事实ID及来源定位而非相应完整原始记录；本次事实引用对应Stage B已采用的证据链，不声称重新核验了缺失原始记录。数据不足，无法判断超出所给摘要的细节。",
+    "公告与题材快照缺失，Stage B记录风险context为BLOCKED_DATA，且监管材料存在未核验阈值及晚于as_of的登记信息；数据不足，无法判断截止时点精确监管适用性或新催化。排除晚于截止时点的信息，不计算异动距离或声称仍有监管空间。",
+    "本阶段不生成或比较任何执行载体，不授予具体角色；观察节点的功能、进入事件和退出条件不等于执行授权，新字母载体一律UNKNOWN。"
+  ]
+}

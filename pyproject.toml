@@ -20,6 +20,7 @@ roubing-capture-context = "capture_context:main"
 roubing-eod = "roubing_engine.reasoning.eod_pipeline:main"
 roubing-validate = "roubing_engine.reasoning.validate_pipeline:main"
 roubing-walk-forward = "roubing_engine.reasoning.walk_forward:main"
+roubing-regression = "roubing_engine.reasoning.regression:main"
 
 [tool.setuptools]
 py-modules = ["run_capture", "capture_codes", "capture_context"]

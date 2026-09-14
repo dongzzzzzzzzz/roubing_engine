@@ -1,0 +1,2082 @@
+[
+  {
+    "task_id": "TASK-20260226-D6F5ECE56E",
+    "task_type": "HIGHEST_LADDER_CONTINUATION",
+    "task_name": "最高身位延续",
+    "theme": "商业航天",
+    "anchor_date": "2026-02-26",
+    "method_generators": [],
+    "required_function": "最高身位继续确认方向空间，并在分歧中不被更低身位反向替代",
+    "required_rule_ids": [
+      "PRIM_SEPARATION",
+      "DISC_NO_HINDSIGHT",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_SNAPSHOT_NOT_THRESHOLD"
+    ],
+    "pair_preference_contract": {
+      "status": "NOT_APPLICABLE",
+      "primary_hint": null,
+      "backup_hint": null,
+      "reasoning": [
+        "动作竞争者不是恰好两只"
+      ]
+    },
+    "role_assignment_contract": {
+      "status": "UNRESOLVED",
+      "required_unknown_codes": [
+        "000070.SZ",
+        "001400.SZ",
+        "002843.SZ",
+        "003009.SZ"
+      ],
+      "leader_state": "UNRESOLVED",
+      "reasoning": [
+        "PRIMARY/BACKUP是动作叶子验证顺序，不是核心角色确认",
+        "缺前日角色账本及主动带动/承压完成证据时，角色和角色族必须保持UNKNOWN",
+        "VALIDATION_ONLY只说明验证功能，不能据板级直接命名为总核心或容量核心"
+      ]
+    },
+    "status": "READY",
+    "pool": [
+      {
+        "fact_id": "F-20260302-STOCK-5273D82917",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002843.SZ",
+        "name": "泰嘉股份",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "数据中心",
+        "board_level": 3.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 3.0,
+        "limit_time": "09:30:24",
+        "seal_amount": 184258400,
+        "reason_extra": "数据中心",
+        "open_price": 26.85,
+        "pre_close_price": 25.27,
+        "open_change_pct": 6.252473288484377,
+        "auction_volume": 52302,
+        "auction_amount_yuan": 140430870.00000003,
+        "event_anchor_date": "2026-02-26",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 27.8,
+          "ret_today_pct": 10.01,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 27.8,
+          "lookback_low": 17.1,
+          "dist_to_lookback_high_pct": 0.0,
+          "is_close_above_prior_high": true,
+          "prior_high": 25.27,
+          "pre_t_ranges": {
+            "5": {
+              "high": 25.27,
+              "low": 19.32,
+              "span_pct": 30.8
+            },
+            "10": {
+              "high": 25.27,
+              "low": 17.75,
+              "span_pct": 42.37
+            },
+            "15": {
+              "high": 25.27,
+              "low": 17.6,
+              "span_pct": 43.58
+            }
+          },
+          "turnover_pctile_250d": 0.912,
+          "up_day_streak": 4,
+          "ma5": 23.458,
+          "ma10": 21.239,
+          "ma20": 19.97,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2208
+        },
+        "turnover_percentile_250d": 0.912,
+        "prior_high": 25.27,
+        "closed_above_prior_high": true,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-5273D82917",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-02-26"
+      }
+    ],
+    "pool_size": 1,
+    "validation_pool": [
+      {
+        "fact_id": "F-20260302-STOCK-DB7CF2D96E",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "000070.SZ",
+        "name": "特发信息",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "光纤概念",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "09:32:06",
+        "seal_amount": 162688500,
+        "reason_extra": "光纤概念",
+        "open_price": 17.87,
+        "pre_close_price": 17.87,
+        "open_change_pct": 0.0,
+        "auction_volume": 10933,
+        "auction_amount_yuan": 19537271.000000004,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 19.66,
+          "ret_today_pct": 10.02,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 19.99,
+          "lookback_low": 10.99,
+          "dist_to_lookback_high_pct": -1.65,
+          "is_close_above_prior_high": false,
+          "prior_high": 19.99,
+          "pre_t_ranges": {
+            "5": {
+              "high": 19.99,
+              "low": 16.32,
+              "span_pct": 22.49
+            },
+            "10": {
+              "high": 19.99,
+              "low": 13.5,
+              "span_pct": 48.07
+            },
+            "15": {
+              "high": 19.99,
+              "low": 11.0,
+              "span_pct": 81.73
+            }
+          },
+          "turnover_pctile_250d": 0.784,
+          "up_day_streak": 1,
+          "ma5": 18.398,
+          "ma10": 17.754,
+          "ma20": 15.119,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2292
+        },
+        "turnover_percentile_250d": 0.784,
+        "prior_high": 19.99,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-DB7CF2D96E",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-D15A64570A",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "001400.SZ",
+        "name": "江顺科技",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "3D打印",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "10:04:45",
+        "seal_amount": 25609100,
+        "reason_extra": "3D打印",
+        "open_price": 119.24,
+        "pre_close_price": 121.32,
+        "open_change_pct": -1.7144741180349476,
+        "auction_volume": 669,
+        "auction_amount_yuan": 7977156.0,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 133.45,
+          "ret_today_pct": 10.0,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 133.45,
+          "lookback_low": 59.6,
+          "dist_to_lookback_high_pct": 0.0,
+          "is_close_above_prior_high": true,
+          "prior_high": 131.44,
+          "pre_t_ranges": {
+            "5": {
+              "high": 122.88,
+              "low": 102.8,
+              "span_pct": 19.53
+            },
+            "10": {
+              "high": 122.88,
+              "low": 102.8,
+              "span_pct": 19.53
+            },
+            "15": {
+              "high": 122.88,
+              "low": 92.64,
+              "span_pct": 32.64
+            }
+          },
+          "turnover_pctile_250d": 0.824,
+          "up_day_streak": 5,
+          "ma5": 116.29,
+          "ma10": 112.673,
+          "ma20": 109.03,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 205
+        },
+        "turnover_percentile_250d": 0.824,
+        "prior_high": 131.44,
+        "closed_above_prior_high": true,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-D15A64570A",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-A6C079F7ED",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002413.SZ",
+        "name": "雷科防务",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "军工电子",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "09:37:12",
+        "seal_amount": 463027300,
+        "reason_extra": "军工电子",
+        "open_price": 15.48,
+        "pre_close_price": 14.87,
+        "open_change_pct": 4.1022192333557586,
+        "auction_volume": 29540,
+        "auction_amount_yuan": 45727920.0,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 16.36,
+          "ret_today_pct": 10.02,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 20.29,
+          "lookback_low": 6.86,
+          "dist_to_lookback_high_pct": -19.37,
+          "is_close_above_prior_high": false,
+          "prior_high": 20.29,
+          "pre_t_ranges": {
+            "5": {
+              "high": 15.25,
+              "low": 13.74,
+              "span_pct": 10.99
+            },
+            "10": {
+              "high": 16.36,
+              "low": 13.74,
+              "span_pct": 19.07
+            },
+            "15": {
+              "high": 16.36,
+              "low": 13.09,
+              "span_pct": 24.98
+            }
+          },
+          "turnover_pctile_250d": 0.852,
+          "up_day_streak": 1,
+          "ma5": 15.162,
+          "ma10": 14.751,
+          "ma20": 14.397,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2229
+        },
+        "turnover_percentile_250d": 0.852,
+        "prior_high": 20.29,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": true,
+          "trade_date": "20260105",
+          "role": "UNKNOWN",
+          "role_family": "UNKNOWN",
+          "execution_task": {
+            "status": "SELECTED",
+            "task_id": "TASK-20251231-AEA0FF5B2A",
+            "task_type": "SUB_DIRECTION_LEVEL_CONTINUATION",
+            "theme": "商业航天",
+            "missing_function": "商业航天主路径明天缺少卫星导航二板层的主动延续与分支带动确认：需要同起算日对象在分歧中完成晋级，并由四板验证对象确认不是高位单票反推。",
+            "selection_logic": [
+              "接受Stage B已选商业航天为动态主路径；该方向当日有4板、4家2板和9家首板，但历史状态、昨日买方反馈与完整扩散数据缺失，不能把相对优先写成主流确认。",
+              "最高身位延续任务只能确认方向空间，首板扩散任务只能确认低位扩散；当前更缺少连接4板高度与首板队列的卫星导航二板主动延续功能。",
+              "TASK-20251231-AEA0FF5B2A把同为卫星导航、同为2板、同起算日2025-12-31的两个动作对象放入真实竞争组，并把4板对象限定为验证对象，符合先任务后股票及分离、共振、唯一性纪律。",
+              "该任务候选池状态为READY且pair_preference_contract为PROVISIONAL_PAIR，可严格冻结为PRIMARY/BACKUP条件唯二；其他多对象任务无法在盘后无固定总分地收敛到两只以内。"
+            ],
+            "supporting_fact_ids": [
+              "F-20260105-DIR-6F713D1AA3",
+              "F-20260105-STOCK-AE14E6DD73",
+              "F-20260105-STOCK-BE2773BCD6",
+              "F-20260105-STOCK-FAEB04FAC0"
+            ],
+            "rule_ids": [
+              "G08_UNIQUENESS",
+              "PRIM_RESONANCE",
+              "PRIM_SEPARATION",
+              "DISC_NO_HINDSIGHT",
+              "DISC_NO_FIXED_SCORE"
+            ],
+            "rejected_task_ids": [
+              "TASK-20251229-592AA8EA0E",
+              "TASK-20251231-CD63A37172",
+              "TASK-20260105-5E1507D3A4",
+              "TASK-20260105-CACFDFDED8",
+              "TASK-20260105-E505FB382E"
+            ]
+          },
+          "must_continue_doing": [
+            "验证卫星导航高位是否继续提供方向空间，或是否直接否定分支。",
+            "记录其与002151.SZ、600498.SH的先后关系：若其先增强后二板才跟随，二板主动性不成立。",
+            "只提供方向和分支响应确认，不进入PRIMARY或BACKUP。"
+          ],
+          "loses_role_when": [
+            "高位快速失去价格重心并使卫星导航二板同步弱化。",
+            "只有002413.SZ单票强，二板对象均被动跟随。",
+            "商业航天方向整体不响应。"
+          ],
+          "output_tier": "待验证候选"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-A6C079F7ED",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-540856A678",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "003009.SZ",
+        "name": "中天火箭",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "军贸概念",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "10:02:12",
+        "seal_amount": 95497700,
+        "reason_extra": "军贸概念",
+        "open_price": 68.93,
+        "pre_close_price": 68.3,
+        "open_change_pct": 0.9224011713030889,
+        "auction_volume": 1113,
+        "auction_amount_yuan": 7671909.000000001,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 75.13,
+          "ret_today_pct": 10.0,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 100.6,
+          "lookback_low": 52.08,
+          "dist_to_lookback_high_pct": -25.32,
+          "is_close_above_prior_high": false,
+          "prior_high": 100.6,
+          "pre_t_ranges": {
+            "5": {
+              "high": 68.98,
+              "low": 66.11,
+              "span_pct": 4.34
+            },
+            "10": {
+              "high": 70.99,
+              "low": 66.11,
+              "span_pct": 7.38
+            },
+            "15": {
+              "high": 70.99,
+              "low": 66.11,
+              "span_pct": 7.38
+            }
+          },
+          "turnover_pctile_250d": 0.936,
+          "up_day_streak": 2,
+          "ma5": 69.438,
+          "ma10": 68.919,
+          "ma20": 69.038,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 1311
+        },
+        "turnover_percentile_250d": 0.936,
+        "prior_high": 100.6,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-540856A678",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      }
+    ],
+    "validation_pool_size": 4,
+    "data_blocks": []
+  },
+  {
+    "task_id": "TASK-20260302-C4DE56B7A4",
+    "task_type": "SAME_LEVEL_PROMOTION",
+    "task_name": "同板级晋级",
+    "theme": "商业航天",
+    "anchor_date": "2026-03-02",
+    "method_generators": [],
+    "required_function": "1板同身位对象竞争下一交易日的晋级与带动权",
+    "required_rule_ids": [
+      "PRIM_SEPARATION",
+      "DISC_NO_HINDSIGHT",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_SNAPSHOT_NOT_THRESHOLD"
+    ],
+    "pair_preference_contract": {
+      "status": "NOT_APPLICABLE",
+      "primary_hint": null,
+      "backup_hint": null,
+      "reasoning": [
+        "动作竞争者不是恰好两只"
+      ]
+    },
+    "role_assignment_contract": {
+      "status": "UNRESOLVED",
+      "required_unknown_codes": [
+        "000070.SZ",
+        "001400.SZ",
+        "002843.SZ",
+        "003009.SZ"
+      ],
+      "leader_state": "UNRESOLVED",
+      "reasoning": [
+        "PRIMARY/BACKUP是动作叶子验证顺序，不是核心角色确认",
+        "缺前日角色账本及主动带动/承压完成证据时，角色和角色族必须保持UNKNOWN",
+        "VALIDATION_ONLY只说明验证功能，不能据板级直接命名为总核心或容量核心"
+      ]
+    },
+    "status": "READY",
+    "pool": [
+      {
+        "fact_id": "F-20260302-STOCK-DB7CF2D96E",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "000070.SZ",
+        "name": "特发信息",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "光纤概念",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "09:32:06",
+        "seal_amount": 162688500,
+        "reason_extra": "光纤概念",
+        "open_price": 17.87,
+        "pre_close_price": 17.87,
+        "open_change_pct": 0.0,
+        "auction_volume": 10933,
+        "auction_amount_yuan": 19537271.000000004,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 19.66,
+          "ret_today_pct": 10.02,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 19.99,
+          "lookback_low": 10.99,
+          "dist_to_lookback_high_pct": -1.65,
+          "is_close_above_prior_high": false,
+          "prior_high": 19.99,
+          "pre_t_ranges": {
+            "5": {
+              "high": 19.99,
+              "low": 16.32,
+              "span_pct": 22.49
+            },
+            "10": {
+              "high": 19.99,
+              "low": 13.5,
+              "span_pct": 48.07
+            },
+            "15": {
+              "high": 19.99,
+              "low": 11.0,
+              "span_pct": 81.73
+            }
+          },
+          "turnover_pctile_250d": 0.784,
+          "up_day_streak": 1,
+          "ma5": 18.398,
+          "ma10": 17.754,
+          "ma20": 15.119,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2292
+        },
+        "turnover_percentile_250d": 0.784,
+        "prior_high": 19.99,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-DB7CF2D96E",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-D15A64570A",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "001400.SZ",
+        "name": "江顺科技",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "3D打印",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "10:04:45",
+        "seal_amount": 25609100,
+        "reason_extra": "3D打印",
+        "open_price": 119.24,
+        "pre_close_price": 121.32,
+        "open_change_pct": -1.7144741180349476,
+        "auction_volume": 669,
+        "auction_amount_yuan": 7977156.0,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 133.45,
+          "ret_today_pct": 10.0,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 133.45,
+          "lookback_low": 59.6,
+          "dist_to_lookback_high_pct": 0.0,
+          "is_close_above_prior_high": true,
+          "prior_high": 131.44,
+          "pre_t_ranges": {
+            "5": {
+              "high": 122.88,
+              "low": 102.8,
+              "span_pct": 19.53
+            },
+            "10": {
+              "high": 122.88,
+              "low": 102.8,
+              "span_pct": 19.53
+            },
+            "15": {
+              "high": 122.88,
+              "low": 92.64,
+              "span_pct": 32.64
+            }
+          },
+          "turnover_pctile_250d": 0.824,
+          "up_day_streak": 5,
+          "ma5": 116.29,
+          "ma10": 112.673,
+          "ma20": 109.03,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 205
+        },
+        "turnover_percentile_250d": 0.824,
+        "prior_high": 131.44,
+        "closed_above_prior_high": true,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-D15A64570A",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-A6C079F7ED",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002413.SZ",
+        "name": "雷科防务",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "军工电子",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "09:37:12",
+        "seal_amount": 463027300,
+        "reason_extra": "军工电子",
+        "open_price": 15.48,
+        "pre_close_price": 14.87,
+        "open_change_pct": 4.1022192333557586,
+        "auction_volume": 29540,
+        "auction_amount_yuan": 45727920.0,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 16.36,
+          "ret_today_pct": 10.02,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 20.29,
+          "lookback_low": 6.86,
+          "dist_to_lookback_high_pct": -19.37,
+          "is_close_above_prior_high": false,
+          "prior_high": 20.29,
+          "pre_t_ranges": {
+            "5": {
+              "high": 15.25,
+              "low": 13.74,
+              "span_pct": 10.99
+            },
+            "10": {
+              "high": 16.36,
+              "low": 13.74,
+              "span_pct": 19.07
+            },
+            "15": {
+              "high": 16.36,
+              "low": 13.09,
+              "span_pct": 24.98
+            }
+          },
+          "turnover_pctile_250d": 0.852,
+          "up_day_streak": 1,
+          "ma5": 15.162,
+          "ma10": 14.751,
+          "ma20": 14.397,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2229
+        },
+        "turnover_percentile_250d": 0.852,
+        "prior_high": 20.29,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": true,
+          "trade_date": "20260105",
+          "role": "UNKNOWN",
+          "role_family": "UNKNOWN",
+          "execution_task": {
+            "status": "SELECTED",
+            "task_id": "TASK-20251231-AEA0FF5B2A",
+            "task_type": "SUB_DIRECTION_LEVEL_CONTINUATION",
+            "theme": "商业航天",
+            "missing_function": "商业航天主路径明天缺少卫星导航二板层的主动延续与分支带动确认：需要同起算日对象在分歧中完成晋级，并由四板验证对象确认不是高位单票反推。",
+            "selection_logic": [
+              "接受Stage B已选商业航天为动态主路径；该方向当日有4板、4家2板和9家首板，但历史状态、昨日买方反馈与完整扩散数据缺失，不能把相对优先写成主流确认。",
+              "最高身位延续任务只能确认方向空间，首板扩散任务只能确认低位扩散；当前更缺少连接4板高度与首板队列的卫星导航二板主动延续功能。",
+              "TASK-20251231-AEA0FF5B2A把同为卫星导航、同为2板、同起算日2025-12-31的两个动作对象放入真实竞争组，并把4板对象限定为验证对象，符合先任务后股票及分离、共振、唯一性纪律。",
+              "该任务候选池状态为READY且pair_preference_contract为PROVISIONAL_PAIR，可严格冻结为PRIMARY/BACKUP条件唯二；其他多对象任务无法在盘后无固定总分地收敛到两只以内。"
+            ],
+            "supporting_fact_ids": [
+              "F-20260105-DIR-6F713D1AA3",
+              "F-20260105-STOCK-AE14E6DD73",
+              "F-20260105-STOCK-BE2773BCD6",
+              "F-20260105-STOCK-FAEB04FAC0"
+            ],
+            "rule_ids": [
+              "G08_UNIQUENESS",
+              "PRIM_RESONANCE",
+              "PRIM_SEPARATION",
+              "DISC_NO_HINDSIGHT",
+              "DISC_NO_FIXED_SCORE"
+            ],
+            "rejected_task_ids": [
+              "TASK-20251229-592AA8EA0E",
+              "TASK-20251231-CD63A37172",
+              "TASK-20260105-5E1507D3A4",
+              "TASK-20260105-CACFDFDED8",
+              "TASK-20260105-E505FB382E"
+            ]
+          },
+          "must_continue_doing": [
+            "验证卫星导航高位是否继续提供方向空间，或是否直接否定分支。",
+            "记录其与002151.SZ、600498.SH的先后关系：若其先增强后二板才跟随，二板主动性不成立。",
+            "只提供方向和分支响应确认，不进入PRIMARY或BACKUP。"
+          ],
+          "loses_role_when": [
+            "高位快速失去价格重心并使卫星导航二板同步弱化。",
+            "只有002413.SZ单票强，二板对象均被动跟随。",
+            "商业航天方向整体不响应。"
+          ],
+          "output_tier": "待验证候选"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-A6C079F7ED",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-540856A678",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "003009.SZ",
+        "name": "中天火箭",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "军贸概念",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "10:02:12",
+        "seal_amount": 95497700,
+        "reason_extra": "军贸概念",
+        "open_price": 68.93,
+        "pre_close_price": 68.3,
+        "open_change_pct": 0.9224011713030889,
+        "auction_volume": 1113,
+        "auction_amount_yuan": 7671909.000000001,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 75.13,
+          "ret_today_pct": 10.0,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 100.6,
+          "lookback_low": 52.08,
+          "dist_to_lookback_high_pct": -25.32,
+          "is_close_above_prior_high": false,
+          "prior_high": 100.6,
+          "pre_t_ranges": {
+            "5": {
+              "high": 68.98,
+              "low": 66.11,
+              "span_pct": 4.34
+            },
+            "10": {
+              "high": 70.99,
+              "low": 66.11,
+              "span_pct": 7.38
+            },
+            "15": {
+              "high": 70.99,
+              "low": 66.11,
+              "span_pct": 7.38
+            }
+          },
+          "turnover_pctile_250d": 0.936,
+          "up_day_streak": 2,
+          "ma5": 69.438,
+          "ma10": 68.919,
+          "ma20": 69.038,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 1311
+        },
+        "turnover_percentile_250d": 0.936,
+        "prior_high": 100.6,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-540856A678",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      }
+    ],
+    "pool_size": 4,
+    "validation_pool": [
+      {
+        "fact_id": "F-20260302-STOCK-5273D82917",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002843.SZ",
+        "name": "泰嘉股份",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "数据中心",
+        "board_level": 3.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 3.0,
+        "limit_time": "09:30:24",
+        "seal_amount": 184258400,
+        "reason_extra": "数据中心",
+        "open_price": 26.85,
+        "pre_close_price": 25.27,
+        "open_change_pct": 6.252473288484377,
+        "auction_volume": 52302,
+        "auction_amount_yuan": 140430870.00000003,
+        "event_anchor_date": "2026-02-26",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 27.8,
+          "ret_today_pct": 10.01,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 27.8,
+          "lookback_low": 17.1,
+          "dist_to_lookback_high_pct": 0.0,
+          "is_close_above_prior_high": true,
+          "prior_high": 25.27,
+          "pre_t_ranges": {
+            "5": {
+              "high": 25.27,
+              "low": 19.32,
+              "span_pct": 30.8
+            },
+            "10": {
+              "high": 25.27,
+              "low": 17.75,
+              "span_pct": 42.37
+            },
+            "15": {
+              "high": 25.27,
+              "low": 17.6,
+              "span_pct": 43.58
+            }
+          },
+          "turnover_pctile_250d": 0.912,
+          "up_day_streak": 4,
+          "ma5": 23.458,
+          "ma10": 21.239,
+          "ma20": 19.97,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2208
+        },
+        "turnover_percentile_250d": 0.912,
+        "prior_high": 25.27,
+        "closed_above_prior_high": true,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-5273D82917",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-02-26"
+      }
+    ],
+    "validation_pool_size": 1,
+    "data_blocks": []
+  },
+  {
+    "task_id": "TASK-20260302-5627F69BD6",
+    "task_type": "FIRST_BOARD_DIFFUSION",
+    "task_name": "首板扩散",
+    "theme": "商业航天",
+    "anchor_date": "2026-03-02",
+    "method_generators": [],
+    "required_function": "首板层验证方向是否继续扩散，并区分主动扩散与高位反推",
+    "required_rule_ids": [
+      "PRIM_SEPARATION",
+      "DISC_NO_HINDSIGHT",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_SNAPSHOT_NOT_THRESHOLD"
+    ],
+    "pair_preference_contract": {
+      "status": "NOT_APPLICABLE",
+      "primary_hint": null,
+      "backup_hint": null,
+      "reasoning": [
+        "动作竞争者不是恰好两只"
+      ]
+    },
+    "role_assignment_contract": {
+      "status": "UNRESOLVED",
+      "required_unknown_codes": [
+        "000070.SZ",
+        "001400.SZ",
+        "002843.SZ",
+        "003009.SZ"
+      ],
+      "leader_state": "UNRESOLVED",
+      "reasoning": [
+        "PRIMARY/BACKUP是动作叶子验证顺序，不是核心角色确认",
+        "缺前日角色账本及主动带动/承压完成证据时，角色和角色族必须保持UNKNOWN",
+        "VALIDATION_ONLY只说明验证功能，不能据板级直接命名为总核心或容量核心"
+      ]
+    },
+    "status": "READY",
+    "pool": [
+      {
+        "fact_id": "F-20260302-STOCK-DB7CF2D96E",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "000070.SZ",
+        "name": "特发信息",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "光纤概念",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "09:32:06",
+        "seal_amount": 162688500,
+        "reason_extra": "光纤概念",
+        "open_price": 17.87,
+        "pre_close_price": 17.87,
+        "open_change_pct": 0.0,
+        "auction_volume": 10933,
+        "auction_amount_yuan": 19537271.000000004,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 19.66,
+          "ret_today_pct": 10.02,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 19.99,
+          "lookback_low": 10.99,
+          "dist_to_lookback_high_pct": -1.65,
+          "is_close_above_prior_high": false,
+          "prior_high": 19.99,
+          "pre_t_ranges": {
+            "5": {
+              "high": 19.99,
+              "low": 16.32,
+              "span_pct": 22.49
+            },
+            "10": {
+              "high": 19.99,
+              "low": 13.5,
+              "span_pct": 48.07
+            },
+            "15": {
+              "high": 19.99,
+              "low": 11.0,
+              "span_pct": 81.73
+            }
+          },
+          "turnover_pctile_250d": 0.784,
+          "up_day_streak": 1,
+          "ma5": 18.398,
+          "ma10": 17.754,
+          "ma20": 15.119,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2292
+        },
+        "turnover_percentile_250d": 0.784,
+        "prior_high": 19.99,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-DB7CF2D96E",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-D15A64570A",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "001400.SZ",
+        "name": "江顺科技",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "3D打印",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "10:04:45",
+        "seal_amount": 25609100,
+        "reason_extra": "3D打印",
+        "open_price": 119.24,
+        "pre_close_price": 121.32,
+        "open_change_pct": -1.7144741180349476,
+        "auction_volume": 669,
+        "auction_amount_yuan": 7977156.0,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 133.45,
+          "ret_today_pct": 10.0,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 133.45,
+          "lookback_low": 59.6,
+          "dist_to_lookback_high_pct": 0.0,
+          "is_close_above_prior_high": true,
+          "prior_high": 131.44,
+          "pre_t_ranges": {
+            "5": {
+              "high": 122.88,
+              "low": 102.8,
+              "span_pct": 19.53
+            },
+            "10": {
+              "high": 122.88,
+              "low": 102.8,
+              "span_pct": 19.53
+            },
+            "15": {
+              "high": 122.88,
+              "low": 92.64,
+              "span_pct": 32.64
+            }
+          },
+          "turnover_pctile_250d": 0.824,
+          "up_day_streak": 5,
+          "ma5": 116.29,
+          "ma10": 112.673,
+          "ma20": 109.03,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 205
+        },
+        "turnover_percentile_250d": 0.824,
+        "prior_high": 131.44,
+        "closed_above_prior_high": true,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-D15A64570A",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-A6C079F7ED",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002413.SZ",
+        "name": "雷科防务",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "军工电子",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "09:37:12",
+        "seal_amount": 463027300,
+        "reason_extra": "军工电子",
+        "open_price": 15.48,
+        "pre_close_price": 14.87,
+        "open_change_pct": 4.1022192333557586,
+        "auction_volume": 29540,
+        "auction_amount_yuan": 45727920.0,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 16.36,
+          "ret_today_pct": 10.02,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 20.29,
+          "lookback_low": 6.86,
+          "dist_to_lookback_high_pct": -19.37,
+          "is_close_above_prior_high": false,
+          "prior_high": 20.29,
+          "pre_t_ranges": {
+            "5": {
+              "high": 15.25,
+              "low": 13.74,
+              "span_pct": 10.99
+            },
+            "10": {
+              "high": 16.36,
+              "low": 13.74,
+              "span_pct": 19.07
+            },
+            "15": {
+              "high": 16.36,
+              "low": 13.09,
+              "span_pct": 24.98
+            }
+          },
+          "turnover_pctile_250d": 0.852,
+          "up_day_streak": 1,
+          "ma5": 15.162,
+          "ma10": 14.751,
+          "ma20": 14.397,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2229
+        },
+        "turnover_percentile_250d": 0.852,
+        "prior_high": 20.29,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": true,
+          "trade_date": "20260105",
+          "role": "UNKNOWN",
+          "role_family": "UNKNOWN",
+          "execution_task": {
+            "status": "SELECTED",
+            "task_id": "TASK-20251231-AEA0FF5B2A",
+            "task_type": "SUB_DIRECTION_LEVEL_CONTINUATION",
+            "theme": "商业航天",
+            "missing_function": "商业航天主路径明天缺少卫星导航二板层的主动延续与分支带动确认：需要同起算日对象在分歧中完成晋级，并由四板验证对象确认不是高位单票反推。",
+            "selection_logic": [
+              "接受Stage B已选商业航天为动态主路径；该方向当日有4板、4家2板和9家首板，但历史状态、昨日买方反馈与完整扩散数据缺失，不能把相对优先写成主流确认。",
+              "最高身位延续任务只能确认方向空间，首板扩散任务只能确认低位扩散；当前更缺少连接4板高度与首板队列的卫星导航二板主动延续功能。",
+              "TASK-20251231-AEA0FF5B2A把同为卫星导航、同为2板、同起算日2025-12-31的两个动作对象放入真实竞争组，并把4板对象限定为验证对象，符合先任务后股票及分离、共振、唯一性纪律。",
+              "该任务候选池状态为READY且pair_preference_contract为PROVISIONAL_PAIR，可严格冻结为PRIMARY/BACKUP条件唯二；其他多对象任务无法在盘后无固定总分地收敛到两只以内。"
+            ],
+            "supporting_fact_ids": [
+              "F-20260105-DIR-6F713D1AA3",
+              "F-20260105-STOCK-AE14E6DD73",
+              "F-20260105-STOCK-BE2773BCD6",
+              "F-20260105-STOCK-FAEB04FAC0"
+            ],
+            "rule_ids": [
+              "G08_UNIQUENESS",
+              "PRIM_RESONANCE",
+              "PRIM_SEPARATION",
+              "DISC_NO_HINDSIGHT",
+              "DISC_NO_FIXED_SCORE"
+            ],
+            "rejected_task_ids": [
+              "TASK-20251229-592AA8EA0E",
+              "TASK-20251231-CD63A37172",
+              "TASK-20260105-5E1507D3A4",
+              "TASK-20260105-CACFDFDED8",
+              "TASK-20260105-E505FB382E"
+            ]
+          },
+          "must_continue_doing": [
+            "验证卫星导航高位是否继续提供方向空间，或是否直接否定分支。",
+            "记录其与002151.SZ、600498.SH的先后关系：若其先增强后二板才跟随，二板主动性不成立。",
+            "只提供方向和分支响应确认，不进入PRIMARY或BACKUP。"
+          ],
+          "loses_role_when": [
+            "高位快速失去价格重心并使卫星导航二板同步弱化。",
+            "只有002413.SZ单票强，二板对象均被动跟随。",
+            "商业航天方向整体不响应。"
+          ],
+          "output_tier": "待验证候选"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-A6C079F7ED",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-540856A678",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "003009.SZ",
+        "name": "中天火箭",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "军贸概念",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "10:02:12",
+        "seal_amount": 95497700,
+        "reason_extra": "军贸概念",
+        "open_price": 68.93,
+        "pre_close_price": 68.3,
+        "open_change_pct": 0.9224011713030889,
+        "auction_volume": 1113,
+        "auction_amount_yuan": 7671909.000000001,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 75.13,
+          "ret_today_pct": 10.0,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 100.6,
+          "lookback_low": 52.08,
+          "dist_to_lookback_high_pct": -25.32,
+          "is_close_above_prior_high": false,
+          "prior_high": 100.6,
+          "pre_t_ranges": {
+            "5": {
+              "high": 68.98,
+              "low": 66.11,
+              "span_pct": 4.34
+            },
+            "10": {
+              "high": 70.99,
+              "low": 66.11,
+              "span_pct": 7.38
+            },
+            "15": {
+              "high": 70.99,
+              "low": 66.11,
+              "span_pct": 7.38
+            }
+          },
+          "turnover_pctile_250d": 0.936,
+          "up_day_streak": 2,
+          "ma5": 69.438,
+          "ma10": 68.919,
+          "ma20": 69.038,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 1311
+        },
+        "turnover_percentile_250d": 0.936,
+        "prior_high": 100.6,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-540856A678",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      }
+    ],
+    "pool_size": 4,
+    "validation_pool": [
+      {
+        "fact_id": "F-20260302-STOCK-5273D82917",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002843.SZ",
+        "name": "泰嘉股份",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "数据中心",
+        "board_level": 3.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 3.0,
+        "limit_time": "09:30:24",
+        "seal_amount": 184258400,
+        "reason_extra": "数据中心",
+        "open_price": 26.85,
+        "pre_close_price": 25.27,
+        "open_change_pct": 6.252473288484377,
+        "auction_volume": 52302,
+        "auction_amount_yuan": 140430870.00000003,
+        "event_anchor_date": "2026-02-26",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 27.8,
+          "ret_today_pct": 10.01,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 27.8,
+          "lookback_low": 17.1,
+          "dist_to_lookback_high_pct": 0.0,
+          "is_close_above_prior_high": true,
+          "prior_high": 25.27,
+          "pre_t_ranges": {
+            "5": {
+              "high": 25.27,
+              "low": 19.32,
+              "span_pct": 30.8
+            },
+            "10": {
+              "high": 25.27,
+              "low": 17.75,
+              "span_pct": 42.37
+            },
+            "15": {
+              "high": 25.27,
+              "low": 17.6,
+              "span_pct": 43.58
+            }
+          },
+          "turnover_pctile_250d": 0.912,
+          "up_day_streak": 4,
+          "ma5": 23.458,
+          "ma10": 21.239,
+          "ma20": 19.97,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2208
+        },
+        "turnover_percentile_250d": 0.912,
+        "prior_high": 25.27,
+        "closed_above_prior_high": true,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-5273D82917",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-02-26"
+      }
+    ],
+    "validation_pool_size": 1,
+    "data_blocks": []
+  },
+  {
+    "task_id": "TASK-20260302-7D87305F1D",
+    "task_type": "BROKEN_BOARD_REPAIR",
+    "task_name": "炸板修复",
+    "theme": "商业航天",
+    "anchor_date": "2026-03-02",
+    "method_generators": [],
+    "required_function": "炸板对象次日证明是可修复分歧，而不是推进失败后的继续弱化",
+    "required_rule_ids": [
+      "PRIM_SEPARATION",
+      "DISC_NO_HINDSIGHT",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_SNAPSHOT_NOT_THRESHOLD"
+    ],
+    "pair_preference_contract": {
+      "status": "UNRESOLVED",
+      "primary_hint": null,
+      "backup_hint": null,
+      "attitude_structure_leader": null,
+      "seal_efficiency_leader": null,
+      "reasoning": [
+        "开盘展示态度与成交活跃结构没有由同一对象同时领先，禁止用总分强排顺序"
+      ]
+    },
+    "role_assignment_contract": {
+      "status": "UNRESOLVED",
+      "required_unknown_codes": [
+        "000070.SZ",
+        "001400.SZ",
+        "002149.SZ",
+        "002843.SZ",
+        "003009.SZ",
+        "600118.SH"
+      ],
+      "leader_state": "UNRESOLVED",
+      "reasoning": [
+        "PRIMARY/BACKUP是动作叶子验证顺序，不是核心角色确认",
+        "缺前日角色账本及主动带动/承压完成证据时，角色和角色族必须保持UNKNOWN",
+        "VALIDATION_ONLY只说明验证功能，不能据板级直接命名为总核心或容量核心"
+      ]
+    },
+    "status": "READY",
+    "pool": [
+      {
+        "fact_id": "F-20260302-STOCK-467531458D",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002149.SZ",
+        "name": "西部材料",
+        "status": "broken",
+        "raw_reason": "商业航天",
+        "theme": "商业航天",
+        "sub_direction": null,
+        "board_level": null,
+        "highest_board_level": 3,
+        "consecutive_limit_days": null,
+        "limit_time": "13:24:33",
+        "seal_amount": 0,
+        "broken_count": 1,
+        "note": "失败观察事实；主动/被动原因未知",
+        "event_anchor_date": null,
+        "event_anchor_status": "BLOCKED_DATA",
+        "event_anchor_basis": "non-limit event, missing streak, or insufficient trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 55.08,
+          "ret_today_pct": 5.72,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 57.98,
+          "lookback_low": 16.52,
+          "dist_to_lookback_high_pct": -5.0,
+          "is_close_above_prior_high": false,
+          "prior_high": 57.98,
+          "pre_t_ranges": {
+            "5": {
+              "high": 53.35,
+              "low": 46.51,
+              "span_pct": 14.71
+            },
+            "10": {
+              "high": 56.25,
+              "low": 46.51,
+              "span_pct": 20.94
+            },
+            "15": {
+              "high": 57.98,
+              "low": 46.51,
+              "span_pct": 24.66
+            }
+          },
+          "turnover_pctile_250d": 0.988,
+          "up_day_streak": 4,
+          "ma5": 50.872,
+          "ma10": 50.596,
+          "ma20": 50.833,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2294
+        },
+        "turnover_percentile_250d": 0.988,
+        "prior_high": 57.98,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-467531458D",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-001BCBBF09",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "600118.SH",
+        "name": "中国卫星",
+        "status": "broken",
+        "raw_reason": "商业航天",
+        "theme": "商业航天",
+        "sub_direction": null,
+        "board_level": null,
+        "highest_board_level": 3,
+        "consecutive_limit_days": null,
+        "limit_time": "09:56:56",
+        "seal_amount": 0,
+        "broken_count": 1,
+        "note": "失败观察事实；主动/被动原因未知",
+        "event_anchor_date": null,
+        "event_anchor_status": "BLOCKED_DATA",
+        "event_anchor_basis": "non-limit event, missing streak, or insufficient trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 100.17,
+          "ret_today_pct": 9.26,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 127.77,
+          "lookback_low": 40.78,
+          "dist_to_lookback_high_pct": -21.6,
+          "is_close_above_prior_high": false,
+          "prior_high": 127.77,
+          "pre_t_ranges": {
+            "5": {
+              "high": 93.43,
+              "low": 85.17,
+              "span_pct": 9.7
+            },
+            "10": {
+              "high": 93.65,
+              "low": 85.17,
+              "span_pct": 9.96
+            },
+            "15": {
+              "high": 98.0,
+              "low": 85.17,
+              "span_pct": 15.06
+            }
+          },
+          "turnover_pctile_250d": 0.94,
+          "up_day_streak": 4,
+          "ma5": 91.334,
+          "ma10": 90.219,
+          "ma20": 92.026,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2294
+        },
+        "turnover_percentile_250d": 0.94,
+        "prior_high": 127.77,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-001BCBBF09",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      }
+    ],
+    "pool_size": 2,
+    "validation_pool": [
+      {
+        "fact_id": "F-20260302-STOCK-DB7CF2D96E",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "000070.SZ",
+        "name": "特发信息",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "光纤概念",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "09:32:06",
+        "seal_amount": 162688500,
+        "reason_extra": "光纤概念",
+        "open_price": 17.87,
+        "pre_close_price": 17.87,
+        "open_change_pct": 0.0,
+        "auction_volume": 10933,
+        "auction_amount_yuan": 19537271.000000004,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 19.66,
+          "ret_today_pct": 10.02,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 19.99,
+          "lookback_low": 10.99,
+          "dist_to_lookback_high_pct": -1.65,
+          "is_close_above_prior_high": false,
+          "prior_high": 19.99,
+          "pre_t_ranges": {
+            "5": {
+              "high": 19.99,
+              "low": 16.32,
+              "span_pct": 22.49
+            },
+            "10": {
+              "high": 19.99,
+              "low": 13.5,
+              "span_pct": 48.07
+            },
+            "15": {
+              "high": 19.99,
+              "low": 11.0,
+              "span_pct": 81.73
+            }
+          },
+          "turnover_pctile_250d": 0.784,
+          "up_day_streak": 1,
+          "ma5": 18.398,
+          "ma10": 17.754,
+          "ma20": 15.119,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2292
+        },
+        "turnover_percentile_250d": 0.784,
+        "prior_high": 19.99,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-DB7CF2D96E",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-D15A64570A",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "001400.SZ",
+        "name": "江顺科技",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "3D打印",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "10:04:45",
+        "seal_amount": 25609100,
+        "reason_extra": "3D打印",
+        "open_price": 119.24,
+        "pre_close_price": 121.32,
+        "open_change_pct": -1.7144741180349476,
+        "auction_volume": 669,
+        "auction_amount_yuan": 7977156.0,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 133.45,
+          "ret_today_pct": 10.0,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 133.45,
+          "lookback_low": 59.6,
+          "dist_to_lookback_high_pct": 0.0,
+          "is_close_above_prior_high": true,
+          "prior_high": 131.44,
+          "pre_t_ranges": {
+            "5": {
+              "high": 122.88,
+              "low": 102.8,
+              "span_pct": 19.53
+            },
+            "10": {
+              "high": 122.88,
+              "low": 102.8,
+              "span_pct": 19.53
+            },
+            "15": {
+              "high": 122.88,
+              "low": 92.64,
+              "span_pct": 32.64
+            }
+          },
+          "turnover_pctile_250d": 0.824,
+          "up_day_streak": 5,
+          "ma5": 116.29,
+          "ma10": 112.673,
+          "ma20": 109.03,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 205
+        },
+        "turnover_percentile_250d": 0.824,
+        "prior_high": 131.44,
+        "closed_above_prior_high": true,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-D15A64570A",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-A6C079F7ED",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002413.SZ",
+        "name": "雷科防务",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "军工电子",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "09:37:12",
+        "seal_amount": 463027300,
+        "reason_extra": "军工电子",
+        "open_price": 15.48,
+        "pre_close_price": 14.87,
+        "open_change_pct": 4.1022192333557586,
+        "auction_volume": 29540,
+        "auction_amount_yuan": 45727920.0,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 16.36,
+          "ret_today_pct": 10.02,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 20.29,
+          "lookback_low": 6.86,
+          "dist_to_lookback_high_pct": -19.37,
+          "is_close_above_prior_high": false,
+          "prior_high": 20.29,
+          "pre_t_ranges": {
+            "5": {
+              "high": 15.25,
+              "low": 13.74,
+              "span_pct": 10.99
+            },
+            "10": {
+              "high": 16.36,
+              "low": 13.74,
+              "span_pct": 19.07
+            },
+            "15": {
+              "high": 16.36,
+              "low": 13.09,
+              "span_pct": 24.98
+            }
+          },
+          "turnover_pctile_250d": 0.852,
+          "up_day_streak": 1,
+          "ma5": 15.162,
+          "ma10": 14.751,
+          "ma20": 14.397,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2229
+        },
+        "turnover_percentile_250d": 0.852,
+        "prior_high": 20.29,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": true,
+          "trade_date": "20260105",
+          "role": "UNKNOWN",
+          "role_family": "UNKNOWN",
+          "execution_task": {
+            "status": "SELECTED",
+            "task_id": "TASK-20251231-AEA0FF5B2A",
+            "task_type": "SUB_DIRECTION_LEVEL_CONTINUATION",
+            "theme": "商业航天",
+            "missing_function": "商业航天主路径明天缺少卫星导航二板层的主动延续与分支带动确认：需要同起算日对象在分歧中完成晋级，并由四板验证对象确认不是高位单票反推。",
+            "selection_logic": [
+              "接受Stage B已选商业航天为动态主路径；该方向当日有4板、4家2板和9家首板，但历史状态、昨日买方反馈与完整扩散数据缺失，不能把相对优先写成主流确认。",
+              "最高身位延续任务只能确认方向空间，首板扩散任务只能确认低位扩散；当前更缺少连接4板高度与首板队列的卫星导航二板主动延续功能。",
+              "TASK-20251231-AEA0FF5B2A把同为卫星导航、同为2板、同起算日2025-12-31的两个动作对象放入真实竞争组，并把4板对象限定为验证对象，符合先任务后股票及分离、共振、唯一性纪律。",
+              "该任务候选池状态为READY且pair_preference_contract为PROVISIONAL_PAIR，可严格冻结为PRIMARY/BACKUP条件唯二；其他多对象任务无法在盘后无固定总分地收敛到两只以内。"
+            ],
+            "supporting_fact_ids": [
+              "F-20260105-DIR-6F713D1AA3",
+              "F-20260105-STOCK-AE14E6DD73",
+              "F-20260105-STOCK-BE2773BCD6",
+              "F-20260105-STOCK-FAEB04FAC0"
+            ],
+            "rule_ids": [
+              "G08_UNIQUENESS",
+              "PRIM_RESONANCE",
+              "PRIM_SEPARATION",
+              "DISC_NO_HINDSIGHT",
+              "DISC_NO_FIXED_SCORE"
+            ],
+            "rejected_task_ids": [
+              "TASK-20251229-592AA8EA0E",
+              "TASK-20251231-CD63A37172",
+              "TASK-20260105-5E1507D3A4",
+              "TASK-20260105-CACFDFDED8",
+              "TASK-20260105-E505FB382E"
+            ]
+          },
+          "must_continue_doing": [
+            "验证卫星导航高位是否继续提供方向空间，或是否直接否定分支。",
+            "记录其与002151.SZ、600498.SH的先后关系：若其先增强后二板才跟随，二板主动性不成立。",
+            "只提供方向和分支响应确认，不进入PRIMARY或BACKUP。"
+          ],
+          "loses_role_when": [
+            "高位快速失去价格重心并使卫星导航二板同步弱化。",
+            "只有002413.SZ单票强，二板对象均被动跟随。",
+            "商业航天方向整体不响应。"
+          ],
+          "output_tier": "待验证候选"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-A6C079F7ED",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-5273D82917",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "002843.SZ",
+        "name": "泰嘉股份",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "数据中心",
+        "board_level": 3.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 3.0,
+        "limit_time": "09:30:24",
+        "seal_amount": 184258400,
+        "reason_extra": "数据中心",
+        "open_price": 26.85,
+        "pre_close_price": 25.27,
+        "open_change_pct": 6.252473288484377,
+        "auction_volume": 52302,
+        "auction_amount_yuan": 140430870.00000003,
+        "event_anchor_date": "2026-02-26",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 27.8,
+          "ret_today_pct": 10.01,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 27.8,
+          "lookback_low": 17.1,
+          "dist_to_lookback_high_pct": 0.0,
+          "is_close_above_prior_high": true,
+          "prior_high": 25.27,
+          "pre_t_ranges": {
+            "5": {
+              "high": 25.27,
+              "low": 19.32,
+              "span_pct": 30.8
+            },
+            "10": {
+              "high": 25.27,
+              "low": 17.75,
+              "span_pct": 42.37
+            },
+            "15": {
+              "high": 25.27,
+              "low": 17.6,
+              "span_pct": 43.58
+            }
+          },
+          "turnover_pctile_250d": 0.912,
+          "up_day_streak": 4,
+          "ma5": 23.458,
+          "ma10": 21.239,
+          "ma20": 19.97,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 2208
+        },
+        "turnover_percentile_250d": 0.912,
+        "prior_high": 25.27,
+        "closed_above_prior_high": true,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-5273D82917",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-02-26"
+      },
+      {
+        "fact_id": "F-20260302-STOCK-540856A678",
+        "direction_fact_id": "F-20260302-DIR-C3440C60D4",
+        "thscode": "003009.SZ",
+        "name": "中天火箭",
+        "event_status": "limit_up",
+        "theme": "商业航天",
+        "raw_theme": "商业航天",
+        "sub_direction": "军贸概念",
+        "board_level": 1.0,
+        "highest_board_level": 3,
+        "consecutive_limit_days": 1.0,
+        "limit_time": "10:02:12",
+        "seal_amount": 95497700,
+        "reason_extra": "军贸概念",
+        "open_price": 68.93,
+        "pre_close_price": 68.3,
+        "open_change_pct": 0.9224011713030889,
+        "auction_volume": 1113,
+        "auction_amount_yuan": 7671909.000000001,
+        "event_anchor_date": "2026-03-02",
+        "event_anchor_status": "DERIVED",
+        "event_anchor_basis": "consecutive_limit_days + stock_daily_bar trading calendar",
+        "daily": {
+          "available": true,
+          "last_close": 75.13,
+          "ret_today_pct": 10.0,
+          "interval_return_pct": null,
+          "anchor": null,
+          "lookback": 60,
+          "lookback_high": 100.6,
+          "lookback_low": 52.08,
+          "dist_to_lookback_high_pct": -25.32,
+          "is_close_above_prior_high": false,
+          "prior_high": 100.6,
+          "pre_t_ranges": {
+            "5": {
+              "high": 68.98,
+              "low": 66.11,
+              "span_pct": 4.34
+            },
+            "10": {
+              "high": 70.99,
+              "low": 66.11,
+              "span_pct": 7.38
+            },
+            "15": {
+              "high": 70.99,
+              "low": 66.11,
+              "span_pct": 7.38
+            }
+          },
+          "turnover_pctile_250d": 0.936,
+          "up_day_streak": 2,
+          "ma5": 69.438,
+          "ma10": 68.919,
+          "ma20": 69.038,
+          "above_ma5": true,
+          "feature_discipline": "pre_t_ranges are raw facts, not an automatic platform/breakout rule",
+          "n_bars": 1311
+        },
+        "turnover_percentile_250d": 0.936,
+        "prior_high": 100.6,
+        "closed_above_prior_high": false,
+        "previous_role_task": {
+          "available": false,
+          "reason": "no approved previous role/task state"
+        },
+        "fact_refs": [
+          "F-20260302-STOCK-540856A678",
+          "F-20260302-DIR-C3440C60D4"
+        ],
+        "context": {
+          "announcements": [],
+          "hot_topics": []
+        },
+        "required_anchor_date": "2026-03-02"
+      }
+    ],
+    "validation_pool_size": 5,
+    "data_blocks": []
+  }
+]

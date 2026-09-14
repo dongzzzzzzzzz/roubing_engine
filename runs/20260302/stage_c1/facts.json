@@ -1,0 +1,1372 @@
+{
+  "as_of": "20260302 CLOSE",
+  "trade_date": "20260302",
+  "fact_catalog": {
+    "F-20260302-ENV-A856B87611": {
+      "scope": "ENVIRONMENT",
+      "path": "environment_facts[0]"
+    },
+    "F-20260302-ENV-F6F7FA26F6": {
+      "scope": "ENVIRONMENT",
+      "path": "environment_facts[1]"
+    },
+    "F-20260302-ENV-6070A933AC": {
+      "scope": "ENVIRONMENT",
+      "path": "environment_facts[2]"
+    },
+    "F-20260302-ENV-F163EC8BEE": {
+      "scope": "ENVIRONMENT",
+      "path": "environment_facts[3]"
+    },
+    "F-20260302-DIR-4E5BED5B7D": {
+      "scope": "DIRECTION",
+      "theme": "油服工程",
+      "path": "direction_state_facts[0]"
+    },
+    "F-20260302-DIRBUY-C45CCA65B5": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "油服工程",
+      "path": "direction_state_facts[0].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-6635B4FA65": {
+      "scope": "DIRECTION",
+      "theme": "石油化工",
+      "path": "direction_state_facts[1]"
+    },
+    "F-20260302-DIRBUY-34D5833B74": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "石油化工",
+      "path": "direction_state_facts[1].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-C3440C60D4": {
+      "scope": "DIRECTION",
+      "theme": "商业航天",
+      "path": "direction_state_facts[2]"
+    },
+    "F-20260302-DIRBUY-1DE0E95E70": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "商业航天",
+      "path": "direction_state_facts[2].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-1A7B20D9A8": {
+      "scope": "DIRECTION",
+      "theme": "黄金概念",
+      "path": "direction_state_facts[3]"
+    },
+    "F-20260302-DIRBUY-91CAA159BF": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "黄金概念",
+      "path": "direction_state_facts[3].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-E5E07C7FE4": {
+      "scope": "DIRECTION",
+      "theme": "航运港口",
+      "path": "direction_state_facts[4]"
+    },
+    "F-20260302-DIRBUY-97106B297C": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "航运港口",
+      "path": "direction_state_facts[4].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-3F1225856B": {
+      "scope": "DIRECTION",
+      "theme": "军工信息化",
+      "path": "direction_state_facts[5]"
+    },
+    "F-20260302-DIRBUY-2624DDC777": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "军工信息化",
+      "path": "direction_state_facts[5].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-91A6A59A5E": {
+      "scope": "DIRECTION",
+      "theme": "农用化工",
+      "path": "direction_state_facts[6]"
+    },
+    "F-20260302-DIRBUY-E4597DB40A": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "农用化工",
+      "path": "direction_state_facts[6].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-07988B0D2D": {
+      "scope": "DIRECTION",
+      "theme": "天然气",
+      "path": "direction_state_facts[7]"
+    },
+    "F-20260302-DIRBUY-C0F36B7402": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "天然气",
+      "path": "direction_state_facts[7].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-F743A36D15": {
+      "scope": "DIRECTION",
+      "theme": "油气开采",
+      "path": "direction_state_facts[8]"
+    },
+    "F-20260302-DIRBUY-71EDFAA100": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "油气开采",
+      "path": "direction_state_facts[8].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-0274FAA4A8": {
+      "scope": "DIRECTION",
+      "theme": "电网设备",
+      "path": "direction_state_facts[9]"
+    },
+    "F-20260302-DIRBUY-770302E690": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "电网设备",
+      "path": "direction_state_facts[9].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-DB1DB97E6B": {
+      "scope": "DIRECTION",
+      "theme": "燃气",
+      "path": "direction_state_facts[10]"
+    },
+    "F-20260302-DIRBUY-EDCD546398": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "燃气",
+      "path": "direction_state_facts[10].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-8711B558AE": {
+      "scope": "DIRECTION",
+      "theme": "电力",
+      "path": "direction_state_facts[11]"
+    },
+    "F-20260302-DIRBUY-8467066069": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "电力",
+      "path": "direction_state_facts[11].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-87D87B0FEE": {
+      "scope": "DIRECTION",
+      "theme": "稀有金属",
+      "path": "direction_state_facts[12]"
+    },
+    "F-20260302-DIRBUY-12AF38B8C5": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "稀有金属",
+      "path": "direction_state_facts[12].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-3FB4D90147": {
+      "scope": "DIRECTION",
+      "theme": "AI智能体",
+      "path": "direction_state_facts[13]"
+    },
+    "F-20260302-DIRBUY-7E937483CA": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "AI智能体",
+      "path": "direction_state_facts[13].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-92451A5C96": {
+      "scope": "DIRECTION",
+      "theme": "AI服务器",
+      "path": "direction_state_facts[14]"
+    },
+    "F-20260302-DIRBUY-E5CB642CE5": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "AI服务器",
+      "path": "direction_state_facts[14].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-463C8BAECA": {
+      "scope": "DIRECTION",
+      "theme": "CPO概念",
+      "path": "direction_state_facts[15]"
+    },
+    "F-20260302-DIRBUY-A9940C339E": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "CPO概念",
+      "path": "direction_state_facts[15].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-EA914A951D": {
+      "scope": "DIRECTION",
+      "theme": "CPO硅光模块",
+      "path": "direction_state_facts[16]"
+    },
+    "F-20260302-DIRBUY-21441607E3": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "CPO硅光模块",
+      "path": "direction_state_facts[16].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-F44A37AB91": {
+      "scope": "DIRECTION",
+      "theme": "光伏设备",
+      "path": "direction_state_facts[17]"
+    },
+    "F-20260302-DIRBUY-1DD0B14F3D": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "光伏设备",
+      "path": "direction_state_facts[17].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-21BC8AB61F": {
+      "scope": "DIRECTION",
+      "theme": "光刻机滤光片",
+      "path": "direction_state_facts[18]"
+    },
+    "F-20260302-DIRBUY-4DAA167C98": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "光刻机滤光片",
+      "path": "direction_state_facts[18].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-E1540D1837": {
+      "scope": "DIRECTION",
+      "theme": "光纤概念",
+      "path": "direction_state_facts[19]"
+    },
+    "F-20260302-DIRBUY-7513EBBE8D": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "光纤概念",
+      "path": "direction_state_facts[19].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-3A0B555A08": {
+      "scope": "DIRECTION",
+      "theme": "光通信",
+      "path": "direction_state_facts[20]"
+    },
+    "F-20260302-DIRBUY-5964DD166E": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "光通信",
+      "path": "direction_state_facts[20].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-54F0C8DC91": {
+      "scope": "DIRECTION",
+      "theme": "医疗器械",
+      "path": "direction_state_facts[21]"
+    },
+    "F-20260302-DIRBUY-42ED3C0A5D": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "医疗器械",
+      "path": "direction_state_facts[21].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-D567AAB339": {
+      "scope": "DIRECTION",
+      "theme": "华为算力",
+      "path": "direction_state_facts[22]"
+    },
+    "F-20260302-DIRBUY-9994C8F084": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "华为算力",
+      "path": "direction_state_facts[22].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-77DDA19C6C": {
+      "scope": "DIRECTION",
+      "theme": "卡塔尔40亿订单",
+      "path": "direction_state_facts[23]"
+    },
+    "F-20260302-DIRBUY-B19D6F04A9": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "卡塔尔40亿订单",
+      "path": "direction_state_facts[23].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-71AAE82343": {
+      "scope": "DIRECTION",
+      "theme": "可控核聚变",
+      "path": "direction_state_facts[24]"
+    },
+    "F-20260302-DIRBUY-E7A5D89837": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "可控核聚变",
+      "path": "direction_state_facts[24].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-D6FABF3B60": {
+      "scope": "DIRECTION",
+      "theme": "地面兵装",
+      "path": "direction_state_facts[25]"
+    },
+    "F-20260302-DIRBUY-9F56D624A8": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "地面兵装",
+      "path": "direction_state_facts[25].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-D1F2F074A2": {
+      "scope": "DIRECTION",
+      "theme": "油气",
+      "path": "direction_state_facts[26]"
+    },
+    "F-20260302-DIRBUY-B209322DCC": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "油气",
+      "path": "direction_state_facts[26].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-8D9F2809BB": {
+      "scope": "DIRECTION",
+      "theme": "油气装备",
+      "path": "direction_state_facts[27]"
+    },
+    "F-20260302-DIRBUY-2B9481D83D": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "油气装备",
+      "path": "direction_state_facts[27].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-2ABECE1469": {
+      "scope": "DIRECTION",
+      "theme": "油气设备",
+      "path": "direction_state_facts[28]"
+    },
+    "F-20260302-DIRBUY-17DF21BC5C": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "油气设备",
+      "path": "direction_state_facts[28].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-60CAE0D404": {
+      "scope": "DIRECTION",
+      "theme": "油田技术服务",
+      "path": "direction_state_facts[29]"
+    },
+    "F-20260302-DIRBUY-770379AE34": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "油田技术服务",
+      "path": "direction_state_facts[29].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-2D5CE5DB6E": {
+      "scope": "DIRECTION",
+      "theme": "液冷服务器",
+      "path": "direction_state_facts[30]"
+    },
+    "F-20260302-DIRBUY-F57142EB95": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "液冷服务器",
+      "path": "direction_state_facts[30].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-A1A9A4FB86": {
+      "scope": "DIRECTION",
+      "theme": "煤制烯烃",
+      "path": "direction_state_facts[31]"
+    },
+    "F-20260302-DIRBUY-CE5DAEB9BD": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "煤制烯烃",
+      "path": "direction_state_facts[31].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-FB0A76C018": {
+      "scope": "DIRECTION",
+      "theme": "玉柴合作",
+      "path": "direction_state_facts[32]"
+    },
+    "F-20260302-DIRBUY-9F39608699": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "玉柴合作",
+      "path": "direction_state_facts[32].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-064F6861C0": {
+      "scope": "DIRECTION",
+      "theme": "甲醇",
+      "path": "direction_state_facts[33]"
+    },
+    "F-20260302-DIRBUY-3F8D488754": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "甲醇",
+      "path": "direction_state_facts[33].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-E00C26C6BB": {
+      "scope": "DIRECTION",
+      "theme": "石英晶振",
+      "path": "direction_state_facts[34]"
+    },
+    "F-20260302-DIRBUY-6AF88A9CA9": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "石英晶振",
+      "path": "direction_state_facts[34].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-DD7C1835A2": {
+      "scope": "DIRECTION",
+      "theme": "种植业",
+      "path": "direction_state_facts[35]"
+    },
+    "F-20260302-DIRBUY-479CE37207": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "种植业",
+      "path": "direction_state_facts[35].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-A0B34CBF4D": {
+      "scope": "DIRECTION",
+      "theme": "稀土永磁",
+      "path": "direction_state_facts[36]"
+    },
+    "F-20260302-DIRBUY-1BC09A5D24": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "稀土永磁",
+      "path": "direction_state_facts[36].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-1DF01C4AFB": {
+      "scope": "DIRECTION",
+      "theme": "算力租赁",
+      "path": "direction_state_facts[37]"
+    },
+    "F-20260302-DIRBUY-7940A2A364": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "算力租赁",
+      "path": "direction_state_facts[37].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-BD5F293ED0": {
+      "scope": "DIRECTION",
+      "theme": "绿氢绿醇",
+      "path": "direction_state_facts[38]"
+    },
+    "F-20260302-DIRBUY-DA21B1F1D1": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "绿氢绿醇",
+      "path": "direction_state_facts[38].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-9743ABBBDC": {
+      "scope": "DIRECTION",
+      "theme": "绿色甲醇",
+      "path": "direction_state_facts[39]"
+    },
+    "F-20260302-DIRBUY-2C3F37A1AB": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "绿色甲醇",
+      "path": "direction_state_facts[39].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-9A78F43254": {
+      "scope": "DIRECTION",
+      "theme": "航空装备",
+      "path": "direction_state_facts[40]"
+    },
+    "F-20260302-DIRBUY-A754C12124": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "航空装备",
+      "path": "direction_state_facts[40].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-140D394841": {
+      "scope": "DIRECTION",
+      "theme": "重组复牌",
+      "path": "direction_state_facts[41]"
+    },
+    "F-20260302-DIRBUY-0306477EF6": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "重组复牌",
+      "path": "direction_state_facts[41].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-0870635FA6": {
+      "scope": "DIRECTION",
+      "theme": "钨价上涨",
+      "path": "direction_state_facts[42]"
+    },
+    "F-20260302-DIRBUY-9C847C4BAE": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "钨价上涨",
+      "path": "direction_state_facts[42].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-99BBFE635A": {
+      "scope": "DIRECTION",
+      "theme": "钽铌锡矿复产",
+      "path": "direction_state_facts[43]"
+    },
+    "F-20260302-DIRBUY-24BA2BC899": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "钽铌锡矿复产",
+      "path": "direction_state_facts[43].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-8F67E2B4E6": {
+      "scope": "DIRECTION",
+      "theme": "铜冶炼",
+      "path": "direction_state_facts[44]"
+    },
+    "F-20260302-DIRBUY-2F23A824F7": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "铜冶炼",
+      "path": "direction_state_facts[44].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-66AB14AF35": {
+      "scope": "DIRECTION",
+      "theme": "锂电池概念",
+      "path": "direction_state_facts[45]"
+    },
+    "F-20260302-DIRBUY-4E68836D12": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "锂电池概念",
+      "path": "direction_state_facts[45].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-600EEDF0D0": {
+      "scope": "DIRECTION",
+      "theme": "锶盐",
+      "path": "direction_state_facts[46]"
+    },
+    "F-20260302-DIRBUY-D69981EE87": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "锶盐",
+      "path": "direction_state_facts[46].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-5C51061992": {
+      "scope": "DIRECTION",
+      "theme": "TDI涨价",
+      "path": "direction_state_facts[47]"
+    },
+    "F-20260302-DIRBUY-6B06C21EFD": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "TDI涨价",
+      "path": "direction_state_facts[47].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-7F665F1117": {
+      "scope": "DIRECTION",
+      "theme": "个股调整",
+      "path": "direction_state_facts[48]"
+    },
+    "F-20260302-DIRBUY-66C7B05DFA": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "个股调整",
+      "path": "direction_state_facts[48].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-959D6A8B2B": {
+      "scope": "DIRECTION",
+      "theme": "光伏",
+      "path": "direction_state_facts[49]"
+    },
+    "F-20260302-DIRBUY-7D85182C4E": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "光伏",
+      "path": "direction_state_facts[49].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-FFCC68F221": {
+      "scope": "DIRECTION",
+      "theme": "化肥概念",
+      "path": "direction_state_facts[50]"
+    },
+    "F-20260302-DIRBUY-07ABB384C8": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "化肥概念",
+      "path": "direction_state_facts[50].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-DFD311A16D": {
+      "scope": "DIRECTION",
+      "theme": "厨卫电器",
+      "path": "direction_state_facts[51]"
+    },
+    "F-20260302-DIRBUY-F62A53B8C5": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "厨卫电器",
+      "path": "direction_state_facts[51].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-504D4937E4": {
+      "scope": "DIRECTION",
+      "theme": "地缘冲突",
+      "path": "direction_state_facts[52]"
+    },
+    "F-20260302-DIRBUY-4DD9BF5588": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "地缘冲突",
+      "path": "direction_state_facts[52].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-2585D7A10D": {
+      "scope": "DIRECTION",
+      "theme": "存储芯片",
+      "path": "direction_state_facts[53]"
+    },
+    "F-20260302-DIRBUY-CD373DBC56": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "存储芯片",
+      "path": "direction_state_facts[53].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-7E7ED378E3": {
+      "scope": "DIRECTION",
+      "theme": "拟收购厦芝精密",
+      "path": "direction_state_facts[54]"
+    },
+    "F-20260302-DIRBUY-C960B834E7": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "拟收购厦芝精密",
+      "path": "direction_state_facts[54].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-FC0E558E7D": {
+      "scope": "DIRECTION",
+      "theme": "无人机",
+      "path": "direction_state_facts[55]"
+    },
+    "F-20260302-DIRBUY-22427CCF09": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "无人机",
+      "path": "direction_state_facts[55].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-B445E07864": {
+      "scope": "DIRECTION",
+      "theme": "机器人概念",
+      "path": "direction_state_facts[56]"
+    },
+    "F-20260302-DIRBUY-078F693C5C": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "机器人概念",
+      "path": "direction_state_facts[56].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-4AC8749279": {
+      "scope": "DIRECTION",
+      "theme": "橡胶",
+      "path": "direction_state_facts[57]"
+    },
+    "F-20260302-DIRBUY-180C308B60": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "橡胶",
+      "path": "direction_state_facts[57].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-5D85E4860C": {
+      "scope": "DIRECTION",
+      "theme": "煤炭开采",
+      "path": "direction_state_facts[58]"
+    },
+    "F-20260302-DIRBUY-39C057E0B3": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "煤炭开采",
+      "path": "direction_state_facts[58].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-64A37CDFA1": {
+      "scope": "DIRECTION",
+      "theme": "煤电一体",
+      "path": "direction_state_facts[59]"
+    },
+    "F-20260302-DIRBUY-133E117530": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "煤电一体",
+      "path": "direction_state_facts[59].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-CF8C00A9F6": {
+      "scope": "DIRECTION",
+      "theme": "硫铁矿",
+      "path": "direction_state_facts[60]"
+    },
+    "F-20260302-DIRBUY-2B5B841D9D": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "硫铁矿",
+      "path": "direction_state_facts[60].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-FECE1EB371": {
+      "scope": "DIRECTION",
+      "theme": "筹划收购英中电气",
+      "path": "direction_state_facts[61]"
+    },
+    "F-20260302-DIRBUY-FDF7214DD7": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "筹划收购英中电气",
+      "path": "direction_state_facts[61].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-33CC0BC1E0": {
+      "scope": "DIRECTION",
+      "theme": "装修装饰",
+      "path": "direction_state_facts[62]"
+    },
+    "F-20260302-DIRBUY-80A086CF8A": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "装修装饰",
+      "path": "direction_state_facts[62].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-562D444A3E": {
+      "scope": "DIRECTION",
+      "theme": "证监会立案",
+      "path": "direction_state_facts[63]"
+    },
+    "F-20260302-DIRBUY-F32ECAA577": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "证监会立案",
+      "path": "direction_state_facts[63].previous_buyer_feedback"
+    },
+    "F-20260302-DIR-CDD0D48B43": {
+      "scope": "DIRECTION",
+      "theme": "造纸",
+      "path": "direction_state_facts[64]"
+    },
+    "F-20260302-DIRBUY-0D85F2B1A0": {
+      "scope": "DIRECTION_FEEDBACK",
+      "theme": "造纸",
+      "path": "direction_state_facts[64].previous_buyer_feedback"
+    },
+    "F-20260302-CTX-3DD7E49656": {
+      "scope": "CONTEXT",
+      "fact_type": "INDEX_CONTEXT",
+      "path": "context_facts[0]"
+    },
+    "F-20260302-CTX-C0D7A86AFD": {
+      "scope": "CONTEXT",
+      "fact_type": "DATA_COMPLETENESS",
+      "path": "context_facts[1]"
+    },
+    "F-20260302-CTX-D59F26FC1C": {
+      "scope": "CONTEXT",
+      "fact_type": "PREVIOUS_STATE_STATUS",
+      "path": "context_facts[2]"
+    },
+    "F-20260302-CTX-E94A083604": {
+      "scope": "CONTEXT",
+      "fact_type": "REGULATORY_CONTEXT",
+      "path": "context_facts[3]"
+    },
+    "F-20260302-CTX-8359F43A3C": {
+      "scope": "CONTEXT",
+      "fact_type": "RISK_CONTEXT",
+      "path": "context_facts[4]"
+    }
+  },
+  "data_completeness": {
+    "universe": {
+      "available": true,
+      "n_rows": 120,
+      "n_codes": 120
+    },
+    "auction_point": {
+      "available": true,
+      "n_rows": 19263,
+      "n_codes": 120,
+      "first_time": "09:15:00",
+      "last_time": "15:00:02",
+      "opening_auction_rows": 15015,
+      "closing_auction_rows": 4248
+    },
+    "opening_match": {
+      "available": true,
+      "n_rows": 120,
+      "n_codes": 120,
+      "first_time": "09:25",
+      "last_time": "09:25"
+    },
+    "minute_bar": {
+      "available": false,
+      "n_rows": 0,
+      "n_codes": 0
+    },
+    "trade_tick": {
+      "available": false,
+      "n_rows": 0,
+      "n_codes": 0
+    },
+    "announcement": {
+      "available": false,
+      "n_rows": 0,
+      "n_codes": 0
+    },
+    "hot_topic": {
+      "available": false,
+      "n_rows": 0,
+      "n_codes": 0
+    }
+  },
+  "path_comparison_contract": {
+    "cross_section_comparison_available": true,
+    "comparable_direction_count": 65,
+    "historical_confirmation_available": true,
+    "minimum_cross_section_fields": [
+      "direction fact_id/theme",
+      "event_counts",
+      "ladder_distribution"
+    ],
+    "selection_semantics": "SELECTED表示次日条件计划的相对优先路径候选，不等于正式主流、主升或历史延续已确认",
+    "blocking_semantics": "缺前日账本、昨日买方、板块扩散、公告或盘中委托流，只阻止对应历史/主动性确认；若当日方向结构已能按逐层淘汰拉开差异，不得仅因此写BLOCKED_DATA"
+  },
+  "theme_hierarchy": [
+    {
+      "theme": "油服工程",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=油服工程",
+        "ENGINEERING_BOUNDARY:oilfield-service-is-not-oil-production"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "石油化工",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=石油化工",
+        "ENGINEERING_BOUNDARY:downstream-petrochemical"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "商业航天",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "黄金概念",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "航运港口",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "军工信息化",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "农用化工",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "天然气",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=天然气",
+        "ENGINEERING_BOUNDARY:gas-commodity-chain"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "油气开采",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=油气开采",
+        "ENGINEERING_BOUNDARY:upstream-production"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "电网设备",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "燃气",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=燃气",
+        "ENGINEERING_BOUNDARY:gas-utility-distribution"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "电力",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "稀有金属",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "AI智能体",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "AI服务器",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "CPO概念",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "CPO硅光模块",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "光伏设备",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "光刻机滤光片",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "光纤概念",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "光通信",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "医疗器械",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "华为算力",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "卡塔尔40亿订单",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "可控核聚变",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "地面兵装",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "油气",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=油气",
+        "ENGINEERING_BOUNDARY:generic-label-kept-separate"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "油气装备",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=油气装备",
+        "ENGINEERING_BOUNDARY:equipment-subdirection"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "油气设备",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=油气设备",
+        "ENGINEERING_BOUNDARY:equipment-subdirection"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "油田技术服务",
+      "parent_theme": "油气能源链",
+      "evidence": [
+        "WAREHOUSE:universe/date=20260302 reason=油田技术服务",
+        "ENGINEERING_BOUNDARY:service-subdirection"
+      ],
+      "valid_from": "2026-03-02",
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "液冷服务器",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "煤制烯烃",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "玉柴合作",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "甲醇",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "石英晶振",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "种植业",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "稀土永磁",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "算力租赁",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "绿氢绿醇",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "绿色甲醇",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "航空装备",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "重组复牌",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "钨价上涨",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "钽铌锡矿复产",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "铜冶炼",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "锂电池概念",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "锶盐",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "TDI涨价",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "个股调整",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "光伏",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "化肥概念",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "厨卫电器",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "地缘冲突",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "存储芯片",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "拟收购厦芝精密",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "无人机",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "机器人概念",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "橡胶",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "煤炭开采",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "煤电一体",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "硫铁矿",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "筹划收购英中电气",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "装修装饰",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "证监会立案",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    },
+    {
+      "theme": "造纸",
+      "parent_theme": null,
+      "evidence": [],
+      "valid_from": null,
+      "valid_to": null,
+      "merge_policy": "EXACT_ONLY",
+      "executable_merge_allowed": false
+    }
+  ],
+  "theme_boundary_contract": {
+    "parent_theme_is_context_only": true,
+    "executable_merge_requires_explicit_registry_alias": true,
+    "ai_semantic_merge_forbidden": true
+  },
+  "note": "Stage C1 input intentionally excludes every stock row/name/code and pool size"
+}

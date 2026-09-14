@@ -1,0 +1,91 @@
+{
+  "verdict": "PASS",
+  "violations": [],
+  "executable_plan": {
+    "version": "3.0",
+    "plan_date": "20260302",
+    "as_of": "20260302 CLOSE",
+    "primary_path": {
+      "status": "NONE",
+      "theme": null,
+      "direction_fact_id": null,
+      "selection_logic": [
+        "当日最低比较字段齐全，故不是BLOCKED_DATA；五个仍有路径可能的方向可以进行横向比较。",
+        "石油化工支配商业航天，但与油服工程、电网设备、稀有金属分别在启动宽度、昨日买方、失败反馈和容量承载上互有优劣。",
+        "电网设备支配商业航天和稀有金属，但无法同时支配油服工程的九只清洁首板队列与石油化工的更大宽度和承载。",
+        "油服工程启动最整齐但没有任何相邻日买方确认；石油化工梯队更完整但有炸板；电网设备反馈最好但方向宽度和事件承载较小。不存在对真实竞争组的多关系全面支配，因此不强选主路径。",
+        "primary_path.NONE仅表示2026-03-02盘后边界不清，不表示所有方向等强，也不把最高板、涨停家数或成交额设为固定优先级。"
+      ],
+      "supporting_fact_ids": [
+        "F-20260302-DIR-4E5BED5B7D",
+        "F-20260302-DIRBUY-C45CCA65B5",
+        "F-20260302-DIR-6635B4FA65",
+        "F-20260302-DIRBUY-34D5833B74",
+        "F-20260302-DIR-C3440C60D4",
+        "F-20260302-DIRBUY-1DE0E95E70",
+        "F-20260302-DIR-0274FAA4A8",
+        "F-20260302-DIRBUY-770302E690",
+        "F-20260302-DIR-87D87B0FEE",
+        "F-20260302-DIRBUY-12AF38B8C5"
+      ],
+      "counter_fact_ids": [
+        "F-20260302-CTX-C0D7A86AFD",
+        "F-20260302-CTX-D59F26FC1C"
+      ],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "NODE_UNIQUENESS",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_NO_HINDSIGHT"
+      ],
+      "competitor_themes": [
+        "油服工程",
+        "石油化工",
+        "电网设备",
+        "稀有金属",
+        "商业航天"
+      ],
+      "cancel_conditions": [
+        "任一竞争方向在2026-03-03形成连续买方正反馈、梯队推进、失败反馈收敛、容量承载推进与方向内部扩散的多关系支配时，取消NONE并重新选择。",
+        "若油服工程共同首板队列次日大面积无延续，取消其启动竞争资格。",
+        "若石油化工二板与首板同时负反馈或炸板继续扩散，取消其延续竞争资格。",
+        "若电网设备二板未推进且首板无新增响应，取消其反馈优势。",
+        "若补充数据后最低比较字段实际不可用，改为BLOCKED_DATA而非强行排序。"
+      ]
+    },
+    "execution_task": {
+      "status": "NONE",
+      "task_id": null,
+      "task_type": null,
+      "theme": null,
+      "anchor_date": null,
+      "path_kind": null
+    },
+    "execution_tasks": [],
+    "action_plan": {
+      "status": "NO_ACTION",
+      "task_id": null,
+      "primary": null,
+      "backup": null,
+      "validation_objects": [],
+      "rule_ids": [
+        "NODE_MAINSTREAM_CONFIRM",
+        "NODE_UNIQUENESS",
+        "G08_UNIQUENESS",
+        "DISC_NO_HINDSIGHT",
+        "DISC_NO_FIXED_SCORE",
+        "DISC_SNAPSHOT_NOT_THRESHOLD"
+      ],
+      "switch_policy": "PRIMARY_DIRECT_FAIL_AND_BACKUP_INDEPENDENT_PASS",
+      "no_action_conditions": [
+        "C1冻结的PRIMARY与ALTERNATIVE任务均为NONE，selected_candidate_pools为空，不得重新选择任务或输出股票。",
+        "PRIMARY与ALTERNATIVE均无合法执行任务、独立ACTION_READY节点和个股行动叶子，维持不行动。",
+        "2026-03-03竞价、分时与成交事实不在as_of范围内，数据不足，无法判断次日延续、承接、主动分离和带动先后。",
+        "风险提示、重点监控、停牌状态或适用监管边界会影响行动资格且相关数据不足时，不计算异动距离，不声称存在监管空间。"
+      ]
+    },
+    "allowed_action_codes": [],
+    "forbidden_new_candidates": true,
+    "source_task_pool_status": {}
+  }
+}

@@ -8,42 +8,108 @@ even in capture-only/offline environments.
 STRING = {"type": "string", "minLength": 1}
 STRING_LIST = {"type": "array", "items": STRING}
 
-ENVIRONMENTS = ["MAIN_TREND", "ROTATION", "DECLINE", "REGIME_SWITCH"]
+ENVIRONMENTS = ["MAIN_TREND", "ROTATION", "DECLINE", "REGIME_SWITCH", "DATA_INSUFFICIENT"]
 GENERATORS = [f"G{i}" for i in range(1, 13)]
 ROLES = [
     "总核心", "容量核心", "情绪核心", "分支核心", "助攻伴飞", "补涨",
     "低位伴生", "二波载体", "旧核心残余", "跟风", "UNKNOWN",
 ]
+ROLE_FAMILIES = ["核心", "容量", "补涨", "伴飞", "二波伴生", "旧核心残余", "跟风", "UNKNOWN"]
+ROLE_STATUSES = ["CANDIDATE", "PROVISIONAL", "CONFIRMED", "REPLACED", "CANCELLED", "UNKNOWN"]
+ROLE_TO_FAMILY = {
+    "总核心": "核心", "情绪核心": "核心", "分支核心": "核心",
+    "容量核心": "容量", "补涨": "补涨", "低位伴生": "补涨",
+    "助攻伴飞": "伴飞", "二波载体": "二波伴生", "旧核心残余": "旧核心残余",
+    "跟风": "跟风", "UNKNOWN": "UNKNOWN",
+}
 OUTPUT_TIERS = ["主候选", "待验证候选", "替代候选", "取消或不行动"]
+PAIR_EVIDENCE_FAMILIES = [
+    "TASK_COMPLETION_PRESTATE", "INDEPENDENCE_AND_EVENT_ORDER",
+    "DIRECTION_RESPONSE", "DIVERGENCE_TOLERANCE", "CAPACITY_CARRYING",
+    "ROLE_CONTINUITY_OR_MIGRATION",
+]
 
 STAGE_B_SCHEMA = {
     "type": "object",
-    "required": ["as_of", "environment", "mainstream_directions", "nodes", "data_gaps"],
+    "required": ["as_of", "environment", "direction_evaluations", "primary_path",
+                 "direction_comparisons", "nodes", "data_gaps"],
     "properties": {
         "as_of": STRING,
         "environment": {
             "type": "object",
-            "required": ["candidate", "supporting", "counter", "migrated_from", "tomorrow_checks"],
+            "required": ["status", "reasoning", "supporting_fact_ids", "counter_fact_ids",
+                         "rule_ids", "migrated_from", "tomorrow_checks"],
             "properties": {
-                "candidate": {"type": "string", "enum": ENVIRONMENTS},
-                "supporting": STRING_LIST,
-                "counter": STRING_LIST,
+                "status": {"type": "string", "enum": ENVIRONMENTS},
+                "reasoning": {"type": "array", "minItems": 1, "items": STRING},
+                "supporting_fact_ids": STRING_LIST,
+                "counter_fact_ids": STRING_LIST,
+                "rule_ids": STRING_LIST,
                 "migrated_from": {"type": ["string", "null"]},
                 "tomorrow_checks": STRING_LIST,
             },
         },
-        "mainstream_directions": {
+        "direction_evaluations": {
             "type": "array",
             "items": {
                 "type": "object",
-                "required": ["theme", "stage", "supporting", "counter", "competitors"],
+                "required": ["theme", "direction_fact_id", "stage", "market_relation",
+                             "path_status", "observed_facts", "inferences",
+                             "supporting_fact_ids", "counter_fact_ids", "rule_ids", "competitors",
+                             "data_gaps"],
                 "properties": {
                     "theme": STRING,
+                    "direction_fact_id": STRING,
                     "stage": STRING,
-                    "supporting": STRING_LIST,
-                    "counter": STRING_LIST,
+                    "market_relation": {"type": "string", "enum": [
+                        "LEADS", "CONFIRMS", "FOLLOWS", "WEAKENS", "ISOLATED", "UNRESOLVED"]},
+                    "path_status": {"type": "string", "enum": [
+                        "PRIMARY", "COMPETITOR", "OBSERVATION", "REJECTED", "BLOCKED_DATA"]},
+                    "observed_facts": {"type": "array", "minItems": 1, "items": STRING},
+                    "inferences": STRING_LIST,
+                    "supporting_fact_ids": STRING_LIST,
+                    "counter_fact_ids": STRING_LIST,
+                    "rule_ids": STRING_LIST,
                     "competitors": STRING_LIST,
+                    "data_gaps": STRING_LIST,
                 },
+            },
+        },
+        "direction_comparisons": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["left_theme", "right_theme", "dimensions", "relation",
+                             "reasoning", "supporting_fact_ids", "counter_fact_ids",
+                             "rule_ids"],
+                "properties": {
+                    "left_theme": STRING,
+                    "right_theme": STRING,
+                    "dimensions": {"type": "array", "minItems": 2, "items": STRING},
+                    "relation": {"type": "string", "enum": [
+                        "LEFT_DOMINATES", "RIGHT_DOMINATES", "INCOMPARABLE", "BOTH_REJECTED"]},
+                    "reasoning": {"type": "array", "minItems": 1, "items": STRING},
+                    "supporting_fact_ids": STRING_LIST,
+                    "counter_fact_ids": STRING_LIST,
+                    "rule_ids": STRING_LIST,
+                },
+            },
+        },
+        "primary_path": {
+            "type": "object",
+            "required": ["status", "theme", "direction_fact_id", "selection_logic",
+                         "supporting_fact_ids", "counter_fact_ids", "rule_ids", "competitor_themes",
+                         "cancel_conditions"],
+            "properties": {
+                "status": {"type": "string", "enum": ["SELECTED", "NONE", "BLOCKED_DATA"]},
+                "theme": {"type": ["string", "null"]},
+                "direction_fact_id": {"type": ["string", "null"]},
+                "selection_logic": {"type": "array", "minItems": 1, "items": STRING},
+                "supporting_fact_ids": STRING_LIST,
+                "counter_fact_ids": STRING_LIST,
+                "rule_ids": STRING_LIST,
+                "competitor_themes": STRING_LIST,
+                "cancel_conditions": STRING_LIST,
             },
         },
         "nodes": {
@@ -51,14 +117,35 @@ STAGE_B_SCHEMA = {
             "items": {
                 "type": "object",
                 "required": ["node_type", "anchor_date", "theme", "trigger_facts",
-                             "generator", "candidate_ids", "confirm", "cancel"],
+                             "trigger_fact_ids", "method_reasoning", "generator",
+                             "node_id", "action_status", "candidate_scope",
+                             "candidate_ids", "rule_ids", "confirm", "cancel"],
                 "properties": {
+                    "node_id": STRING,
                     "node_type": STRING,
+                    "action_status": {"type": "string", "enum": [
+                        "ACTION_READY", "OBSERVATION_ONLY", "BLOCKED"]},
                     "anchor_date": {"type": "string", "format": "date"},
                     "theme": {"type": ["string", "null"]},
                     "trigger_facts": STRING_LIST,
+                    "trigger_fact_ids": STRING_LIST,
+                    "method_reasoning": {"type": "array", "minItems": 1, "items": STRING},
                     "generator": {"type": ["string", "null"], "enum": GENERATORS + [None]},
+                    "candidate_scope": {
+                        "type": "object",
+                        "required": ["event_statuses", "board_levels", "sub_directions",
+                                     "candidate_ids", "validation_ids", "scope_reason"],
+                        "properties": {
+                            "event_statuses": STRING_LIST,
+                            "board_levels": {"type": "array", "items": {"type": "integer"}},
+                            "sub_directions": STRING_LIST,
+                            "candidate_ids": STRING_LIST,
+                            "validation_ids": STRING_LIST,
+                            "scope_reason": STRING,
+                        },
+                    },
                     "candidate_ids": STRING_LIST,
+                    "rule_ids": STRING_LIST,
                     "confirm": STRING_LIST,
                     "cancel": STRING_LIST,
                 },
@@ -69,7 +156,10 @@ STAGE_B_SCHEMA = {
 }
 
 CANDIDATE_REQUIRED = [
-    "thscode", "theme", "node", "generator", "anchor_date", "role",
+    "thscode", "name", "theme", "task_id", "observed_function", "task_relation",
+    "node", "node_id", "generator", "anchor_date", "stock_start_date",
+    "role", "role_family", "role_status",
+    "capacity_tasks", "agency_event_model",
     "letter_carrier", "competition_group", "competitors", "observed_state",
     "tomorrow_must_do", "acceptable_variants", "failure_signals", "cancel_if",
     "output_tier", "evidence",
@@ -80,11 +170,50 @@ _CANDIDATE = {
     "required": CANDIDATE_REQUIRED,
     "properties": {
         "thscode": STRING,
+        "name": STRING,
         "theme": STRING,
+        "task_id": STRING,
+        "observed_function": STRING,
+        "task_relation": {"type": "string", "enum": [
+            "ACTION_COMPETITOR", "VALIDATION_ONLY", "NOT_RELEVANT"]},
         "node": STRING,
-        "generator": {"type": "string", "enum": GENERATORS},
+        "node_id": STRING,
+        "generator": {"type": ["string", "null"], "enum": GENERATORS + [None]},
         "anchor_date": {"type": "string", "format": "date"},
+        "stock_start_date": {"type": ["string", "null"]},
         "role": {"type": "string", "enum": ROLES},
+        "role_family": {"type": "string", "enum": ROLE_FAMILIES},
+        "role_status": {"type": "string", "enum": ROLE_STATUSES},
+        "capacity_tasks": {
+            "type": "object",
+            "required": ["price_progression", "pullback_recovery", "sector_leadership",
+                         "center_of_gravity", "replacement_state"],
+            "properties": {
+                "price_progression": STRING,
+                "pullback_recovery": STRING,
+                "sector_leadership": STRING,
+                "center_of_gravity": STRING,
+                "replacement_state": STRING,
+            },
+        },
+        "agency_event_model": {
+            "type": "object",
+            "required": ["reference", "event_sequence", "target_behavior",
+                         "data_sufficiency", "conclusion", "relation_state",
+                         "reference_task_id", "role_replacement_basis"],
+            "properties": {
+                "reference": STRING,
+                "reference_task_id": {"type": ["string", "null"]},
+                "event_sequence": {"type": "array", "minItems": 1, "items": STRING},
+                "target_behavior": STRING,
+                "data_sufficiency": {"type": "string", "enum": ["SUFFICIENT", "PARTIAL", "INSUFFICIENT", "UNKNOWN"]},
+                "conclusion": {"type": "string", "enum": ["ACTIVE", "PASSIVE", "UNKNOWN"]},
+                "relation_state": {"type": "string", "enum": [
+                    "INDEPENDENTLY_ACTIVE", "INDEPENDENCE_NOT_CONFIRMED",
+                    "PUSHED_BY_REFERENCE", "ROLE_REPLACED", "UNKNOWN"]},
+                "role_replacement_basis": STRING_LIST,
+            },
+        },
         "letter_carrier": {"type": "string", "enum": ["UNKNOWN"]},
         "competition_group": STRING,
         "competitors": STRING_LIST,
@@ -98,67 +227,344 @@ _CANDIDATE = {
     },
 }
 
+_LEADER_STATE = {
+    "type": "object",
+    "required": ["status", "thscode", "evidence"],
+    "properties": {
+        "status": {"type": "string", "enum": [
+            "UNRESOLVED", "PROVISIONAL", "CONFIRMED", "REPLACED", "CANCELLED"]},
+        "thscode": {"type": ["string", "null"]},
+        "evidence": STRING_LIST,
+    },
+}
+
+_PAIRWISE_RELATION = {
+    "type": "object",
+    "required": ["left_thscode", "right_thscode", "left_event_time",
+                 "right_event_time", "relation", "evidence"],
+    "properties": {
+        "left_thscode": STRING,
+        "right_thscode": STRING,
+        "left_event_time": {"type": ["string", "null"]},
+        "right_event_time": {"type": ["string", "null"]},
+        "relation": {"type": "string", "enum": [
+            "LEFT_EARLIER", "RIGHT_EARLIER", "SAME_TIME", "UNRESOLVED", "NOT_COMPARABLE"]},
+        "evidence": STRING_LIST,
+    },
+}
+
 _COMPETITION_GROUP = {
     "type": "object",
-    "required": ["group_id", "comparison_basis", "members", "not_comparable_with",
-                 "leader_state", "pairwise_relations", "next_confirmation"],
+    "required": ["group_id", "generator", "anchor_date", "theme",
+                 "comparison_basis", "members", "not_comparable_with",
+                 "leader_state", "pairwise_relations", "next_confirmation",
+                 "coverage_status", "next_day_tasks", "uniqueness_status"],
     "properties": {
         "group_id": STRING,
+        "generator": {"type": ["string", "null"], "enum": GENERATORS + [None]},
+        "anchor_date": {"type": "string", "format": "date"},
+        "theme": STRING,
         "comparison_basis": {"type": "array", "minItems": 1, "items": STRING},
         "members": {"type": "array", "minItems": 1, "items": STRING},
         "not_comparable_with": STRING_LIST,
-        "leader_state": STRING,
-        "pairwise_relations": STRING_LIST,
+        "leader_state": _LEADER_STATE,
+        "pairwise_relations": {"type": "array", "items": _PAIRWISE_RELATION},
         "next_confirmation": STRING_LIST,
+        "coverage_status": {"type": "string", "enum": ["COMPLETE", "PARTIAL", "MISSING"]},
+        "next_day_tasks": STRING_LIST,
+        "rule_ids": STRING_LIST,
+        "uniqueness_status": {"type": "string", "enum": ["UNRESOLVED", "CONFIRMED", "REPLACED", "CANCELLED"]},
     },
 }
 
 _EXCLUDED_CANDIDATE = {
     "type": "object",
-    "required": ["thscode", "generator", "anchor_date", "reason"],
+    "required": ["thscode", "name", "theme", "task_id", "generator",
+                 "anchor_date", "reason"],
     "properties": {
         "thscode": STRING,
-        "generator": {"type": "string", "enum": GENERATORS},
+        "name": STRING,
+        "theme": STRING,
+        "task_id": STRING,
+        "generator": {"type": ["string", "null"], "enum": GENERATORS + [None]},
         "anchor_date": {"type": "string", "format": "date"},
         "reason": STRING,
     },
 }
 
-STAGE_C_SCHEMA = {
+_PATH_CLAIM = {
     "type": "object",
-    "required": ["as_of", "paths", "competition_groups", "candidates",
-                 "excluded_candidates", "unknowns"],
+    "required": ["status", "statement", "evidence"],
+    "properties": {
+        "status": {"type": "string", "enum": ["SUPPORTED", "HYPOTHESIS", "UNKNOWN"]},
+        "statement": STRING,
+        "evidence": STRING_LIST,
+    },
+}
+
+_PATH_COMMON = {
+    "observed_facts": {"type": "array", "minItems": 1, "items": STRING},
+    "ai_inferences": STRING_LIST,
+    "unknowns": STRING_LIST,
+    "capital_source": _PATH_CLAIM,
+    "buyer": _PATH_CLAIM,
+    "seller": _PATH_CLAIM,
+    "destination_layer": _PATH_CLAIM,
+    "successor": _PATH_CLAIM,
+}
+
+_PATH_REQUIRED = [
+    "observed_facts", "ai_inferences", "unknowns", "capital_source", "buyer",
+    "seller", "destination_layer", "successor",
+]
+
+_EXECUTION_TASK = {
+    "type": "object",
+    "required": ["status", "task_id", "task_type", "theme", "missing_function",
+                 "selection_logic", "supporting_fact_ids", "rejected_task_ids"],
+    "properties": {
+        "status": {"type": "string", "enum": ["SELECTED", "NONE", "BLOCKED_DATA"]},
+        "task_id": {"type": ["string", "null"]},
+        "task_type": {"type": ["string", "null"]},
+        "theme": {"type": ["string", "null"]},
+        "missing_function": STRING,
+        "selection_logic": {"type": "array", "minItems": 1, "items": STRING},
+        "supporting_fact_ids": STRING_LIST,
+        "rule_ids": STRING_LIST,
+        "rejected_task_ids": STRING_LIST,
+    },
+}
+
+_ACTION_GROUP = {
+    "type": "object",
+    "required": ["task_id", "members", "validation_objects", "comparison_basis",
+                 "resolved_out", "unresolved"],
+    "properties": {
+        "task_id": {"type": ["string", "null"]},
+        "members": STRING_LIST,
+        "validation_objects": STRING_LIST,
+        "comparison_basis": STRING_LIST,
+        "resolved_out": STRING_LIST,
+        "unresolved": STRING_LIST,
+        "rule_ids": STRING_LIST,
+    },
+}
+
+_PAIRWISE_ACTION = {
+    "type": "object",
+    "required": ["left_thscode", "right_thscode", "comparison_dimensions",
+                 "left_advantages", "right_advantages", "unresolved",
+                 "conclusion", "fact_ids", "evidence_families"],
+    "properties": {
+        "left_thscode": STRING,
+        "right_thscode": STRING,
+        "comparison_dimensions": {"type": "array", "minItems": 1, "items": STRING},
+        "left_advantages": STRING_LIST,
+        "right_advantages": STRING_LIST,
+        "unresolved": STRING_LIST,
+        "conclusion": {"type": "string", "enum": [
+            "LEFT_PRIMARY", "RIGHT_PRIMARY", "CONDITIONAL", "NO_EDGE"]},
+        "fact_ids": STRING_LIST,
+        "evidence_families": {
+            "type": "array", "minItems": 1,
+            "items": {"type": "string", "enum": PAIR_EVIDENCE_FAMILIES},
+        },
+        "rule_ids": STRING_LIST,
+    },
+}
+
+_ACTION_LEAF = {
+    "type": ["object", "null"],
+    "required": ["thscode", "task_id", "path_kind", "task_to_complete", "auction_conditions",
+                 "open_conditions", "downgrade_conditions", "direct_fail_conditions"],
+    "properties": {
+        "thscode": STRING,
+        "task_id": STRING,
+        "path_kind": {"type": "string", "enum": ["PRIMARY", "ALTERNATIVE"]},
+        "task_to_complete": STRING,
+        "auction_conditions": {"type": "array", "minItems": 1, "items": STRING},
+        "open_conditions": {"type": "array", "minItems": 1, "items": STRING},
+        "downgrade_conditions": {"type": "array", "minItems": 1, "items": STRING},
+        "direct_fail_conditions": {"type": "array", "minItems": 1, "items": STRING},
+    },
+}
+
+_ACTION_PLAN = {
+    "type": "object",
+    "required": ["status", "task_id", "primary", "backup", "validation_objects",
+                 "switch_rule", "no_action_conditions"],
+    "properties": {
+        "status": {"type": "string", "enum": ["SINGLE", "CONDITIONAL_PAIR", "NO_ACTION"]},
+        "task_id": {"type": ["string", "null"]},
+        "primary": _ACTION_LEAF,
+        "backup": _ACTION_LEAF,
+        "validation_objects": STRING_LIST,
+        "rule_ids": STRING_LIST,
+        "switch_rule": STRING,
+        "no_action_conditions": {"type": "array", "minItems": 1, "items": STRING},
+    },
+}
+
+_TASK_SELECTION = {
+    "type": "object",
+    "required": ["path_kind", "status", "task_id", "task_type", "theme", "node_id",
+                 "missing_function", "selection_logic", "supporting_fact_ids", "rule_ids",
+                 "rejected_task_ids"],
+    "properties": {
+        "path_kind": {"type": "string", "enum": ["PRIMARY", "ALTERNATIVE"]},
+        "status": {"type": "string", "enum": ["SELECTED", "NONE", "BLOCKED_DATA"]},
+        "task_id": {"type": ["string", "null"]},
+        "task_type": {"type": ["string", "null"]},
+        "theme": {"type": ["string", "null"]},
+        "node_id": {"type": ["string", "null"]},
+        "missing_function": STRING,
+        "selection_logic": {"type": "array", "minItems": 1, "items": STRING},
+        "supporting_fact_ids": STRING_LIST,
+        "rule_ids": STRING_LIST,
+        "rejected_task_ids": STRING_LIST,
+    },
+}
+
+STAGE_C1_SCHEMA = {
+    "type": "object",
+    "required": ["as_of", "decision_order", "primary_task", "alternative_task",
+                 "no_action_conditions", "unknowns"],
     "properties": {
         "as_of": STRING,
-        "competition_groups": {"type": "array", "items": _COMPETITION_GROUP},
-        "candidates": {"type": "array", "items": _CANDIDATE},
-        "excluded_candidates": {"type": "array", "items": _EXCLUDED_CANDIDATE},
-        "paths": {
-            "type": "object",
-            "required": ["primary", "alternative", "no_action"],
-            "properties": {
-                "primary": {
-                    "type": "object", "required": ["desc", "confirm", "cancel"],
-                    "properties": {"desc": STRING, "confirm": STRING_LIST, "cancel": STRING_LIST},
-                },
-                "alternative": {
-                    "type": "object", "required": ["desc", "trigger", "cancel"],
-                    "properties": {"desc": STRING, "trigger": STRING_LIST, "cancel": STRING_LIST},
-                },
-                "no_action": {
-                    "type": "object", "required": ["trigger"],
-                    "properties": {"trigger": STRING_LIST},
-                },
-            },
-        },
+        "decision_order": {"type": "array", "minItems": 4, "items": STRING},
+        "primary_task": _TASK_SELECTION,
+        "alternative_task": _TASK_SELECTION,
+        "no_action_conditions": {"type": "array", "minItems": 1, "items": STRING},
         "unknowns": STRING_LIST,
     },
 }
 
+_PATH_ANALYSIS = {
+    "type": "object",
+    "required": _PATH_REQUIRED + ["confirm", "trigger", "cancel"],
+    "properties": {**_PATH_COMMON, "confirm": STRING_LIST,
+                   "trigger": STRING_LIST, "cancel": STRING_LIST},
+}
+
+_PATH_PLAN = {
+    "type": "object",
+    "required": ["path_kind", "execution_task", "path_analysis", "competition_group",
+                 "pairwise_comparison", "action_plan", "candidates",
+                 "excluded_candidates", "unknowns"],
+    "properties": {
+        "path_kind": {"type": "string", "enum": ["PRIMARY", "ALTERNATIVE"]},
+        "execution_task": _EXECUTION_TASK,
+        "path_analysis": _PATH_ANALYSIS,
+        "competition_group": _COMPETITION_GROUP,
+        "pairwise_comparison": {"type": "array", "items": _PAIRWISE_ACTION},
+        "action_plan": _ACTION_PLAN,
+        "candidates": {"type": "array", "items": _CANDIDATE},
+        "excluded_candidates": {"type": "array", "items": _EXCLUDED_CANDIDATE},
+        "unknowns": STRING_LIST,
+    },
+}
+
+_ACTION_REF = {
+    "type": ["object", "null"],
+    "required": ["path_kind", "task_id", "thscode"],
+    "properties": {
+        "path_kind": {"type": "string", "enum": ["PRIMARY", "ALTERNATIVE"]},
+        "task_id": STRING,
+        "thscode": STRING,
+    },
+}
+
+_FINAL_ACTION_PLAN = {
+    "type": "object",
+    "required": ["status", "primary_ref", "backup_ref", "switch_rule",
+                 "no_action_conditions", "rule_ids"],
+    "properties": {
+        "status": {"type": "string", "enum": ["SINGLE", "CONDITIONAL_PAIR", "NO_ACTION"]},
+        "primary_ref": _ACTION_REF,
+        "backup_ref": _ACTION_REF,
+        "switch_rule": STRING,
+        "no_action_conditions": {"type": "array", "minItems": 1, "items": STRING},
+        "rule_ids": STRING_LIST,
+    },
+}
+
+STAGE_C_SCHEMA = {
+    "type": "object",
+    "required": ["as_of", "task_selection", "path_plans", "final_action_plan",
+                 "unknowns"],
+    "properties": {
+        "as_of": STRING,
+        "task_selection": {
+            "type": "object",
+            "required": ["primary_task", "alternative_task", "no_action_conditions"],
+            "properties": {
+                "primary_task": _TASK_SELECTION,
+                "alternative_task": _TASK_SELECTION,
+                "no_action_conditions": {"type": "array", "minItems": 1, "items": STRING},
+            },
+        },
+        "path_plans": {"type": "array", "items": _PATH_PLAN},
+        "final_action_plan": _FINAL_ACTION_PLAN,
+        "unknowns": STRING_LIST,
+    },
+}
+
+_STAGE_D_REASONING_TRACE = {
+    "type": "object",
+    "required": ["step_order", "market_and_path", "execution_node", "execution_nodes"],
+    "properties": {
+        "step_order": {"type": "array", "minItems": 3, "items": STRING},
+        "market_and_path": {
+            "type": "object", "required": ["status", "observed"],
+            "properties": {
+                "status": {"type": "string", "enum": [
+                    "SUPPORTED", "REJECTED", "DATA_INSUFFICIENT"]},
+                "observed": {"type": "array", "minItems": 1, "items": STRING},
+            },
+        },
+        "execution_node": {
+            "type": "object",
+            "required": ["status", "task_id", "task_type", "theme", "anchor_date", "observed"],
+            "properties": {
+                "status": {"type": "string", "enum": [
+                    "SUPPORTED", "REJECTED", "DATA_INSUFFICIENT"]},
+                "task_id": {"type": ["string", "null"]},
+                "task_type": {"type": ["string", "null"]},
+                "theme": {"type": ["string", "null"]},
+                "anchor_date": {"type": ["string", "null"]},
+                "observed": {"type": "array", "minItems": 1, "items": STRING},
+            },
+        },
+        "execution_nodes": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["path_kind", "status", "task_id", "task_type", "theme",
+                             "node_id", "anchor_date", "observed"],
+                "properties": {
+                    "path_kind": {"type": ["string", "null"]},
+                    "status": {"type": "string", "enum": [
+                        "SUPPORTED", "REJECTED", "DATA_INSUFFICIENT"]},
+                    "task_id": {"type": ["string", "null"]},
+                    "task_type": {"type": ["string", "null"]},
+                    "theme": {"type": ["string", "null"]},
+                    "node_id": {"type": ["string", "null"]},
+                    "anchor_date": {"type": ["string", "null"]},
+                    "observed": {"type": "array", "minItems": 1, "items": STRING},
+                },
+            },
+        },
+    },
+}
+
+
 STAGE_D_SCHEMA = {
     "type": "object",
-    "required": ["tplus1", "snapshot", "as_of", "market_check", "candidate_results",
-                 "path_outcome", "unknowns"],
+    "required": ["tplus1", "snapshot", "as_of", "market_check", "reasoning_trace",
+                 "auction_pair_comparison",
+                 "context_check", "path_context_checks", "leaf_results",
+                 "condition_tree_hit", "current_action_candidate", "next_stage",
+                 "decision", "unknowns"],
     "properties": {
         "tplus1": STRING,
         "snapshot": {"type": "string", "enum": ["AUCTION_0925", "OPEN_0935"]},
@@ -167,32 +573,91 @@ STAGE_D_SCHEMA = {
             "type": "object", "required": ["index_held", "note"],
             "properties": {"index_held": {"type": ["boolean", "null"]}, "note": STRING},
         },
-        "candidate_results": {
+        "reasoning_trace": _STAGE_D_REASONING_TRACE,
+        "auction_pair_comparison": {
+            "type": "object",
+            "required": ["status", "stronger_code", "weaker_code", "comparison_text"],
+            "properties": {
+                "status": {"type": "string", "enum": [
+                    "AVAILABLE", "DATA_INSUFFICIENT", "NOT_APPLICABLE"]},
+                "stronger_code": {"type": ["string", "null"]},
+                "weaker_code": {"type": ["string", "null"]},
+                "comparison_text": STRING,
+            },
+        },
+        "context_check": {
+            "type": "object",
+            "required": ["validation_objects", "status", "observed"],
+            "properties": {
+                "validation_objects": STRING_LIST,
+                "status": {"type": "string", "enum": [
+                    "CONFIRMS", "REJECTS", "UNRESOLVED", "DATA_INSUFFICIENT",
+                    "NOT_REQUIRED"]},
+                "observed": STRING_LIST,
+            },
+        },
+        "path_context_checks": {
             "type": "array",
             "items": {
                 "type": "object",
-                "required": ["thscode", "plan_tier", "auction_conclusion",
-                             "open5m_conclusion", "final_status", "observed", "vs_plan", "reason"],
+                "required": ["path_kind", "task_id", "node_id", "validation_objects",
+                             "status", "observed"],
                 "properties": {
-                    "thscode": STRING, "plan_tier": STRING,
-                    "auction_conclusion": {"type": "string", "enum": [
-                        "AUCTION_CONFIRMED", "AUCTION_NEEDS_OPEN_VALIDATION",
-                        "AUCTION_DOWNGRADED", "ALTERNATIVE_TAKES_OVER", "CANCELLED",
+                    "path_kind": {"type": ["string", "null"]},
+                    "task_id": STRING,
+                    "node_id": {"type": ["string", "null"]},
+                    "validation_objects": STRING_LIST,
+                    "status": {"type": "string", "enum": [
+                        "CONFIRMS", "REJECTS", "UNRESOLVED", "DATA_INSUFFICIENT",
+                        "NOT_REQUIRED"]},
+                    "observed": STRING_LIST,
+                },
+            },
+        },
+        "leaf_results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["thscode", "leaf_id", "tier", "task_id", "anchor_date",
+                             "current_function", "entry_event", "exit_conditions", "leaf_state",
+                             "observed", "vs_plan", "reason"],
+                "properties": {
+                    "thscode": STRING, "leaf_id": STRING,
+                    "tier": {"type": "string", "enum": ["PRIMARY", "BACKUP"]},
+                    "path_kind": {"type": ["string", "null"]},
+                    "task_id": STRING,
+                    "node_id": {"type": ["string", "null"]},
+                    "anchor_date": {"type": "string", "format": "date"},
+                    "stock_start_date": {"type": ["string", "null"]},
+                    "current_function": STRING,
+                    "entry_event": {"type": "array", "minItems": 1, "items": STRING},
+                    "exit_conditions": {"type": "array", "minItems": 1, "items": STRING},
+                    "leaf_state": {"type": "string", "enum": [
+                        "MEETS_AUCTION_TASK", "NEEDS_OPEN_VALIDATION", "DOWNGRADED",
+                        "DIRECT_FAIL", "MEETS_OPEN_TASK", "OPEN_TASK_FAILED",
                         "DATA_INSUFFICIENT"]},
-                    "open5m_conclusion": {"type": "string", "enum": [
-                        "CONFIRMED", "CONTINUE_OBSERVE", "DOWNGRADED", "REPLACED",
-                        "CANCELLED", "DATA_INSUFFICIENT"]},
-                    "final_status": {"type": "string", "enum": [
-                        "确认", "降级", "替代接管", "取消", "数据不足", "继续观察"]},
                     "observed": STRING_LIST,
                     "vs_plan": STRING, "reason": STRING_LIST,
                 },
             },
         },
-        "path_outcome": {
-            "type": "object", "required": ["primary", "alternative", "no_action"],
-            "properties": {"primary": STRING, "alternative": STRING, "no_action": STRING},
+        "condition_tree_hit": {
+            "type": "object", "required": ["branch", "primary_state", "backup_state",
+                                             "reasoning"],
+            "properties": {
+                "branch": {"type": "string", "enum": [
+                    "PRIMARY_CONTINUES", "PRIMARY_DIRECT_FAIL_BACKUP_CONTINUES",
+                    "PRIMARY_DOWNGRADED_NO_SWITCH", "BOTH_FAIL", "DATA_BLOCKED",
+                    "CONTEXT_REJECTS", "OPEN_CONFIRM", "OPEN_REJECT", "NO_CANDIDATE"]},
+                "primary_state": {"type": ["string", "null"]},
+                "backup_state": {"type": ["string", "null"]},
+                "reasoning": {"type": "array", "minItems": 1, "items": STRING},
+            },
         },
+        "current_action_candidate": {"type": ["string", "null"]},
+        "next_stage": {"type": "string", "enum": ["OPEN_0935", "STOP", "COMPLETE"]},
+        "decision": {"type": "string", "enum": [
+            "WAIT_OPEN_VALIDATION", "BUY", "NO_ACTION", "DATA_INSUFFICIENT"]},
         "unknowns": STRING_LIST,
     },
 }

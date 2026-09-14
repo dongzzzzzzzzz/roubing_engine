@@ -1,0 +1,117 @@
+{
+  "as_of": "20260302 CLOSE",
+  "decision_order": [
+    "方向关系",
+    "节点前态与阻力变化",
+    "节点所缺功能",
+    "匹配执行任务"
+  ],
+  "primary_task": {
+    "path_kind": "PRIMARY",
+    "status": "NONE",
+    "task_id": null,
+    "task_type": null,
+    "theme": null,
+    "node_id": null,
+    "missing_function": "Stage B未形成PRIMARY路径且不存在ACTION_READY节点；明天最缺的是把同起算日启动观察推进为可验证的延续与唯一性节点，即出现连续买方反馈、同组主动分离、失败反馈收敛以及方向内部新增响应。",
+    "selection_logic": [
+      "接受Stage B的环境、方向关系与primary_path为NONE的结论，不重选主流；现有方向真实竞争组尚未形成多关系全面支配。",
+      "PRIMARY路径没有ACTION_READY节点；唯一现存节点N-20260302-G8-OILFIELD-SERVICES-FIRST-BOARD为OBSERVATION_ONLY，因此不能打开执行任务。",
+      "该观察节点的前态是2026-03-02共同首板启动，阻力是否在次日收敛尚未发生；截至as_of缺少2026-03-03竞价、分时与成交事实，数据不足，无法判断延续、主动分离、承接和带动先后。",
+      "该节点生成同起算日、功能相近的观察组，起算日为2026-03-02；当前角色功能是阶段唯一性观察，进入事件是共同首板启动，退出条件是队列整体无延续、新对手主动胜出、原观察对象不能完成同组任务或完整数据证明竞争组不成立。",
+      "task_summaries.tasks为空，没有任务能够承担上述缺失功能；不因观察组规模、比较难度或任何隐含排序强选任务，故正式输出NONE。"
+    ],
+    "supporting_fact_ids": [
+      "F-20260302-ENV-A856B87611",
+      "F-20260302-DIR-4E5BED5B7D",
+      "F-20260302-DIRBUY-C45CCA65B5",
+      "F-20260302-DIR-6635B4FA65",
+      "F-20260302-DIRBUY-34D5833B74",
+      "F-20260302-DIR-C3440C60D4",
+      "F-20260302-DIRBUY-1DE0E95E70",
+      "F-20260302-DIR-0274FAA4A8",
+      "F-20260302-DIRBUY-770302E690",
+      "F-20260302-DIR-87D87B0FEE",
+      "F-20260302-DIRBUY-12AF38B8C5",
+      "F-20260302-CTX-C0D7A86AFD",
+      "F-20260302-CTX-D59F26FC1C"
+    ],
+    "rule_ids": [
+      "NODE_MAINSTREAM_CONFIRM",
+      "NODE_UNIQUENESS",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_NO_HINDSIGHT",
+      "G08_UNIQUENESS"
+    ],
+    "rejected_task_ids": []
+  },
+  "alternative_task": {
+    "path_kind": "ALTERNATIVE",
+    "status": "NONE",
+    "task_id": null,
+    "task_type": null,
+    "theme": null,
+    "node_id": null,
+    "missing_function": "替代路径必须先凭自身正向事实形成独立的方向关系、明确的节点前态与阻力变化以及ACTION_READY节点，并给出可验证的进入事件和退出条件；不能仅因PRIMARY为NONE或未来可能失败而自动成立。",
+    "selection_logic": [
+      "Stage B没有生成ALTERNATIVE路径，节点清单中也没有ALTERNATIVE的ACTION_READY节点，因此不存在可承接任务的替代节点。",
+      "替代路径没有自身已成立的正向节点条件，也没有可验证的节点前态与阻力变化；PRIMARY未成立只维持空缺，不构成替代路径的进入事件。",
+      "由于不存在替代节点，当前角色功能、进入事件和退出条件均未被生成；数据不足，无法判断，不能虚构替代角色或任务。",
+      "task_summaries.tasks为空，没有独立替代任务可匹配；故正式输出NONE，而不是把主路径的不确定性转化为替代任务成立。"
+    ],
+    "supporting_fact_ids": [
+      "F-20260302-ENV-A856B87611",
+      "F-20260302-DIR-4E5BED5B7D",
+      "F-20260302-DIRBUY-C45CCA65B5",
+      "F-20260302-DIR-6635B4FA65",
+      "F-20260302-DIRBUY-34D5833B74",
+      "F-20260302-DIR-C3440C60D4",
+      "F-20260302-DIRBUY-1DE0E95E70",
+      "F-20260302-DIR-0274FAA4A8",
+      "F-20260302-DIRBUY-770302E690",
+      "F-20260302-DIR-87D87B0FEE",
+      "F-20260302-DIRBUY-12AF38B8C5",
+      "F-20260302-CTX-C0D7A86AFD",
+      "F-20260302-CTX-D59F26FC1C"
+    ],
+    "rule_ids": [
+      "NODE_MAINSTREAM_CONFIRM",
+      "NODE_UNIQUENESS",
+      "DISC_NO_FIXED_SCORE",
+      "DISC_NO_HINDSIGHT",
+      "G08_UNIQUENESS"
+    ],
+    "rejected_task_ids": []
+  },
+  "no_action_conditions": [
+    "盘前仍无方向在连续买方反馈、梯队推进、失败反馈收敛、容量承载推进和方向内部扩散上形成多关系支配时，不建立PRIMARY任务。",
+    "现有观察节点未完成次日延续、同组主动分离、失败反馈收敛及方向新增响应验证，或相关竞价、分时、成交数据不足无法判断时，不把OBSERVATION_ONLY升级为ACTION_READY。",
+    "没有替代方向凭自身正向条件生成独立ACTION_READY节点时，不因PRIMARY缺失、走弱或未来可能失败而启用ALTERNATIVE任务。",
+    "PRIMARY与ALTERNATIVE均无合法任务、角色进入事件或可执行节点时，维持不行动，不使用固定总分、隐藏权重、观察组规模或比较便利性强行选择。",
+    "风险提示、重点监控、停牌状态或适用监管边界仍为BLOCKED_DATA且会影响行动资格时，不计算异动距离，不声称存在监管空间，并维持不行动。"
+  ],
+  "unknowns": [
+    "指数日线环境为BLOCKED_DATA，实际前一交易日状态账本缺失，数据不足，无法判断历史环境、方向阶段和角色迁移。",
+    "2026-03-03竞价、分时与成交事实不在as_of范围内，数据不足，无法判断明日买方反馈、主动性、承接、分离和带动先后。",
+    "截至as_of分钟线与逐笔成交缺失，数据不足，无法判断完整分时主动性、委托流及撤单主体。",
+    "完整非涨停方向成员映射缺失，数据不足，无法判断方向扩散、容量带动和普遍响应。",
+    "公告与热点数据缺失，数据不足，无法核验催化持续性或新增信息。",
+    "精确监管阈值未逐条核验，风险提示、重点监控与停牌数据为BLOCKED_DATA；数据不足，无法判断完整监管边界，不计算异动距离或监管空间。"
+  ],
+  "_provenance": {
+    "backend": "codex",
+    "rules_version": "units_v1_37+historical_versions_v1+corpus282_full+theme_registry_v2+regulatory_registry_v2",
+    "code_version": "c9e2cb6",
+    "code_tree_hash": "4ed6fab3ebc6",
+    "working_tree_dirty": true,
+    "instructions_hash": "fcb000264475",
+    "generated_at": "2026-09-14T09:36:02.762748+00:00",
+    "input_hashes": {
+      "facts.json": "320227d1f1bc",
+      "rules.md": "b9d1b966caf8",
+      "stage_b.json": "53a579321047",
+      "task_summaries.json": "bda0440fec0f",
+      "schema.json": "f8fdf5bab72f"
+    }
+  }
+}

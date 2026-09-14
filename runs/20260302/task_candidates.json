@@ -1,0 +1,15 @@
+{
+  "as_of": "20260302 CLOSE",
+  "status": "NO_PRIMARY_PATH",
+  "primary_theme": null,
+  "primary_direction_fact_id": null,
+  "task_candidates": [],
+  "no_action_rule_ids": [
+    "NODE_MAINSTREAM_CONFIRM",
+    "NODE_UNIQUENESS",
+    "DISC_NO_FIXED_SCORE",
+    "DISC_NO_HINDSIGHT",
+    "G08_UNIQUENESS"
+  ],
+  "reason": "没有已确认的动态主路径，禁止生成股票执行任务"
+}

@@ -1,0 +1,1497 @@
+{
+  "type": "object",
+  "required": [
+    "as_of",
+    "task_selection",
+    "path_plans",
+    "final_action_plan",
+    "unknowns"
+  ],
+  "properties": {
+    "as_of": {
+      "type": "string",
+      "minLength": 1
+    },
+    "task_selection": {
+      "type": "object",
+      "required": [
+        "primary_task",
+        "alternative_task",
+        "no_action_conditions"
+      ],
+      "properties": {
+        "primary_task": {
+          "type": "object",
+          "required": [
+            "path_kind",
+            "status",
+            "task_id",
+            "task_type",
+            "theme",
+            "node_id",
+            "missing_function",
+            "selection_logic",
+            "supporting_fact_ids",
+            "rule_ids",
+            "rejected_task_ids"
+          ],
+          "properties": {
+            "path_kind": {
+              "type": "string",
+              "enum": [
+                "PRIMARY",
+                "ALTERNATIVE"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "SELECTED",
+                "NONE",
+                "BLOCKED_DATA"
+              ]
+            },
+            "task_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "task_type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "theme": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "node_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "missing_function": {
+              "type": "string",
+              "minLength": 1
+            },
+            "selection_logic": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "supporting_fact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "rule_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "rejected_task_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "alternative_task": {
+          "type": "object",
+          "required": [
+            "path_kind",
+            "status",
+            "task_id",
+            "task_type",
+            "theme",
+            "node_id",
+            "missing_function",
+            "selection_logic",
+            "supporting_fact_ids",
+            "rule_ids",
+            "rejected_task_ids"
+          ],
+          "properties": {
+            "path_kind": {
+              "type": "string",
+              "enum": [
+                "PRIMARY",
+                "ALTERNATIVE"
+              ]
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "SELECTED",
+                "NONE",
+                "BLOCKED_DATA"
+              ]
+            },
+            "task_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "task_type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "theme": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "node_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "missing_function": {
+              "type": "string",
+              "minLength": 1
+            },
+            "selection_logic": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "supporting_fact_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "rule_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "rejected_task_ids": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        },
+        "no_action_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "path_plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path_kind",
+          "execution_task",
+          "path_analysis",
+          "competition_group",
+          "pairwise_comparison",
+          "action_plan",
+          "candidates",
+          "excluded_candidates",
+          "unknowns"
+        ],
+        "properties": {
+          "path_kind": {
+            "type": "string",
+            "enum": [
+              "PRIMARY",
+              "ALTERNATIVE"
+            ]
+          },
+          "execution_task": {
+            "type": "object",
+            "required": [
+              "status",
+              "task_id",
+              "task_type",
+              "theme",
+              "missing_function",
+              "selection_logic",
+              "supporting_fact_ids",
+              "rejected_task_ids"
+            ],
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "SELECTED",
+                  "NONE",
+                  "BLOCKED_DATA"
+                ]
+              },
+              "task_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "task_type": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "theme": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "missing_function": {
+                "type": "string",
+                "minLength": 1
+              },
+              "selection_logic": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "supporting_fact_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "rule_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "rejected_task_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "path_analysis": {
+            "type": "object",
+            "required": [
+              "observed_facts",
+              "ai_inferences",
+              "unknowns",
+              "capital_source",
+              "buyer",
+              "seller",
+              "destination_layer",
+              "successor",
+              "confirm",
+              "trigger",
+              "cancel"
+            ],
+            "properties": {
+              "observed_facts": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "ai_inferences": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "unknowns": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "capital_source": {
+                "type": "object",
+                "required": [
+                  "status",
+                  "statement",
+                  "evidence"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "SUPPORTED",
+                      "HYPOTHESIS",
+                      "UNKNOWN"
+                    ]
+                  },
+                  "statement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "buyer": {
+                "type": "object",
+                "required": [
+                  "status",
+                  "statement",
+                  "evidence"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "SUPPORTED",
+                      "HYPOTHESIS",
+                      "UNKNOWN"
+                    ]
+                  },
+                  "statement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "seller": {
+                "type": "object",
+                "required": [
+                  "status",
+                  "statement",
+                  "evidence"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "SUPPORTED",
+                      "HYPOTHESIS",
+                      "UNKNOWN"
+                    ]
+                  },
+                  "statement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "destination_layer": {
+                "type": "object",
+                "required": [
+                  "status",
+                  "statement",
+                  "evidence"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "SUPPORTED",
+                      "HYPOTHESIS",
+                      "UNKNOWN"
+                    ]
+                  },
+                  "statement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "successor": {
+                "type": "object",
+                "required": [
+                  "status",
+                  "statement",
+                  "evidence"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "SUPPORTED",
+                      "HYPOTHESIS",
+                      "UNKNOWN"
+                    ]
+                  },
+                  "statement": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "confirm": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "trigger": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "cancel": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "competition_group": {
+            "type": "object",
+            "required": [
+              "group_id",
+              "generator",
+              "anchor_date",
+              "theme",
+              "comparison_basis",
+              "members",
+              "not_comparable_with",
+              "leader_state",
+              "pairwise_relations",
+              "next_confirmation",
+              "coverage_status",
+              "next_day_tasks",
+              "uniqueness_status"
+            ],
+            "properties": {
+              "group_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "generator": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "G1",
+                  "G2",
+                  "G3",
+                  "G4",
+                  "G5",
+                  "G6",
+                  "G7",
+                  "G8",
+                  "G9",
+                  "G10",
+                  "G11",
+                  "G12",
+                  null
+                ]
+              },
+              "anchor_date": {
+                "type": "string",
+                "format": "date"
+              },
+              "theme": {
+                "type": "string",
+                "minLength": 1
+              },
+              "comparison_basis": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "members": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "not_comparable_with": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "leader_state": {
+                "type": "object",
+                "required": [
+                  "status",
+                  "thscode",
+                  "evidence"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "UNRESOLVED",
+                      "PROVISIONAL",
+                      "CONFIRMED",
+                      "REPLACED",
+                      "CANCELLED"
+                    ]
+                  },
+                  "thscode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "evidence": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "pairwise_relations": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "left_thscode",
+                    "right_thscode",
+                    "left_event_time",
+                    "right_event_time",
+                    "relation",
+                    "evidence"
+                  ],
+                  "properties": {
+                    "left_thscode": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "right_thscode": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "left_event_time": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "right_event_time": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "relation": {
+                      "type": "string",
+                      "enum": [
+                        "LEFT_EARLIER",
+                        "RIGHT_EARLIER",
+                        "SAME_TIME",
+                        "UNRESOLVED",
+                        "NOT_COMPARABLE"
+                      ]
+                    },
+                    "evidence": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              },
+              "next_confirmation": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "coverage_status": {
+                "type": "string",
+                "enum": [
+                  "COMPLETE",
+                  "PARTIAL",
+                  "MISSING"
+                ]
+              },
+              "next_day_tasks": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "rule_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "uniqueness_status": {
+                "type": "string",
+                "enum": [
+                  "UNRESOLVED",
+                  "CONFIRMED",
+                  "REPLACED",
+                  "CANCELLED"
+                ]
+              }
+            }
+          },
+          "pairwise_comparison": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "left_thscode",
+                "right_thscode",
+                "comparison_dimensions",
+                "left_advantages",
+                "right_advantages",
+                "unresolved",
+                "conclusion",
+                "fact_ids",
+                "evidence_families"
+              ],
+              "properties": {
+                "left_thscode": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "right_thscode": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "comparison_dimensions": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "left_advantages": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "right_advantages": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "unresolved": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "conclusion": {
+                  "type": "string",
+                  "enum": [
+                    "LEFT_PRIMARY",
+                    "RIGHT_PRIMARY",
+                    "CONDITIONAL",
+                    "NO_EDGE"
+                  ]
+                },
+                "fact_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "evidence_families": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "enum": [
+                      "TASK_COMPLETION_PRESTATE",
+                      "INDEPENDENCE_AND_EVENT_ORDER",
+                      "DIRECTION_RESPONSE",
+                      "DIVERGENCE_TOLERANCE",
+                      "CAPACITY_CARRYING",
+                      "ROLE_CONTINUITY_OR_MIGRATION"
+                    ]
+                  }
+                },
+                "rule_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "action_plan": {
+            "type": "object",
+            "required": [
+              "status",
+              "task_id",
+              "primary",
+              "backup",
+              "validation_objects",
+              "switch_rule",
+              "no_action_conditions"
+            ],
+            "properties": {
+              "status": {
+                "type": "string",
+                "enum": [
+                  "SINGLE",
+                  "CONDITIONAL_PAIR",
+                  "NO_ACTION"
+                ]
+              },
+              "task_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "primary": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "thscode",
+                  "task_id",
+                  "path_kind",
+                  "task_to_complete",
+                  "auction_conditions",
+                  "open_conditions",
+                  "downgrade_conditions",
+                  "direct_fail_conditions"
+                ],
+                "properties": {
+                  "thscode": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "task_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "path_kind": {
+                    "type": "string",
+                    "enum": [
+                      "PRIMARY",
+                      "ALTERNATIVE"
+                    ]
+                  },
+                  "task_to_complete": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "auction_conditions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "open_conditions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "downgrade_conditions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "direct_fail_conditions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "backup": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "required": [
+                  "thscode",
+                  "task_id",
+                  "path_kind",
+                  "task_to_complete",
+                  "auction_conditions",
+                  "open_conditions",
+                  "downgrade_conditions",
+                  "direct_fail_conditions"
+                ],
+                "properties": {
+                  "thscode": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "task_id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "path_kind": {
+                    "type": "string",
+                    "enum": [
+                      "PRIMARY",
+                      "ALTERNATIVE"
+                    ]
+                  },
+                  "task_to_complete": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "auction_conditions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "open_conditions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "downgrade_conditions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "direct_fail_conditions": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              },
+              "validation_objects": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "rule_ids": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "switch_rule": {
+                "type": "string",
+                "minLength": 1
+              },
+              "no_action_conditions": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "thscode",
+                "name",
+                "theme",
+                "task_id",
+                "observed_function",
+                "task_relation",
+                "node",
+                "node_id",
+                "generator",
+                "anchor_date",
+                "stock_start_date",
+                "role",
+                "role_family",
+                "role_status",
+                "capacity_tasks",
+                "agency_event_model",
+                "letter_carrier",
+                "competition_group",
+                "competitors",
+                "observed_state",
+                "tomorrow_must_do",
+                "acceptable_variants",
+                "failure_signals",
+                "cancel_if",
+                "output_tier",
+                "evidence"
+              ],
+              "properties": {
+                "thscode": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "theme": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "task_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "observed_function": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "task_relation": {
+                  "type": "string",
+                  "enum": [
+                    "ACTION_COMPETITOR",
+                    "VALIDATION_ONLY",
+                    "NOT_RELEVANT"
+                  ]
+                },
+                "node": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "node_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "generator": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "G1",
+                    "G2",
+                    "G3",
+                    "G4",
+                    "G5",
+                    "G6",
+                    "G7",
+                    "G8",
+                    "G9",
+                    "G10",
+                    "G11",
+                    "G12",
+                    null
+                  ]
+                },
+                "anchor_date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "stock_start_date": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "总核心",
+                    "容量核心",
+                    "情绪核心",
+                    "分支核心",
+                    "助攻伴飞",
+                    "补涨",
+                    "低位伴生",
+                    "二波载体",
+                    "旧核心残余",
+                    "跟风",
+                    "UNKNOWN"
+                  ]
+                },
+                "role_family": {
+                  "type": "string",
+                  "enum": [
+                    "核心",
+                    "容量",
+                    "补涨",
+                    "伴飞",
+                    "二波伴生",
+                    "旧核心残余",
+                    "跟风",
+                    "UNKNOWN"
+                  ]
+                },
+                "role_status": {
+                  "type": "string",
+                  "enum": [
+                    "CANDIDATE",
+                    "PROVISIONAL",
+                    "CONFIRMED",
+                    "REPLACED",
+                    "CANCELLED",
+                    "UNKNOWN"
+                  ]
+                },
+                "capacity_tasks": {
+                  "type": "object",
+                  "required": [
+                    "price_progression",
+                    "pullback_recovery",
+                    "sector_leadership",
+                    "center_of_gravity",
+                    "replacement_state"
+                  ],
+                  "properties": {
+                    "price_progression": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "pullback_recovery": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "sector_leadership": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "center_of_gravity": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "replacement_state": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                },
+                "agency_event_model": {
+                  "type": "object",
+                  "required": [
+                    "reference",
+                    "event_sequence",
+                    "target_behavior",
+                    "data_sufficiency",
+                    "conclusion",
+                    "relation_state",
+                    "reference_task_id",
+                    "role_replacement_basis"
+                  ],
+                  "properties": {
+                    "reference": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "reference_task_id": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "event_sequence": {
+                      "type": "array",
+                      "minItems": 1,
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "target_behavior": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data_sufficiency": {
+                      "type": "string",
+                      "enum": [
+                        "SUFFICIENT",
+                        "PARTIAL",
+                        "INSUFFICIENT",
+                        "UNKNOWN"
+                      ]
+                    },
+                    "conclusion": {
+                      "type": "string",
+                      "enum": [
+                        "ACTIVE",
+                        "PASSIVE",
+                        "UNKNOWN"
+                      ]
+                    },
+                    "relation_state": {
+                      "type": "string",
+                      "enum": [
+                        "INDEPENDENTLY_ACTIVE",
+                        "INDEPENDENCE_NOT_CONFIRMED",
+                        "PUSHED_BY_REFERENCE",
+                        "ROLE_REPLACED",
+                        "UNKNOWN"
+                      ]
+                    },
+                    "role_replacement_basis": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                },
+                "letter_carrier": {
+                  "type": "string",
+                  "enum": [
+                    "UNKNOWN"
+                  ]
+                },
+                "competition_group": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "competitors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "observed_state": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "tomorrow_must_do": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "acceptable_variants": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "failure_signals": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "cancel_if": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "output_tier": {
+                  "type": "string",
+                  "enum": [
+                    "主候选",
+                    "待验证候选",
+                    "替代候选",
+                    "取消或不行动"
+                  ]
+                },
+                "evidence": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          },
+          "excluded_candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "thscode",
+                "name",
+                "theme",
+                "task_id",
+                "generator",
+                "anchor_date",
+                "reason"
+              ],
+              "properties": {
+                "thscode": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "theme": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "task_id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "generator": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "G1",
+                    "G2",
+                    "G3",
+                    "G4",
+                    "G5",
+                    "G6",
+                    "G7",
+                    "G8",
+                    "G9",
+                    "G10",
+                    "G11",
+                    "G12",
+                    null
+                  ]
+                },
+                "anchor_date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "reason": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "unknowns": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "final_action_plan": {
+      "type": "object",
+      "required": [
+        "status",
+        "primary_ref",
+        "backup_ref",
+        "switch_rule",
+        "no_action_conditions",
+        "rule_ids"
+      ],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "SINGLE",
+            "CONDITIONAL_PAIR",
+            "NO_ACTION"
+          ]
+        },
+        "primary_ref": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "path_kind",
+            "task_id",
+            "thscode"
+          ],
+          "properties": {
+            "path_kind": {
+              "type": "string",
+              "enum": [
+                "PRIMARY",
+                "ALTERNATIVE"
+              ]
+            },
+            "task_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "thscode": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "backup_ref": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "path_kind",
+            "task_id",
+            "thscode"
+          ],
+          "properties": {
+            "path_kind": {
+              "type": "string",
+              "enum": [
+                "PRIMARY",
+                "ALTERNATIVE"
+              ]
+            },
+            "task_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "thscode": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        },
+        "switch_rule": {
+          "type": "string",
+          "minLength": 1
+        },
+        "no_action_conditions": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "rule_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "unknowns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    }
+  }
+}

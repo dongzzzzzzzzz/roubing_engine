@@ -1,0 +1,36 @@
+{
+  "verdict": "PASS",
+  "violations": [],
+  "counter_arguments": [
+    "MAINSTREAM覆盖项（清单状态READY）：局部强势仍可能是一日扩张，而非持续主流。燃气19只涨停中18只是2026-03-03新首板，二板断层，另有2只炸板；前日买方仅2名，虽均正收益，但只有1名续板、1名炸板。油服工程9名昨日买方全部续板构成真实跨日反证，因此不能把所有强方向一概称为一日游，但其全部集中二板、没有新增首板，也未证明持续扩散。依据facts：F-20260303-DIR-709720EF00、F-20260303-DIRBUY-A6DB3FDF28、F-20260303-DIR-F846A51E1C、F-20260303-DIRBUY-272B794042；依据rules.md：ENV_MAIN_TREND、NODE_MAINSTREAM_CONFIRM。2026-03-04若新增队列失去溢价，且先锋、容量与方向不能共同延续，应否定主流升级假设；这不是已经发生的次日结果。",
+    "UNIQUENESS覆盖项（清单状态READY）：观察对象可能只是共同跟随，尚未形成独立唯一性。油服工程9个观察对象均从2026-03-02共同首板晋级为二板，燃气18个观察对象均为2026-03-03共同首板；相同日期、相近功能只能界定竞争范围，不能证明胜者已经出现。两组日期不能互换，燃气三板验证对象不能混入当日首板竞争组，关系观察日2026-03-03也不能重置股票启动日。依据facts：F-20260303-DIR-F846A51E1C、F-20260303-DIRBUY-272B794042、F-20260303-STOCK-CEDCF0F9D1、F-20260303-DIR-709720EF00、F-20260303-STOCK-485FCB9D2A；依据rules.md：G08_UNIQUENESS、NODE_UNIQUENESS、DISC_NO_FIXED_SCORE。当前只有观察组而没有选中任务，空执行池不构成SINGLE或唯一性证据。",
+    "所谓弱转强可能是假强：当天有集合竞价点和开盘撮合，但minute_bar、trade_tick均不可用；正收益、竞价高开和收盘涨停不能单独证明经历分歧后主动承接、越过阻力并带动方向。若2026-03-04只有竞价姿态而后续价格无法推进，或只是被其他对象带起，就不满足弱转强的行动前提。依据facts：F-20260303-CTX-E979EFD6B4、F-20260303-DIRBUY-272B794042、F-20260303-DIRBUY-A6DB3FDF28；依据rules.md：G07_CAPACITY_CORE、PRIM_SEPARATION、PRIM_EXPECTATION_DELTA、DISC_NO_HINDSIGHT、DISC_SNAPSHOT_NOT_THRESHOLD。当前应保持未知，既不能把主动性写成已确认，也不能仅因固定观察时刻到达就宣告失败。",
+    "所谓分歧可能是推进失败，而不是可交易的主流修复：电网设备昨日3名买方只有1名正反馈并续板，另2名负反馈；当天仅三板与首板各1只，二板断层，前态只是延续候选。光伏设备虽有3只新首板，却有4只炸板，昨日唯一买方虽正收益但未续板。依据facts：F-20260303-DIR-9D87EDF53F、F-20260303-DIRBUY-E4B5108364、F-20260303-DIR-07CDE59CDB、F-20260303-DIRBUY-21BCE6853C；依据rules.md：NODE_FIRST_DIVERGENCE_REPAIR、G06_DIVERGENCE_REPAIR、DISC_NO_HINDSIGHT。若后续仍无原核心、容量及方向回流，应视为延续基础继续受损；不能从负反馈倒推出此前已是主流，更不能因保留一只高板就打开修复任务。",
+    "所谓新核心可能只是被反推：前态账本没有已确认的个股角色任务，当前又缺少分时成交，无法建立旧核心先弱、新候选随后独立走强、同任务接管以及方向响应的完整时间链。依据facts：F-20260303-CTX-9FB8370FAF、F-20260303-CTX-E979EFD6B4；依据rules.md：NODE_CORE_SWITCH、G09_CORE_SWITCH、PRIM_SEPARATION、EXIT_ROLE_REPLACED。被反推只能否定独立性，不能单独证明角色已被替代；即使主路径后来失败，也不能自动把燃气或其他竞争方向变为替代路径，仍须其自身节点、任务、股票及独立成立条件全部通过。本次没有替代行动叶子，这一反方风险尚未被误写为执行结论。",
+    "EXIT覆盖项（清单状态READY）：局部强势的持续性可能被整体下行破坏。2026-03-03全市场上涨642只、下跌4789只、跌停50只；三大指数当日及五日收益均为负，且均在MA5和MA20下方，风险材料仍为BLOCKED_DATA。依据facts：F-20260303-ENV-A0D3DD8E24、F-20260303-CTX-764B8954DC、F-20260303-CTX-2A4F187DA1；依据rules.md：ENV_DECLINE、EXIT_SHOULD_STRONG_NOT、EXIT_STRUCTURE、DISC_NO_HINDSIGHT。若次日尾部风险扩散、方向失去响应或必要风险核验仍未完成，应维持不行动或取消观察假设；不能把相对强度视为执行许可，也不能把5日线或历史个案数值设为统一退出阈值。本次冻结的是零只行动叶子，不应虚构持仓退出任务。",
+    "对保守结论的反方：NONE也可能低估局部有效路径，并不表示所有方向等强或下跌环境永远不能行动。石油化工具备1至3板梯队、6名昨日买方全正反馈且5名续板、当日无炸板跌停；油服工程9名买方全部晋级。它们是反对全面失效判断的具体证据。依据facts：F-20260303-DIR-EC80F8FACD、F-20260303-DIRBUY-9D1FE33F74、F-20260303-DIR-F846A51E1C、F-20260303-DIRBUY-272B794042；依据rules.md：ENV_DECLINE、NODE_MAINSTREAM_CONFIRM、NODE_UNIQUENESS、DISC_NO_FIXED_SCORE。若后续真实关系拉开，应重新评估相对优先路径，不能让单一高度、静态成交额或必须每个字段都领先的僵化要求阻止重评；但后续新证据不能回填2026-03-03冻结计划，本次无合法执行任务的封闭不行动结论不因此失效。"
+  ],
+  "_provenance": {
+    "backend": "codex",
+    "rules_version": "units_v1_37+historical_versions_v1+corpus282_full+theme_registry_v2+regulatory_registry_v2",
+    "code_version": "c9e2cb6",
+    "code_tree_hash": "35d1dbfca8e6",
+    "working_tree_dirty": true,
+    "instructions_hash": "f1564c2db0d8",
+    "generated_at": "2026-09-14T10:22:06.584058+00:00",
+    "input_hashes": {
+      "facts.json": "aded86e31103",
+      "stage_b.json": "27066654c954",
+      "stage_c1.json": "1f89f5dc737c",
+      "stage_c.json": "2c9bb99e5666",
+      "task_candidates.json": "f5d3cbc2bf50",
+      "candidate_pools.json": "97d170e1550e",
+      "compiled_plan.draft.json": "74f1da104069",
+      "rules.md": "190eb1cdcbcf",
+      "audit_evidence_manifest.json": "7edec94918ee",
+      "audit_evidence_coverage.md": "e164889634bd",
+      "original_posts.md": "b18eb7315926",
+      "schema.json": "b7dd815b5c93"
+    }
+  }
+}

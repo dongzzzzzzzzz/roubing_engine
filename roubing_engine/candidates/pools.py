@@ -292,29 +292,26 @@ def theme_observation_pool(as_of: str, theme: str) -> list[dict]:
 
 
 def prior_role_pool(as_of: str, theme: str | None = None) -> list[dict]:
-    ledger_dir = PROJECT_ROOT / "runs" / "ledger"
-    cutoff = _date_key(as_of)
+    from roubing_engine.state.ledger import load_prev_ledger
     rows: list[dict] = []
-    if not ledger_dir.exists():
+    entry = load_prev_ledger(_date_key(as_of))
+    if not entry:
         return rows
-    for path in sorted(ledger_dir.glob("*.json")):
-        if path.stem >= cutoff:
+    role_date = entry.get("trade_date")
+    for role in entry.get("roles", []):
+        if theme and not same_theme(role.get("theme"), theme):
             continue
-        entry = json.loads(path.read_text(encoding="utf-8"))
-        for role in entry.get("roles", []):
-            if theme and not same_theme(role.get("theme"), theme):
-                continue
-            rows.append({
-                "thscode": role.get("thscode"), "name": role.get("name"),
-                "theme": role.get("theme"), "raw_reason": role.get("theme"),
-                "status": None, "board_level": None, "highest_board_level": None,
-                "consecutive_limit_days": None, "limit_reason_extra": None,
-                "seal_amount": None, "limit_time": None,
-                "source_pool": "prior_role_ledger",
-                "include_reason": f"此前账本角色={role.get('role')}",
-                "daily": None,
-                "prior_role": role.get("role"), "role_date": path.stem,
-            })
+        rows.append({
+            "thscode": role.get("thscode"), "name": role.get("name"),
+            "theme": role.get("theme"), "raw_reason": role.get("theme"),
+            "status": None, "board_level": None, "highest_board_level": None,
+            "consecutive_limit_days": None, "limit_reason_extra": None,
+            "seal_amount": None, "limit_time": None,
+            "source_pool": "prior_role_ledger",
+            "include_reason": f"相邻前日账本角色={role.get('role')}",
+            "daily": None,
+            "prior_role": role.get("role"), "role_date": role_date,
+        })
     facts = _daily_facts(as_of, [r["thscode"] for r in rows if r.get("thscode")])
     for row in rows:
         row["daily"] = facts.get(row.get("thscode"))
