@@ -128,8 +128,26 @@ def save_ledger(date: str, stage_b: dict, stage_c: dict | None = None) -> Path:
         "trade_date": date,
         "as_of": stage_b.get("as_of"),
         "environment": stage_b.get("environment"),
+        "environment_hypotheses": stage_b.get("environment_hypotheses") or [],
+        "method_trace": stage_b.get("method_trace") or [],
+        "generator_applicability": stage_b.get("generator_applicability") or [],
         "direction_evaluations": directions,
+        "direction_lifecycle": [{
+            "theme": item.get("theme"),
+            "direction_fact_id": item.get("direction_fact_id"),
+            "stage_yesterday": item.get("stage_yesterday"),
+            "stage_today": item.get("stage_today"),
+            "market_relation": item.get("market_relation"),
+            "path_status": item.get("path_status"),
+            "supporting_fact_ids": item.get("supporting_fact_ids") or [],
+            "counter_fact_ids": item.get("counter_fact_ids") or [],
+            "data_gaps": item.get("data_gaps") or [],
+        } for item in directions],
         "nodes": stage_b.get("nodes"),
+        "pending_nodes": [
+            node for node in stage_b.get("nodes") or []
+            if node.get("action_status") in {"ACTION_READY", "OBSERVATION_ONLY"}
+        ],
         "competition_groups": ([plan.get("competition_group") for plan in path_plans]
                                if path_plans else
                                (stage_c or {}).get("competition_groups") or []),
@@ -188,5 +206,29 @@ def append_followup(plan_date: str, tplus1: str, *, snapshot: str | None = None,
                  if (item.get("tplus1"), item.get("snapshot"), item.get("outcome_file")) != key]
     followups.append(record)
     entry["followups"] = followups
+    path.write_text(json.dumps(entry, ensure_ascii=False, indent=2), encoding="utf-8")
+    return path
+
+
+def apply_close_review(plan_date: str, tplus1: str, close_review: dict,
+                       result_file: str | None = None) -> Path | None:
+    """Persist M6 review and its proposed next-ledger patch on the plan ledger."""
+    path = LEDGER_DIR / f"{plan_date}.json"
+    if not path.exists():
+        return None
+    entry = json.loads(path.read_text(encoding="utf-8"))
+    reviews = entry.setdefault("close_reviews", [])
+    reviews = [item for item in reviews if item.get("tplus1") != tplus1]
+    reviews.append({
+        "tplus1": tplus1,
+        "result_file": result_file,
+        "task_results": close_review.get("task_results") or [],
+        "role_migrations": close_review.get("role_migrations") or [],
+        "exit_reviews": close_review.get("exit_reviews") or [],
+        "next_ledger_patch": close_review.get("next_ledger_patch") or {},
+        "unknowns": close_review.get("unknowns") or [],
+    })
+    entry["close_reviews"] = reviews
+    entry["latest_close_review"] = reviews[-1]
     path.write_text(json.dumps(entry, ensure_ascii=False, indent=2), encoding="utf-8")
     return path

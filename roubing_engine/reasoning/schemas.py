@@ -7,6 +7,40 @@ even in capture-only/offline environments.
 
 STRING = {"type": "string", "minLength": 1}
 STRING_LIST = {"type": "array", "items": STRING}
+TRACE_STATUSES = ["APPLICABLE", "NOT_APPLICABLE", "DATA_INSUFFICIENT"]
+
+_METHOD_TRACE_ROW = {
+    "type": "object",
+    "required": ["step_id", "status", "fact_ids", "counter_fact_ids", "judgment",
+                 "downstream_effect", "forbidden_conclusions", "audit_status"],
+    "properties": {
+        "step_id": STRING,
+        "status": {"type": "string", "enum": TRACE_STATUSES},
+        "fact_ids": STRING_LIST,
+        "counter_fact_ids": STRING_LIST,
+        "judgment": STRING,
+        "downstream_effect": STRING_LIST,
+        "forbidden_conclusions": STRING_LIST,
+        "audit_status": {"type": "string", "enum": ["PASS", "REVISE"]},
+    },
+}
+
+_ENVIRONMENT_HYPOTHESIS = {
+    "type": "object",
+    "required": ["environment", "status", "supporting_fact_ids",
+                 "counter_fact_ids", "unknowns", "downstream_effect",
+                 "forbidden_conclusions"],
+    "properties": {
+        "environment": {"type": "string", "enum": [
+            "MAIN_TREND", "ROTATION", "DECLINE", "REGIME_SWITCH"]},
+        "status": {"type": "string", "enum": TRACE_STATUSES},
+        "supporting_fact_ids": STRING_LIST,
+        "counter_fact_ids": STRING_LIST,
+        "unknowns": STRING_LIST,
+        "downstream_effect": STRING_LIST,
+        "forbidden_conclusions": STRING_LIST,
+    },
+}
 
 ENVIRONMENTS = ["MAIN_TREND", "ROTATION", "DECLINE", "REGIME_SWITCH", "DATA_INSUFFICIENT"]
 GENERATORS = [f"G{i}" for i in range(1, 13)]
@@ -150,6 +184,98 @@ STAGE_B_SCHEMA = {
                     "cancel": STRING_LIST,
                 },
             },
+        },
+        "data_gaps": STRING_LIST,
+    },
+}
+
+M1_SCHEMA = {
+    "type": "object",
+    "required": ["as_of", "environment", "environment_hypotheses",
+                 "direction_evaluations", "direction_comparisons",
+                 "primary_path", "method_trace", "data_gaps"],
+    "properties": {
+        "as_of": STRING,
+        "environment": STAGE_B_SCHEMA["properties"]["environment"],
+        "environment_hypotheses": {
+            "type": "array", "minItems": 4, "items": _ENVIRONMENT_HYPOTHESIS,
+        },
+        "direction_evaluations": STAGE_B_SCHEMA["properties"]["direction_evaluations"],
+        "direction_comparisons": STAGE_B_SCHEMA["properties"]["direction_comparisons"],
+        "primary_path": STAGE_B_SCHEMA["properties"]["primary_path"],
+        "method_trace": {
+            "type": "array", "minItems": 9, "items": _METHOD_TRACE_ROW,
+        },
+        "data_gaps": STRING_LIST,
+    },
+}
+
+_GENERATOR_APPLICABILITY = {
+    "type": "object",
+    "required": ["generator", "status", "prior_state", "prior_resistance",
+                 "changed_facts", "benefited_function", "anchor_date",
+                 "natural_candidate_scope", "confirm", "cancel",
+                 "fact_ids", "counter_fact_ids", "rule_ids"],
+    "properties": {
+        "generator": {"type": "string", "enum": GENERATORS},
+        "status": {"type": "string", "enum": TRACE_STATUSES},
+        "prior_state": STRING,
+        "prior_resistance": STRING,
+        "changed_facts": STRING_LIST,
+        "benefited_function": STRING,
+        "anchor_date": {"type": ["string", "null"]},
+        "natural_candidate_scope": STRING,
+        "confirm": STRING_LIST,
+        "cancel": STRING_LIST,
+        "fact_ids": STRING_LIST,
+        "counter_fact_ids": STRING_LIST,
+        "rule_ids": STRING_LIST,
+    },
+}
+
+_NODE_QUESTIONS = {
+    "type": "object",
+    "required": ["prior_state", "prior_resistance", "changed_facts",
+                 "benefited_function", "anchor_date", "natural_candidate_scope",
+                 "confirm", "cancel"],
+    "properties": {
+        "prior_state": STRING,
+        "prior_resistance": STRING,
+        "changed_facts": STRING_LIST,
+        "benefited_function": STRING,
+        "anchor_date": {"type": ["string", "null"]},
+        "natural_candidate_scope": STRING,
+        "confirm": STRING_LIST,
+        "cancel": STRING_LIST,
+    },
+}
+
+_M2_NODE = {
+    **STAGE_B_SCHEMA["properties"]["nodes"]["items"],
+    "required": STAGE_B_SCHEMA["properties"]["nodes"]["items"]["required"] + [
+        "node_questions",
+    ],
+    "properties": {
+        **STAGE_B_SCHEMA["properties"]["nodes"]["items"]["properties"],
+        "node_questions": _NODE_QUESTIONS,
+    },
+}
+
+M2_SCHEMA = {
+    "type": "object",
+    "required": ["as_of", "generator_applicability", "nodes",
+                 "method_trace", "data_gaps"],
+    "properties": {
+        "as_of": STRING,
+        "generator_applicability": {
+            "type": "array", "minItems": 12, "items": _GENERATOR_APPLICABILITY,
+        },
+        "nodes": {
+            **STAGE_B_SCHEMA["properties"]["nodes"],
+            "items": _M2_NODE,
+        },
+        "method_trace": {
+            "type": "array", "minItems": 12, "items": _METHOD_TRACE_ROW,
         },
         "data_gaps": STRING_LIST,
     },
@@ -658,6 +784,194 @@ STAGE_D_SCHEMA = {
         "next_stage": {"type": "string", "enum": ["OPEN_0935", "STOP", "COMPLETE"]},
         "decision": {"type": "string", "enum": [
             "WAIT_OPEN_VALIDATION", "BUY", "NO_ACTION", "DATA_INSUFFICIENT"]},
+        "unknowns": STRING_LIST,
+    },
+}
+
+_VALIDATION_TRACE_ROW = {
+    "type": "object",
+    "required": ["step_id", "status", "observed", "fact_ids", "judgment"],
+    "properties": {
+        "step_id": STRING,
+        "status": {"type": "string", "enum": [
+            "CONFIRMS", "PARTIAL", "REJECTS", "DATA_INSUFFICIENT",
+            "NOT_APPLICABLE"]},
+        "observed": STRING_LIST,
+        "fact_ids": STRING_LIST,
+        "judgment": STRING,
+    },
+}
+
+M4_AUCTION_SCHEMA = {
+    "type": "object",
+    "required": ["tplus1", "snapshot", "as_of", "auction_read_order",
+                 "path_results", "backup_independence_check",
+                 "condition_tree_hit", "current_action_candidate", "next_stage",
+                 "decision", "method_trace", "unknowns"],
+    "properties": {
+        "tplus1": STRING,
+        "snapshot": {"type": "string", "enum": ["AUCTION_0925"]},
+        "as_of": STRING,
+        "auction_read_order": {
+            "type": "array", "minItems": 3, "items": {"type": "string", "enum": [
+                "09:15_INITIAL_DISPLAY", "09:20_ORDER_RETENTION_DECAY",
+                "09:25_FINAL_MATCH"]}
+        },
+        "path_results": {
+            "type": "array", "items": {
+                "type": "object",
+                "required": ["thscode", "tier", "path_kind", "task_id",
+                             "auction_status", "self_vs_yesterday",
+                             "same_group_opponents", "board_capacity_context",
+                             "tradability", "observed", "reject_reasons"],
+                "properties": {
+                    "thscode": STRING,
+                    "tier": {"type": "string", "enum": ["PRIMARY", "BACKUP"]},
+                    "path_kind": {"type": ["string", "null"]},
+                    "task_id": STRING,
+                    "auction_status": {"type": "string", "enum": [
+                        "AUCTION_CONFIRMS_PATH", "AUCTION_NEEDS_OPEN_VALIDATION",
+                        "AUCTION_REJECTS_PATH", "DATA_INSUFFICIENT"]},
+                    "self_vs_yesterday": STRING_LIST,
+                    "same_group_opponents": STRING_LIST,
+                    "board_capacity_context": STRING_LIST,
+                    "tradability": STRING_LIST,
+                    "observed": STRING_LIST,
+                    "reject_reasons": STRING_LIST,
+                },
+            },
+        },
+        "backup_independence_check": {
+            "type": "object", "required": ["available", "status", "observed"],
+            "properties": {
+                "available": {"type": "boolean"},
+                "status": {"type": "string", "enum": [
+                    "INDEPENDENTLY_ESTABLISHED", "NOT_ESTABLISHED",
+                    "NOT_APPLICABLE", "DATA_INSUFFICIENT"]},
+                "observed": STRING_LIST,
+            },
+        },
+        "condition_tree_hit": STAGE_D_SCHEMA["properties"]["condition_tree_hit"],
+        "current_action_candidate": {"type": ["string", "null"]},
+        "next_stage": {"type": "string", "enum": ["OPEN_0935", "STOP"]},
+        "decision": {"type": "string", "enum": [
+            "WAIT_OPEN_VALIDATION", "NO_ACTION", "DATA_INSUFFICIENT"]},
+        "method_trace": {"type": "array", "minItems": 4, "items": _VALIDATION_TRACE_ROW},
+        "unknowns": STRING_LIST,
+    },
+}
+
+M5_OPEN_ACTION_SCHEMA = {
+    "type": "object",
+    "required": ["tplus1", "snapshot", "as_of", "current_action_candidate",
+                 "open_validation", "action_trigger", "decision",
+                 "method_trace", "unknowns"],
+    "properties": {
+        "tplus1": STRING,
+        "snapshot": {"type": "string", "enum": ["OPEN_0935"]},
+        "as_of": STRING,
+        "current_action_candidate": {"type": ["string", "null"]},
+        "open_validation": {
+            "type": "object",
+            "required": ["sell_pressure_path", "stop_weakening",
+                         "same_group_event_order", "board_response", "conclusion"],
+            "properties": {
+                "sell_pressure_path": STRING_LIST,
+                "stop_weakening": STRING_LIST,
+                "same_group_event_order": STRING_LIST,
+                "board_response": STRING_LIST,
+                "conclusion": {"type": "string", "enum": [
+                    "OPEN_CONFIRMS", "NEEDS_FURTHER_VALIDATION",
+                    "OPEN_REJECTS", "DATA_INSUFFICIENT"]},
+            },
+        },
+        "action_trigger": {
+            "type": "object",
+            "required": ["method", "method_trace", "thscode", "reason"],
+            "properties": {
+                "method": {"type": "string", "enum": [
+                    "LOW_ABSORB", "BREAKOUT_FOLLOW", "RESEAL",
+                    "CLOSE_CONFIRM", "NONE"]},
+                "method_trace": STRING_LIST,
+                "thscode": {"type": ["string", "null"]},
+                "reason": STRING_LIST,
+            },
+        },
+        "decision": {"type": "string", "enum": [
+            "BUY", "NO_ACTION", "WAIT_CLOSE_CONFIRM", "DATA_INSUFFICIENT"]},
+        "method_trace": {"type": "array", "minItems": 5, "items": _VALIDATION_TRACE_ROW},
+        "unknowns": STRING_LIST,
+    },
+}
+
+CLOSE_REVIEW_SCHEMA = {
+    "type": "object",
+    "required": ["tplus1", "plan_date", "task_results", "role_migrations",
+                 "exit_reviews", "next_ledger_patch", "unknowns"],
+    "properties": {
+        "tplus1": STRING,
+        "plan_date": STRING,
+        "task_results": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["thscode", "task_id", "status", "evidence", "failed_conditions"],
+                "properties": {
+                    "thscode": STRING,
+                    "task_id": STRING,
+                    "status": {"type": "string", "enum": [
+                        "COMPLETED", "FAILED", "CANCELLED", "DATA_INSUFFICIENT",
+                        "NOT_TRIGGERED"]},
+                    "evidence": STRING_LIST,
+                    "failed_conditions": STRING_LIST,
+                },
+            },
+        },
+        "role_migrations": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["thscode", "previous_role", "new_role", "status",
+                             "evidence", "counter_evidence"],
+                "properties": {
+                    "thscode": STRING,
+                    "previous_role": {"type": ["string", "null"]},
+                    "new_role": {"type": ["string", "null"]},
+                    "status": {"type": "string", "enum": [
+                        "UNCHANGED", "UPGRADED", "DOWNGRADED", "REPLACED",
+                        "CANCELLED", "DATA_INSUFFICIENT"]},
+                    "evidence": STRING_LIST,
+                    "counter_evidence": STRING_LIST,
+                },
+            },
+        },
+        "exit_reviews": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": ["thscode", "decision", "reason", "rule_ids"],
+                "properties": {
+                    "thscode": STRING,
+                    "decision": {"type": "string", "enum": [
+                        "HOLD", "EXIT", "REDUCE", "NO_POSITION", "DATA_INSUFFICIENT"]},
+                    "reason": STRING_LIST,
+                    "rule_ids": STRING_LIST,
+                },
+            },
+        },
+        "next_ledger_patch": {
+            "type": "object",
+            "required": ["environment", "directions", "nodes", "roles",
+                         "competition_groups", "no_action_conditions"],
+            "properties": {
+                "environment": {"type": ["object", "null"]},
+                "directions": {"type": "array", "items": {"type": "object"}},
+                "nodes": {"type": "array", "items": {"type": "object"}},
+                "roles": {"type": "array", "items": {"type": "object"}},
+                "competition_groups": {"type": "array", "items": {"type": "object"}},
+                "no_action_conditions": STRING_LIST,
+            },
+        },
         "unknowns": STRING_LIST,
     },
 }

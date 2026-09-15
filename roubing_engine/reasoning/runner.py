@@ -43,6 +43,9 @@ class AgentTask:
     task_dir: Path
     instructions: str
     timeout_s: int = 1800
+    reasoning_effort: str | None = None
+    schema_file: str = "schema.json"
+    inline_context: bool = True
 
 
 FORBIDDEN_SKILL_MARKERS = ("capital-destination-reasoner", "serenity-skill")
@@ -218,22 +221,50 @@ def _run_child(cmd: list[str], *, cwd: Path, timeout: int, env: dict,
     return int(returncode or 0), result, stopped_after_result
 
 
+def _inline_context(task: AgentTask) -> str:
+    if not task.inline_context:
+        return ""
+    skip = {
+        "instructions.md", "schema.json", "stdout.log", "stderr.log",
+        "environment_summary.json", "token_usage.json", "contamination.json",
+    }
+    sections = []
+    for path in sorted(task.task_dir.iterdir()):
+        if path.name in skip or path.name == "output" or not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except UnicodeDecodeError:
+            continue
+        sections.append(f"\n\n===== BEGIN {path.name} =====\n{text}\n===== END {path.name} =====")
+    return "".join(sections)
+
+
 def build_codex_cmd(task: AgentTask) -> list[str]:
     # codex exec reads the prompt arg and works in cwd; allow workspace writes,
     # no approval prompts (fully non-interactive).
-    guarded = ("环境隔离要求：本任务禁止使用、读取、调用或提及任何外部投资 skill；"
-               "只使用任务目录中的文件。\n\n"
-               + task.instructions)
-    return [
+    guarded = (
+        "环境隔离要求：本任务禁止使用、读取、调用或提及任何外部投资 skill；"
+        "不要运行 shell 命令，不要读写文件；本 prompt 已内联提供全部输入。"
+        "直接返回满足 --output-schema 的最终 JSON，Codex CLI 会保存到 output/result.json。\n\n"
+        + task.instructions
+        + _inline_context(task)
+    )
+    cmd = [
         "codex", "exec", "--skip-git-repo-check",
         "--ephemeral", "--ignore-rules", "--color", "never",
+        "--json", "--output-schema", task.schema_file,
+        "-o", str(_result_path(task.task_dir).relative_to(task.task_dir)),
         "--disable", "plugins", "--disable", "remote_plugin",
         "--disable", "recommended_plugins", "--disable", "apps",
         "--disable", "skill_search",
-        "-c", 'sandbox_mode="workspace-write"',
+        "-c", 'sandbox_mode="read-only"',
         "-c", 'approval_policy="never"',
-        guarded,
     ]
+    if task.reasoning_effort:
+        cmd.extend(["-c", f'model_reasoning_effort="{task.reasoning_effort}"'])
+    cmd.append(guarded)
+    return cmd
 
 
 def build_cursor_cmd(task: AgentTask) -> list[str]:
@@ -310,7 +341,61 @@ def run(task: AgentTask, backend: str = "codex") -> dict:
 
     if result is None:
         raise RuntimeError(f"{backend} did not produce {out}")
+    usage = extract_usage(stdout + "\n" + stderr)
+    (task.task_dir / "token_usage.json").write_text(
+        json.dumps(usage, ensure_ascii=False, indent=2), encoding="utf-8")
     return result
+
+
+def extract_usage(text: str) -> dict:
+    """Best-effort token usage extraction from Codex/Cursor JSONL output."""
+    totals = {
+        "input_tokens": 0, "cached_input_tokens": 0,
+        "output_tokens": 0, "reasoning_tokens": 0, "total_tokens": 0,
+    }
+    found = False
+
+    def add_usage(payload: dict) -> None:
+        nonlocal found
+        usage = payload.get("usage") if isinstance(payload, dict) else None
+        if not isinstance(usage, dict):
+            usage = payload.get("token_usage") if isinstance(payload, dict) else None
+        if not isinstance(usage, dict):
+            return
+        found = True
+        mapping = {
+            "input_tokens": ("input_tokens", "prompt_tokens"),
+            "cached_input_tokens": ("cached_input_tokens", "cached_prompt_tokens"),
+            "output_tokens": ("output_tokens", "completion_tokens"),
+            "reasoning_tokens": ("reasoning_tokens",),
+            "total_tokens": ("total_tokens",),
+        }
+        for target, keys in mapping.items():
+            for key in keys:
+                value = usage.get(key)
+                if isinstance(value, int):
+                    totals[target] += value
+                    break
+
+    for line in (text or "").splitlines():
+        line = line.strip()
+        if not line or not line.startswith("{"):
+            continue
+        try:
+            payload = json.loads(line)
+        except json.JSONDecodeError:
+            continue
+        add_usage(payload)
+        if isinstance(payload, dict):
+            for value in payload.values():
+                if isinstance(value, dict):
+                    add_usage(value)
+    if not found:
+        return {"status": "UNAVAILABLE", "reason": "backend output did not expose token usage"}
+    if not totals["total_tokens"]:
+        totals["total_tokens"] = (
+            totals["input_tokens"] + totals["output_tokens"] + totals["reasoning_tokens"])
+    return {"status": "AVAILABLE", **totals}
 
 
 def validate(result: dict, schema: dict) -> list[str]:

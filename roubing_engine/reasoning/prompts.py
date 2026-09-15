@@ -18,8 +18,113 @@ HARD_CONTRACT = """
 - 不得把所有炸板二分为主动/被动；无完整委托流不得断言撤单者。
 - regulatory_context 或候选池若标记监管规则 BLOCKED_DATA，不得计算异动距离或声称仍有监管空间。
 - 每个结论尽量引用 rules.md 的规则 id 和 facts 中的事实。
-- 输出必须是合法 JSON，写入 ./output/result.json，不要输出到别处，不要附加解释文字。
+- 输出必须是合法 JSON；系统会把最终响应保存到 ./output/result.json，不要另行读写文件，不要附加解释文字。
 """.strip()
+
+
+def m1_macro_instructions() -> str:
+    return f"""你是 roubing V2 六包推理中的 M1：环境 + 方向生命周期。
+
+读取 macro_facts.json、rules.md、yesterday_state.json、protocol.json。
+本包只做 Stage 0-2：冻结信息边界、五项观察、四环境假设、环境裁决、全部方向生命周期、
+方向横向比较和三路径候选。你看不到逐票观察集，也不得写任何股票动作。
+
+必须按 protocol.json 完整输出：
+- Stage 1 五项观察全部进入 method_trace；
+- MAIN_TREND、ROTATION、DECLINE、REGIME_SWITCH 四种环境假设全部写入 environment_hypotheses，
+  并在 method_trace 写 S1-HYPOTHESIS-*；
+- direction_state_facts 中每个方向必须且只能有一条 direction_evaluations；
+- 轮动必须写核心限制、后排排除、持有缩短、升级条件；
+- 退潮必须先生成默认不行动逻辑，再检查 G1/G11/明确分离这些例外；
+- 切换必须保留旧方向修复、新方向接替、双失败不行动三路；
+- 缺前日账本时不得写跨日迁移、修复完成或切换完成。
+
+输出必须满足 schema.json。字段含义沿用 Stage B，但本包不输出 nodes。
+
+{HARD_CONTRACT}
+"""
+
+
+def m2_node_instructions() -> str:
+    return f"""你是 roubing V2 六包推理中的 M2：节点推理。
+
+读取 node_facts.json、macro_result.json、rules.md、protocol.json。
+本包只做 Stage 3：在 M1 保留方向和前日待续节点上逐项检查 G1-G12。
+你不能因为候选池大小、股票好选或股票数量来反推节点；程序会在你输出合法节点后再展开池。
+
+硬性覆盖：
+- generator_applicability 必须包含 G1-G12 十二项，每项 status 只能是
+  APPLICABLE / NOT_APPLICABLE / DATA_INSUFFICIENT；
+- 每个适用、冲突或数据不足项必须写 prior_state、prior_resistance、changed_facts、
+  benefited_function、anchor_date、natural_candidate_scope、confirm、cancel；
+- 每个 nodes 项必须输出 node_questions 对象，且完整包含
+  prior_state、prior_resistance、changed_facts、benefited_function、anchor_date、
+  natural_candidate_scope、confirm、cancel 八个字段；
+- G8 起算日当天只能建立观察组，不得直接选赢家或 ACTION_READY；
+- G6 必须证明此前主流、板块级大分歧、修复前态；
+- G9 必须证明旧核心先失职、新核心后主动、板块响应新核心；
+- G10 必须证明方向资金仍在，不能把任意低位上涨叫高低切换；
+- DECLINE 环境下，除 G1/G11/明确分离外，其他生成器只能观察，不得升级动作。
+
+输出必须满足 schema.json。nodes 的结构沿用 Stage B，且 node_questions 是必填字段；
+不要把这八项只写进 method_reasoning、confirm 或 cancel。
+
+{HARD_CONTRACT}
+"""
+
+
+def m3_plan_instructions() -> str:
+    return f"""你是 roubing V2 六包推理中的 M3：角色 + 竞争 + 次日计划。
+
+读取 plan_facts.json、macro_result.json、node_result.json、task_candidates.json、
+selected_candidate_pools.json、rules.md、protocol.json。selected_candidate_pools 是程序根据
+M2 审计通过的 ACTION_READY 节点展开的完整池；池外股票禁止出现。
+
+按 Stage 4-7 输出兼容的 Stage C 结构：
+1. 为完整候选池建立角色假设：总核心、情绪核心、容量、分支、助攻、补涨、低位伴生、
+   二波、旧核心残余、跟风、UNKNOWN，并记录候选/暂定/确认/替代/取消；
+2. 建竞争组：节点、起算日、方向、角色任务、资金类型、完整候选；
+3. 先做硬淘汰：前态不存在、任务失败、方向结束、结构破坏、交易条件失效、数据不足；
+4. 再做关系淘汰：任务完成、谁先主动、承受分歧、外部功能、次日买方奖励、监管与空间；
+5. 三只及以上仍不可排除时，该节点只观察，输出 NO_ACTION；
+6. 最终冻结主路径、独立替代路径和不行动路径。BACKUP 必须有自身正向成立条件，
+   不因 PRIMARY 失败自动成立。
+
+输出使用 schema.json 的 Stage C 结构；final_action_plan 最多一只 PRIMARY 加一只独立 BACKUP。
+
+{HARD_CONTRACT}
+"""
+
+
+def semantic_audit_instructions(pack_id: str) -> str:
+    return f"""你是 roubing V2 的独立语义审计包，正在审计 {pack_id}。
+
+阅读当前目录中的 stage_result.json、stage_facts.json、rules.md、protocol.json。
+只检查该包是否漏流程、偷换前态、形态套用、事件倒序、环境不匹配、越过数据边界。
+不要补写交易结论，也不要引入 stage_facts 之外的信息。
+
+若结论可接受，输出 verdict=PASS 且 violations 为空。若有问题，violations 只写真实违规；
+counter_arguments 写反方压力测试。
+
+输出 schema.json：
+{{"verdict":"PASS|NEEDS_REVISION","violations":["实际违规"],"counter_arguments":["反方"]}}
+
+{HARD_CONTRACT}
+"""
+
+
+def targeted_retry_instructions(pack_id: str) -> str:
+    return f"""你是 roubing V2 的 {pack_id} 定向修订包。
+
+读取 stage_facts.json、previous_result.json、audit_result.json、rules.md、protocol.json。
+只修订 audit_result.json 指出的争议对象；未被争议的结构和结论尽量保持不变。
+若事实不足以修复，不要硬凑，必须把相关对象降级为 DATA_INSUFFICIENT、OBSERVATION_ONLY
+或 NO_ACTION。
+
+输出必须满足 schema.json；最终响应只返回 JSON。
+
+{HARD_CONTRACT}
+"""
 
 
 def stage_b_instructions() -> str:
@@ -82,7 +187,7 @@ fact_catalog 中真实存在的 fact_id。自然语言说明放 reasoning/observ
 G8 必须是明确同日起步/共同首板队列；3板、2板、首板混合梯队不能把起算日重置为
 当天后塞入 G8。
 
-请把结果写入 ./output/result.json，结构（键名固定）：
+最终响应只返回 JSON，结构（键名固定）：
 {{
   "as_of": "facts.json 的 as_of",
   "environment": {{"status": "MAIN_TREND|ROTATION|DECLINE|REGIME_SWITCH|DATA_INSUFFICIENT",
@@ -200,7 +305,7 @@ def _legacy_stage_c_instructions() -> str:
   competition_group、action_competition_group、pairwise_comparison 和 action_plan 都必须输出
   rule_ids；每只 candidate.evidence 必须同时包含自己的 F-... fact_id 和至少一个 required_rule_id。
 
-请把结果写入 ./output/result.json，结构（键名固定）：
+最终响应只返回 JSON，结构（键名固定）：
 {{
   "as_of": "同 facts",
   "execution_task": {{"status": "SELECTED|NONE|BLOCKED_DATA", "task_id": "TASK-...或null",
@@ -511,7 +616,7 @@ auction_open_change_pct 的单位已经是百分比，严禁再乘除100。每�
 auction_open_change_text；auction_pair_comparison 必须逐字段原样抄 relative_auction_contract，
 不得自行重算、改写强弱代码或百分点差。
 
-请把结果写入 ./output/result.json：
+最终响应只返回 JSON：
 {{
   "tplus1": "同 validation_facts",
   "snapshot": "AUCTION_0925|OPEN_0935",
@@ -558,30 +663,92 @@ auction_open_change_text；auction_pair_comparison 必须逐字段原样抄 rela
 """
 
 
+def m4_auction_instructions() -> str:
+    return f"""你是 roubing V2 六包推理中的 M4：竞价验证。
+
+读取 executable_plan.json、validation_facts.json、rules.md、schema.json。
+本包只做 Stage 8：读取冻结条件树，只看 PRIMARY、BACKUP 和验证对象；不得加入新股票。
+
+固定顺序：
+1. 一次读取完整竞价时间线：09:15 初始展示、09:20 保留/衰减、09:25 最终撮合；
+2. 先与自身昨日/盘后任务比较；
+3. 再与同组对手比较；
+4. 再看板块、容量和验证对象；
+5. 最后检查交易空间和可成交性。
+
+输出结果只能是：
+- AUCTION_CONFIRMS_PATH：竞价确认路径，但仍需真实卖压验证；
+- AUCTION_NEEDS_OPEN_VALIDATION：部分满足，需要开盘卖压和承接验证；
+- AUCTION_REJECTS_PATH：竞价直接失败；
+- DATA_INSUFFICIENT：竞价事实不足。
+
+PRIMARY 明确失败后，只有 BACKUP 在盘前已冻结且自身独立成立，才允许把
+current_action_candidate 切到 BACKUP。PRIMARY 只是降级或待开盘确认时不得切换。
+09:25 永远不能输出 BUY。
+
+输出必须满足 schema.json。
+
+{HARD_CONTRACT}
+"""
+
+
+def m5_open_action_instructions() -> str:
+    return f"""你是 roubing V2 六包推理中的 M5：开盘验证 + 动作触发。
+
+读取 executable_plan.json、validation_facts.json、m4_auction_result.json、rules.md、schema.json。
+本包只做 Stage 9-10，且只能验证 M4 传入的唯一 current_action_candidate。
+09:25 没有唯一对象时，必须 NO_ACTION，禁止从验证对象或意外强票重新选。
+
+先完成开盘验证，再允许选择动作方式：
+1. 第一轮卖压：直接上攻还是下探、关键位、成交、谁先走弱；
+2. 是否停止走弱：不再新低、低点抬高、收回预定位置；
+3. 同组事件顺序：谁先主动、谁被反推；
+4. 板块响应：核心、容量、助攻、指数是否支持。
+
+开盘结论：
+- OPEN_CONFIRMS：角色任务完成；
+- NEEDS_FURTHER_VALIDATION：仍需观察，09:35 不是机械失败线；
+- OPEN_REJECTS：结构失败；
+- DATA_INSUFFICIENT：数据不足。
+
+只有 OPEN_CONFIRMS 或 NEEDS_FURTHER_VALIDATION 后，才允许在同一次调用内选择动作方式，
+且必须保留独立 method_trace：
+- 回踩关键位停止下跌并拐头 -> LOW_ABSORB；
+- 越过预定阻力并主动推进 -> BREAKOUT_FOLLOW；
+- 经真实卖压和换手重新封住 -> RESEAL；
+- 必须等收盘确认监管、回流或突破 -> CLOSE_CONFIRM；
+- 否则 NONE。
+
+输出必须满足 schema.json。
+
+{HARD_CONTRACT}
+"""
+
+
 def audit_instructions() -> str:
     return f"""你是独立审计模块，检查完整盘后链路是否忠实于 roubing 方法。
 
 阅读当前目录：
 - facts.json：当天冻结事实；
-- stage_b.json：环境、方向比较、主路径和节点；
-- stage_c1.json：看不到股票数量时作出的任务选择；
+- macro_result.json：M1 环境、四环境假设、方向生命周期和方向比较；
+- node_result.json：M2 G1-G12 适用性、合法节点和节点问题回答；
+- stage_b.json：兼容产物，合并了 M1/M2 的环境、方向、节点和方法痕迹；
 - task_candidates.json、candidate_pools.json：节点真正打开的任务及完整池；
-- stage_c.json：股票功能、同任务竞争和最终主/替代/不行动计划；
+- stage_c.json：M3 股票功能、同任务竞争和最终主/替代/不行动计划；
 - compiled_plan.draft.json：即将进入次日验证的封闭叶子；
 - rules.md：Stage B、Stage C 和审计纪律规则的完整并集；
 - audit_evidence_manifest.json、audit_evidence_coverage.md：根据本次实际节点、任务、角色、
-  主动性、退出和替代关系动态生成的审计覆盖清单；
-- original_posts.md：只供独立审计使用的离线反方原帖；正式 Stage B/C 没有读取原帖。
+  主动性、退出和替代关系动态生成的审计覆盖清单。
 
 证据核验纪律：正式结论必须引用 facts 的 fact_id 和 rules.md 的规则，不得把审计原帖
-中的历史个案或股票搬回当天结论。original_posts.md 只用于发现规则误用、个案泛化和反例。
+中的历史个案或股票搬回当天结论。运行审计不读取原帖正文、URL、来源日期或作者案例答案。
 必须按 audit_evidence_coverage.md 逐项核查；任何实际使用的方法类别若状态为 PARTIAL_DATA，
 必须作为审计违规/覆盖缺口写入 violations，不能假装全部语境已经覆盖。
-必须逐项核对：Stage B 是否被单一高度绑架；任务是否绕过节点；C1 是否按候选少/容易
-SINGLE选任务；候选是否越过冻结池；节点起算日与股票启动日是否混淆；被反推是否被写成
+必须逐项核对：M1 是否被单一高度绑架；M2 是否漏掉 G1-G12 或绕过环境门禁；
+M3 是否按候选少/容易 SINGLE 选任务；候选是否越过冻结池；节点起算日与股票启动日是否混淆；被反推是否被写成
 角色替代；替代路径是否有自身节点、任务、股票和独立成立条件；最终是否最多两只冻结叶子。
 
-请写入 ./output/result.json：
+最终响应只返回 JSON：
 {{
   "verdict": "PASS|NEEDS_REVISION",
   "violations": [
@@ -594,7 +761,7 @@ SINGLE选任务；候选是否越过冻结池；节点起算日与股票启动�
 
 `violations` 只允许放实际违规项；“未发现某问题”不能写入 violations。若 verdict=PASS，violations 必须为空数组。反方可能性统一写入 counter_arguments，不要与违规项混淆。
 
-只输出 JSON 到 ./output/result.json。不要修改其他文件。
+最终响应只返回 JSON。不要修改其他文件。
     """
 
 
@@ -608,8 +775,30 @@ PRIMARY/BACKUP 来自不同路径时是否分别验证各自 task_id/node_id，�
 09:35 是否只验证09:25唯一对象；缺开盘五分钟或逐笔时是否写成确认；是否把竞价
 未匹配量解释成撤单者；是否在缺指数/板块分时时确认共振；是否把数据不足写成事实。
 
-写入 ./output/result.json，结构固定：
+最终响应只返回 JSON，结构固定：
 {{"verdict":"PASS|NEEDS_REVISION","violations":["只写实际违规"],"counter_arguments":["反方压力测试"]}}
+
+{HARD_CONTRACT}
+"""
+
+
+def m6_close_review_instructions() -> str:
+    return f"""你是 roubing V2 六包推理中的 M6：收盘复盘、持有退出和下一日账本。
+
+读取 close_review_facts.json、executable_plan.json、validation_results.json、rules.md。
+只能使用已经冻结的计划、M4/M5 验证结果和 close_review_facts 中的全日事实。
+
+固定顺序：
+1. 先查动作触发是否立即失败；
+2. 再查角色是否继续完成任务；
+3. 再查板块路径是否被推翻；
+4. 检查角色迁移：旧失职→新主动→板块响应→旧被反推→后续确认；
+5. 输出退出原因：该强不强、角色替代、秩序恶化、高位推进失败、结构破坏、
+   催化/监管/环境失效；
+6. 去持仓偏见重算下一交易日环境、方向、节点、角色、竞争组、任务和三路径。
+
+缺收盘、分时、逐笔或持仓事实时，不得编造退出或角色替代，必须 DATA_INSUFFICIENT。
+输出必须满足 schema.json。
 
 {HARD_CONTRACT}
 """

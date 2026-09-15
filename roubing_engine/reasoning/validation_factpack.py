@@ -85,6 +85,57 @@ def _auction_summary(df):
     }
 
 
+def _auction_timeline(df):
+    """Return the three auction checkpoints required by V2 M4.
+
+    The source may contain more points than these exact labels, so each
+    checkpoint uses the latest observation at or before its cutoff.  This is a
+    fact projection only; no retention/decay judgement is made here.
+    """
+    if df.empty:
+        return []
+
+    checkpoints = [
+        ("09:15_INITIAL_DISPLAY", 9 * 3600 + 15 * 60),
+        ("09:20_ORDER_RETENTION_DECAY", 9 * 3600 + 20 * 60),
+        ("09:25_FINAL_MATCH", SNAPSHOT_CUTOFFS["AUCTION_0925"]),
+    ]
+    frame = df.copy()
+    frame["_event_seconds"] = frame.apply(row_seconds, axis=1)
+    frame = frame[frame["_event_seconds"].notna()]
+    frame = frame[frame["_event_seconds"] <= SNAPSHOT_CUTOFFS["AUCTION_0925"]]
+    if frame.empty:
+        return []
+    frame = frame.sort_values("_event_seconds")
+    rows = []
+    for label, cutoff in checkpoints:
+        visible = frame[frame["_event_seconds"] <= cutoff]
+        if visible.empty:
+            rows.append({
+                "checkpoint": label,
+                "available": False,
+                "time_label": None,
+                "price": None,
+                "matched_volume": None,
+                "unmatched_volume": None,
+                "unmatched_signed_raw": None,
+                "unmatched_direction_raw": None,
+            })
+            continue
+        row = visible.iloc[-1]
+        rows.append({
+            "checkpoint": label,
+            "available": True,
+            "time_label": _clean(row.get("time_label")),
+            "price": _clean(row.get("price")),
+            "matched_volume": _clean(row.get("matched_volume")),
+            "unmatched_volume": _clean(row.get("unmatched_volume")),
+            "unmatched_signed_raw": _clean(row.get("unmatched_signed_raw")),
+            "unmatched_direction_raw": _clean(row.get("unmatched_direction_raw")),
+        })
+    return rows
+
+
 def _open5m(minutes_df, open_price, pre_close=None):
     if minutes_df.empty or open_price is None:
         return None
@@ -171,6 +222,7 @@ def _record(leaf: dict, op_by: dict, auc: pd.DataFrame, mn: pd.DataFrame,
         "pre_close": pre_close,
         "open_price": open_price,
         "auction_summary": _auction_summary(auc[auc["thscode"] == code]) if not auc.empty else None,
+        "auction_timeline": _auction_timeline(auc[auc["thscode"] == code]) if not auc.empty else [],
         "open_5min": (_open5m(mn[mn["thscode"] == code], open_price, pre_close)
                        if snapshot == "OPEN_0935" and not mn.empty else None),
         "first5m_activity": (_first5m_activity(tr[tr["thscode"] == code])

@@ -5,6 +5,20 @@ import json
 from pathlib import Path
 
 
+def _strict_output_schema(value):
+    """Make project schemas acceptable to strict structured-output backends."""
+    if isinstance(value, list):
+        return [_strict_output_schema(item) for item in value]
+    if not isinstance(value, dict):
+        return value
+    out = {key: _strict_output_schema(child) for key, child in value.items()}
+    expected = out.get("type")
+    types = expected if isinstance(expected, list) else [expected] if expected else []
+    if "object" in types or "properties" in out:
+        out.setdefault("additionalProperties", False)
+    return out
+
+
 def write_package(task_dir: Path, instructions: str, files: dict[str, object]) -> Path:
     """Create task_dir with instructions.md, output/, and the given files.
 
@@ -28,5 +42,7 @@ def write_package(task_dir: Path, instructions: str, files: dict[str, object]) -
         if isinstance(obj, str):
             path.write_text(obj, encoding="utf-8")
         else:
+            if name == "schema.json":
+                obj = _strict_output_schema(obj)
             path.write_text(json.dumps(obj, ensure_ascii=False, indent=2), encoding="utf-8")
     return task_dir
