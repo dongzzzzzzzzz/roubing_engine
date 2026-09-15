@@ -222,6 +222,114 @@ def _m5_to_stage_d(result: dict, vfacts: dict) -> dict:
     }
 
 
+def _tail_leaf(plan: dict, m5_result: dict) -> dict | None:
+    code = (
+        m5_result.get("current_action_candidate")
+        or (m5_result.get("action_trigger") or {}).get("thscode")
+    )
+    if not code:
+        return None
+    for leaf in (
+        (plan.get("action_plan") or {}).get("primary"),
+        (plan.get("action_plan") or {}).get("backup"),
+    ):
+        if leaf and leaf.get("thscode") == code:
+            return leaf
+    return None
+
+
+def _tail_validation_facts(plan: dict, leaf: dict, tplus1: str) -> dict:
+    return {
+        "plan_date": plan.get("plan_date"),
+        "tplus1": tplus1,
+        "snapshot": "VTAIL",
+        "as_of": f"{tplus1} 14:56:59 Asia/Shanghai",
+        "current_action_leaf": leaf,
+        "tail_contract": {
+            "tail_event_trigger": leaf.get("tail_event_trigger"),
+            "required_board_reflux": leaf.get("required_board_reflux"),
+            "required_breakout_state": leaf.get("required_breakout_state"),
+            "regulatory_condition": leaf.get("regulatory_condition"),
+            "cancel_conditions": leaf.get("cancel_conditions") or [],
+            "latest_valid_time": leaf.get("latest_valid_time"),
+        },
+        "data_boundary": {
+            "status": "DATA_INSUFFICIENT",
+            "reason": "tail intraday event feed is not materialized in this factpack yet",
+        },
+    }
+
+
+def run_tail_validation(plan_date: str, tplus1: str, backend: str = "codex",
+                        dry_run: bool = False) -> dict:
+    run_dir = RUNS / plan_date
+    status_path = run_dir / "run_status.json"
+    if not status_path.exists() or json.loads(status_path.read_text()).get("status") != "APPROVED":
+        raise RuntimeError("VTAIL requires an APPROVED EOD plan")
+    plan_path = run_dir / "executable_plan.json"
+    if not plan_path.exists():
+        raise RuntimeError(f"missing executable plan: {plan_path}")
+    m5_path = run_dir / f"m5_open_action_result_{tplus1}.json"
+    if not m5_path.exists():
+        raise RuntimeError("VTAIL requires a canonical M5 OPEN_0935 result")
+    plan = json.loads(plan_path.read_text(encoding="utf-8"))
+    m5_result = json.loads(m5_path.read_text(encoding="utf-8"))
+    method = (m5_result.get("action_trigger") or {}).get("method")
+    if method != "TAIL_CONFIRMATION":
+        raise RuntimeError("VTAIL may only follow M5 action_trigger.method=TAIL_CONFIRMATION")
+    leaf = _tail_leaf(plan, m5_result)
+    if not leaf or leaf.get("action_type") != "TAIL_CONFIRMATION":
+        raise RuntimeError("VTAIL current leaf must be pre-frozen as action_type=TAIL_CONFIRMATION")
+
+    facts = _tail_validation_facts(plan, leaf, tplus1)
+    facts_path = run_dir / f"tail_validation_facts_{tplus1}.json"
+    provenance.write(facts, facts_path)
+    vtail_dir = run_dir / f"vtail_{tplus1}"
+    rules = render_markdown(select(kinds=["primitive", "exit", "discipline"], as_of=plan_date))
+    task_package.write_package(vtail_dir, prompts.vtail_instructions(), {
+        "executable_plan.json": plan,
+        "tail_validation_facts.json": facts,
+        "m5_open_action_result.json": m5_result,
+        "rules.md": rules,
+        "schema.json": schemas.VTAIL_SCHEMA,
+    })
+    if dry_run:
+        return {"ok": True, "dry_run": True, "package": str(vtail_dir)}
+
+    task = runner.AgentTask(
+        task_dir=vtail_dir,
+        instructions=prompts.vtail_instructions(),
+        reasoning_effort=protocols.PACKS["M5"].core_reasoning_effort,
+    )
+    result = runner.run(task, backend=backend)
+    result = provenance.stamp(
+        result, backend, vtail_dir,
+        ["executable_plan.json", "tail_validation_facts.json",
+         "m5_open_action_result.json", "rules.md", "schema.json"],
+    )
+    problems = runner.validate(result, schemas.VTAIL_SCHEMA)
+    if result.get("tplus1") != tplus1:
+        problems.append("$.tplus1: does not match requested date")
+    if result.get("as_of") != facts.get("as_of"):
+        problems.append("$.as_of: does not match tail validation facts")
+    validation = result.get("tail_event_validation") or {}
+    for key, expected in facts["tail_contract"].items():
+        if validation.get(key) != expected:
+            problems.append(f"$.tail_event_validation.{key}: must copy frozen tail contract")
+    if validation.get("conclusion") == "TAIL_CONFIRMS" and result.get("decision") != "BUY":
+        problems.append("TAIL_CONFIRMS must produce BUY")
+    if validation.get("conclusion") == "TAIL_REJECTS" and result.get("decision") != "NO_ACTION":
+        problems.append("TAIL_REJECTS must produce NO_ACTION")
+    draft_path = run_dir / f"vtail_result_{tplus1}.draft.json"
+    provenance.write(result, draft_path)
+    if problems:
+        raise RuntimeError("VTAIL schema invalid: " + "; ".join(problems))
+    result_path = run_dir / f"vtail_result_{tplus1}.json"
+    provenance.write(result, result_path)
+    return {"ok": True, "plan_date": plan_date, "tplus1": tplus1,
+            "backend": backend, "result_file": str(result_path)}
+
+
 def run_validation(plan_date: str, tplus1: str, backend: str = "codex",
                    dry_run: bool = False, snapshot: str = "OPEN_0935") -> dict:
     run_dir = RUNS / plan_date
@@ -395,10 +503,14 @@ def main():
     p.add_argument("--backend", default="codex", choices=["codex", "cursor"])
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--snapshot", default="OPEN_0935",
-                   choices=["AUCTION_0925", "OPEN_0935"])
+                   choices=["AUCTION_0925", "OPEN_0935", "VTAIL"])
     args = p.parse_args()
-    out = run_validation(args.plan_date, args.tplus1, backend=args.backend,
-                         dry_run=args.dry_run, snapshot=args.snapshot)
+    if args.snapshot == "VTAIL":
+        out = run_tail_validation(args.plan_date, args.tplus1, backend=args.backend,
+                                  dry_run=args.dry_run)
+    else:
+        out = run_validation(args.plan_date, args.tplus1, backend=args.backend,
+                             dry_run=args.dry_run, snapshot=args.snapshot)
     print(json.dumps(out, ensure_ascii=False, indent=2))
 
 

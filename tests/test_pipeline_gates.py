@@ -6,7 +6,7 @@ import os
 from pathlib import Path
 from unittest.mock import patch
 
-from roubing_engine.reasoning import eod_pipeline
+from roubing_engine.reasoning import eod_pipeline, prompts
 from roubing_engine.candidates.generators import ensure_mainstream_generators
 from roubing_engine.reasoning.runner import (
     AgentTask,
@@ -16,6 +16,74 @@ from roubing_engine.reasoning.runner import (
 )
 from roubing_engine.reasoning import regression
 from roubing_engine.evaluation.fidelity import check_stage_b
+
+
+def reasoned(value="fixture", status="APPLICABLE"):
+    return {
+        "status": status,
+        "evidence_kind": "DATA_INSUFFICIENT" if status == "DATA_INSUFFICIENT" else "MODEL_INFERENCE",
+        "value": value,
+        "observed": ["fixture fact"],
+        "inference": "fixture inference",
+        "supporting_fact_ids": ["F-DIR-EXAMPLE"] if status == "APPLICABLE" else [],
+        "counter_fact_ids": [],
+        "rule_ids": ["DISC_NO_FIXED_SCORE"] if status == "APPLICABLE" else [],
+        "unknowns": ["fixture gap"] if status == "DATA_INSUFFICIENT" else [],
+    }
+
+
+def lifecycle_contract():
+    return {
+        "first_candidate_date": reasoned("2026-09-08"),
+        "current_day_index": reasoned(1),
+        "stage_yesterday": reasoned(None, "DATA_INSUFFICIENT"),
+        "stage_today": reasoned("LAUNCH_TEST"),
+        "stage_change": reasoned("首日启动候选"),
+        "pioneer_state": reasoned("首日先锋待验证"),
+        "capacity_state": reasoned("容量未知", "DATA_INSUFFICIENT"),
+        "back_row_feedback": reasoned("后排未知", "DATA_INSUFFICIENT"),
+        "board_index_state": reasoned("板块指数未知", "DATA_INSUFFICIENT"),
+        "buyer_feedback": reasoned("昨日买方反馈未知", "DATA_INSUFFICIENT"),
+        "first_divergence_date": reasoned(None, "NOT_APPLICABLE"),
+        "divergence_order": reasoned("NONE", "NOT_APPLICABLE"),
+        "repair_history": reasoned([], "NOT_APPLICABLE"),
+        "repair_quality": reasoned("NONE", "NOT_APPLICABLE"),
+        "catalyst_state": {
+            "catalyst_type": reasoned("UNKNOWN", "DATA_INSUFFICIENT"),
+            "catalyst_stage": reasoned("NEW"),
+            "first_seen_or_repeated": reasoned("首次出现待验证"),
+            "keyword_only_stocks": reasoned([]),
+            "capital_selected_stocks": reasoned(["A.SH"]),
+            "reason_continuity": reasoned("待次日验证"),
+            "next_day_buyer_premium": reasoned("未知", "DATA_INSUFFICIENT"),
+            "post_divergence_repair": reasoned("未发生分歧", "NOT_APPLICABLE"),
+        },
+        "regulatory_constraints": reasoned([]),
+        "upgrade_conditions": reasoned(["次日延续"]),
+        "downgrade_conditions": reasoned(["次日不延续"]),
+        "tomorrow_validation": reasoned(["验证延续"]),
+        "mainstream_questions": {
+            "startup_continuation_divergence": reasoned("UNKNOWN", "DATA_INSUFFICIENT"),
+            "front_capacity_diffusion_layers": reasoned("UNKNOWN", "DATA_INSUFFICIENT"),
+            "board_index_strength_or_breakout": reasoned("UNKNOWN", "DATA_INSUFFICIENT"),
+            "major_divergence_core_capacity_repair": reasoned("UNKNOWN", "DATA_INSUFFICIENT"),
+            "internal_takeover_after_core_constraint": reasoned("UNKNOWN", "DATA_INSUFFICIENT"),
+        },
+    }
+
+
+def trace(step_id, status="APPLICABLE"):
+    return {
+        "step_id": step_id,
+        "status": status,
+        "fact_ids": ["F-DIR-EXAMPLE"] if status == "APPLICABLE" else [],
+        "counter_fact_ids": [],
+        "reason_code": step_id,
+        "judgment": "fixture",
+        "downstream_effect": ["fixture"],
+        "forbidden_conclusions": [],
+        "audit_status": "PASS",
+    }
 
 
 def stage_b():
@@ -29,6 +97,7 @@ def stage_b():
         },
         "direction_evaluations": [{
             "theme": "示例", "direction_fact_id": "F-DIR-EXAMPLE", "stage": "启动",
+            **lifecycle_contract(),
             "market_relation": "LEADS", "path_status": "PRIMARY",
             "observed_facts": ["共同首板"], "inferences": ["方向待次日验证"],
             "supporting_fact_ids": ["F-DIR-EXAMPLE"], "counter_fact_ids": [],
@@ -59,8 +128,70 @@ def stage_b():
     }
 
 
+def m1_result():
+    result = dict(stage_b())
+    result.pop("nodes", None)
+    result["environment_hypotheses"] = [{
+        "environment": name,
+        "status": "APPLICABLE" if name == "ROTATION" else "NOT_APPLICABLE",
+        "supporting_fact_ids": ["F-DIR-EXAMPLE"] if name == "ROTATION" else [],
+        "counter_fact_ids": [],
+        "unknowns": [],
+        "downstream_effect": ["fixture"],
+        "forbidden_conclusions": [],
+    } for name in ("MAIN_TREND", "ROTATION", "DECLINE", "REGIME_SWITCH")]
+    result["method_trace"] = [
+        trace(step) for step in (
+            "S1-INDEX-TREND", "S1-TOTAL_TURNOVER_SUPPORT",
+            "S1-LARGE_CAP_BUYER_FEEDBACK", "S1-YESTERDAY_STRONG_FEEDBACK",
+            "S1-PROFIT_EFFECT_SPREAD", "S1-OLD_NEW_TAKEOVER",
+            "S1-HYPOTHESIS-MAIN_TREND", "S1-HYPOTHESIS-ROTATION",
+            "S1-HYPOTHESIS-DECLINE", "S1-HYPOTHESIS-REGIME_SWITCH",
+        )
+    ]
+    return result
+
+
+def m2_result():
+    node = dict(stage_b()["nodes"][0])
+    node["node_questions"] = {
+        "prior_state": "共同起步",
+        "prior_resistance": "同起算日唯一性未确认",
+        "changed_facts": ["共同首板、同日起步"],
+        "benefited_function": "同起算日晋级者",
+        "anchor_date": "2026-09-07",
+        "natural_candidate_scope": "同日首板完整队列",
+        "confirm": ["确认"],
+        "cancel": ["取消"],
+    }
+    return {
+        "as_of": "20260908 CLOSE",
+        "generator_applicability": [{
+            "generator": f"G{i}",
+            "status": "APPLICABLE" if i == 8 else "NOT_APPLICABLE",
+            "prior_state": "fixture",
+            "prior_resistance": "fixture",
+            "changed_facts": ["fixture"] if i == 8 else [],
+            "benefited_function": "fixture",
+            "anchor_date": "2026-09-07" if i == 8 else None,
+            "natural_candidate_scope": "fixture",
+            "confirm": ["确认"],
+            "cancel": ["取消"],
+            "fact_ids": ["F-DIR-EXAMPLE"] if i == 8 else [],
+            "counter_fact_ids": [],
+            "rule_ids": ["G08_UNIQUENESS"] if i == 8 else [],
+        } for i in range(1, 13)],
+        "nodes": [node],
+        "method_trace": [trace(f"G{i}") for i in range(1, 13)],
+        "data_gaps": [],
+    }
+
+
 def _legacy_stage_c_fixture():
-    claim = {"status": "UNKNOWN", "statement": "无法确认", "evidence": []}
+    claim = {
+        "status": "UNKNOWN", "statement": "无法确认",
+        "evidence": [], "evidence_refs": [],
+    }
     return {
         "as_of": "20260908 CLOSE",
         "execution_task": {
@@ -102,7 +233,10 @@ def _legacy_stage_c_fixture():
             "group_id": "g", "generator": "G8", "anchor_date": "2026-09-07",
             "theme": "示例", "comparison_basis": ["同方向"], "members": ["A.SH"],
             "not_comparable_with": [],
-            "leader_state": {"status": "UNRESOLVED", "thscode": None, "evidence": []},
+            "leader_state": {
+                "status": "UNRESOLVED", "thscode": None,
+                "evidence": [], "evidence_refs": [],
+            },
             "pairwise_relations": [], "next_confirmation": ["次日"],
             "coverage_status": "PARTIAL", "next_day_tasks": ["逐一验证"],
             "uniqueness_status": "UNRESOLVED",
@@ -114,6 +248,35 @@ def _legacy_stage_c_fixture():
             "generator": "G8", "anchor_date": "2026-09-07",
             "stock_start_date": "2026-09-07", "role": "UNKNOWN", "role_family": "UNKNOWN",
             "role_status": "CANDIDATE",
+            "functional_role": {
+                "role": "UNKNOWN", "role_status": "CANDIDATE",
+                "entered_by_event": ["共同首板待验证"],
+                "current_function": "同起算日候选，功能未确认",
+                "must_complete_next": ["次日完成同组晋级"],
+                "invalidated_by": ["次日竞争失败"],
+                "previous_role": None,
+                "possible_next_roles": ["ASSIST_OR_COMPANION", "FOLLOWER", "UNKNOWN"],
+                "active_or_passive_relation": "UNKNOWN",
+                "author_letter_label": "UNKNOWN",
+            },
+            "stock_expectation": {
+                "current_role": "UNKNOWN",
+                "today_state": "TURNOVER_LIMIT",
+                "self_benchmark": "相对首板自身惯性验证",
+                "peer_benchmark": "次日强于同组第二名",
+                "environment_benchmark": "方向需继续增强",
+                "auction_expectation": "竞价保持同任务主动关系",
+                "open_expectation": "开盘承接不被同组反推",
+                "board_response_expectation": "板块响应不能走弱",
+                "role_task": "完成同板级晋级",
+                "minimum_confirmation": "同组相对主动且方向不弱",
+                "direct_cancel": "竞价即落后且方向无响应",
+                "regulatory_constraint": "无可确认约束",
+                "generation_order": [
+                    "T_DAY_ROLE", "T_DAY_PERFORMANCE", "T_DAY_BOARD_STATE",
+                    "SAME_GROUP_SECOND_PLACE", "CURRENT_REGULATION_AND_REMAINING_SPACE",
+                ],
+            },
             "capacity_tasks": {"price_progression": "未知", "pullback_recovery": "未知", "sector_leadership": "未知", "center_of_gravity": "未知", "replacement_state": "未确认"},
             "agency_event_model": {"reference": "同组", "event_sequence": ["未知"], "target_behavior": "未知", "data_sufficiency": "UNKNOWN", "conclusion": "UNKNOWN"},
             "letter_carrier": "UNKNOWN", "competition_group": "g", "competitors": [],
@@ -121,6 +284,12 @@ def _legacy_stage_c_fixture():
             "acceptable_variants": [], "failure_signals": ["失败"],
             "cancel_if": ["取消"], "output_tier": "待验证候选",
             "evidence": ["F-STOCK-A"],
+            "evidence_refs": [
+                {"id": "F-STOCK-A", "evidence_kind": "OBSERVED_FACT",
+                 "source_field": "candidate_pools.pool[].fact_id"},
+                {"id": "G08_UNIQUENESS", "evidence_kind": "AUTHOR_INTERPRETATION",
+                 "source_field": "rules.md"},
+            ],
         }],
         "excluded_candidates": [],
         "unknowns": [],
@@ -281,9 +450,11 @@ class PipelineGateTests(unittest.TestCase):
             },
             "direction_evaluations": [
                 {"theme": "方向甲", "direction_fact_id": "F-DIR-A",
+                 **lifecycle_contract(),
                  "path_status": "PRIMARY", "supporting_fact_ids": ["F-DIR-A"],
                  "counter_fact_ids": [], "rule_ids": ["DISC_NO_FIXED_SCORE"]},
                 {"theme": "方向乙", "direction_fact_id": "F-DIR-B",
+                 **lifecycle_contract(),
                  "path_status": "COMPETITOR", "supporting_fact_ids": ["F-DIR-B"],
                  "counter_fact_ids": [], "rule_ids": ["DISC_NO_FIXED_SCORE"]},
             ],
@@ -443,9 +614,9 @@ class PipelineGateTests(unittest.TestCase):
             (run_dir / "run_status.json").write_text('{"status":"APPROVED"}')
             result = eod_pipeline.run_pipeline("20260908", backend="codex", with_daily=False)
         self.assertFalse(result["ok"])
-        self.assertEqual(result["status"], "BLOCKED_MODEL_STAGE_B")
+        self.assertEqual(result["status"], "BLOCKED_MODEL_M1")
 
-    def test_new_run_invalidates_downstream_stale_outputs_only(self):
+    def test_new_run_archives_downstream_stale_outputs_only(self):
         with tempfile.TemporaryDirectory() as tmp:
             run_dir = Path(tmp)
             generated = [
@@ -467,6 +638,9 @@ class PipelineGateTests(unittest.TestCase):
             self.assertFalse((run_dir / "stage_c2/output/result.json").exists())
             self.assertFalse((run_dir / "executable_plan.json").exists())
             self.assertIn("stage_c2/output/result.json", removed)
+            archived = list((run_dir / "_superseded").glob("*/executable_plan.json"))
+            self.assertEqual(len(archived), 1)
+            self.assertEqual(archived[0].read_text(encoding="utf-8"), "old")
 
     def test_single_day_regression_stops_after_failed_eod(self):
         with patch.object(regression, "run_pipeline", return_value={"ok": False}) as eod, \
@@ -615,6 +789,10 @@ class PipelineGateTests(unittest.TestCase):
         self.assertNotIn("candidates.generators", source)
         self.assertNotIn("ensure_mainstream_generators", source)
 
+    def test_legacy_stage_c_prompt_fails_closed(self):
+        with self.assertRaisesRegex(RuntimeError, "legacy Stage C prompt is retired"):
+            prompts._legacy_stage_c_instructions()
+
     def test_failed_audit_never_persists_official_plan(self):
         facts = {
             "available": True, "as_of": "20260908 CLOSE", "trade_date": "20260908",
@@ -671,17 +849,17 @@ class PipelineGateTests(unittest.TestCase):
              patch("roubing_engine.reasoning.task_resolver.build_task_pools",
                    return_value=pools), \
              patch.object(eod_pipeline.runner, "run", side_effect=[
-                 stage_b(), stage_c1(), stage_c(), audit]):
+                 m1_result(), m2_result(), stage_c1(), stage_c(), audit]):
             result = eod_pipeline.run_pipeline("20260908", backend="codex", with_daily=False)
             run_dir = Path(tmp) / "20260908"
             self.assertFalse(result["ok"])
             self.assertEqual(result["status"], "BLOCKED_AUDIT")
             audit_rules = (run_dir / "audit" / "rules.md").read_text()
-            audit_posts = (run_dir / "audit" / "original_posts.md").read_text()
-            self.assertIn("# Stage B 实际规则", audit_rules)
-            self.assertIn("# Stage C 实际规则", audit_rules)
+            audit_evidence = (run_dir / "audit" / "audit_evidence_coverage.md").read_text()
+            self.assertIn("# M1 环境与方向规则", audit_rules)
+            self.assertIn("# M3 角色竞争与计划规则", audit_rules)
             self.assertIn("# 审计纪律规则", audit_rules)
-            self.assertIn("离线审计反方原帖证据", audit_posts)
+            self.assertIn("命中案例数", audit_evidence)
             self.assertNotIn("_provenance", (run_dir / "stage_c1" / "stage_b.json").read_text())
             self.assertNotIn("generated_at", (run_dir / "stage_c2" / "stage_b.json").read_text())
             self.assertNotIn("_provenance", (run_dir / "stage_c2" / "c1_decision.json").read_text())

@@ -3,6 +3,7 @@ run over a stage_b/stage_c plan; complements the reasoning-side critic.
 """
 from __future__ import annotations
 
+from roubing_engine.reasoning import contracts
 from roubing_engine.warehouse import as_of as _asof
 from roubing_engine.reasoning.schemas import ROLE_TO_FAMILY
 
@@ -29,6 +30,22 @@ def _date_text(value) -> str | None:
     if len(digits) == 8 and digits.isdigit():
         return f"{digits[:4]}-{digits[4:6]}-{digits[6:]}"
     return text[:10] or None
+
+
+def _check_evidence_refs(violations: list[str], label: str, refs,
+                         facts: dict | None = None, *,
+                         require_nonempty: bool = True) -> None:
+    if not refs:
+        if require_nonempty:
+            violations.append(f"{label}: 缺 evidence_refs 证据对象")
+        return
+    for problem in contracts.validate_evidence_refs(label, refs):
+        violations.append(problem)
+    catalog = (facts or {}).get("fact_catalog") or {}
+    for ref in refs or []:
+        ref_id = ref.get("id") if isinstance(ref, dict) else None
+        if isinstance(ref_id, str) and ref_id.startswith("F-") and catalog and ref_id not in catalog:
+            violations.append(f"{label}: evidence_refs 引用了不存在的 fact_id {ref_id}")
 
 
 def check_stage_b(stage_b: dict, facts: dict | None = None) -> list[str]:
@@ -81,6 +98,8 @@ def check_stage_b(stage_b: dict, facts: dict | None = None) -> list[str]:
         violations.append(f"direction_evaluations: 输出了事实包不存在的方向 {extra}")
     for item in evaluations:
         theme = item.get("theme")
+        for problem in contracts.validate_lifecycle_row(item):
+            violations.append(f"方向 {theme}: {problem}")
         source = source_directions.get(theme)
         if source and item.get("direction_fact_id") != source.get("fact_id"):
             violations.append(f"方向 {theme}: direction_fact_id 与事实包不一致")
@@ -448,11 +467,28 @@ def _new_task_plan_violations(stage_b: dict, stage_c: dict, task_bundle: dict,
             expected_family = ROLE_TO_FAMILY.get(candidate.get("role"))
             if expected_family and candidate.get("role_family") != expected_family:
                 violations.append(f"{task_id}/{code}: role_family 与 role 不一致")
-            evidence = set(candidate.get("evidence") or [])
-            if source.get("fact_id") and source.get("fact_id") not in evidence:
-                violations.append(f"{task_id}/{code}: 未引用自身事实")
-            if required_rules and not required_rules.intersection(evidence):
-                violations.append(f"{task_id}/{code}: 未引用任务规则")
+            functional_role = candidate.get("functional_role")
+            if not isinstance(functional_role, dict):
+                violations.append(f"{task_id}/{code}: 缺少 functional_role 英文功能角色合同")
+            else:
+                for problem in contracts.validate_functional_role(functional_role):
+                    violations.append(f"{task_id}/{code}: {problem}")
+            expectation = candidate.get("stock_expectation")
+            if not isinstance(expectation, dict):
+                violations.append(f"{task_id}/{code}: 缺少 stock_expectation 逐票预期合同")
+            else:
+                for problem in contracts.validate_stock_expectation(expectation):
+                    violations.append(f"{task_id}/{code}: {problem}")
+            _check_evidence_refs(violations, f"{task_id}/{code}",
+                                 candidate.get("evidence_refs"), facts)
+            evidence_ref_ids = {
+                ref.get("id") for ref in candidate.get("evidence_refs") or []
+                if isinstance(ref, dict)
+            }
+            if source.get("fact_id") and source.get("fact_id") not in evidence_ref_ids:
+                violations.append(f"{task_id}/{code}: evidence_refs 未引用自身事实")
+            if required_rules and not required_rules.intersection(evidence_ref_ids):
+                violations.append(f"{task_id}/{code}: evidence_refs 未引用任务规则")
 
         group = path_plan.get("competition_group") or {}
         if set(group.get("members") or []) != action_members:
@@ -466,6 +502,12 @@ def _new_task_plan_violations(stage_b: dict, stage_c: dict, task_bundle: dict,
             violations.append(f"{task_id}: competition_group.generator 与冻结节点不一致")
         if required_rules and not required_rules.issubset(set(group.get("rule_ids") or [])):
             violations.append(f"{task_id}: competition_group 未完整引用任务规则")
+        leader = group.get("leader_state") or {}
+        _check_evidence_refs(
+            violations, f"{task_id}: leader_state",
+            leader.get("evidence_refs"), facts,
+            require_nonempty=leader.get("status") not in {"UNRESOLVED", None},
+        )
         for code in action_members:
             candidate = candidates.get(code) or {}
             if not set(candidate.get("competitors") or []).issubset(action_members - {code}):
@@ -513,6 +555,11 @@ def _new_task_plan_violations(stage_b: dict, stage_c: dict, task_bundle: dict,
             if required_rules and not required_rules.issubset(
                     set(relation.get("rule_ids") or [])):
                 violations.append(f"{task_id}: pairwise_comparison[{index}] 未引用任务规则")
+            _check_evidence_refs(
+                violations, f"{task_id}: pairwise_comparison[{index}]",
+                relation.get("evidence_refs"), facts,
+                require_nonempty=relation.get("conclusion") not in {"NO_EDGE", None},
+            )
             for ref in relation.get("fact_ids") or []:
                 if ref not in (facts.get("fact_catalog") or {}):
                     violations.append(f"{task_id}: pairwise_comparison[{index}] fact_id 不存在")
@@ -851,6 +898,11 @@ def check_plan(stage_b: dict, stage_c: dict, candidate_pools: list[dict] | None 
         leader = group.get("leader_state") or {}
         if leader.get("thscode") is not None and leader.get("thscode") not in group.get("members", []):
             v.append(f"竞争组 {group_id}: leader {leader.get('thscode')} 不在组内")
+        _check_evidence_refs(
+            v, f"竞争组 {group_id}.leader_state",
+            leader.get("evidence_refs"), facts,
+            require_nonempty=leader.get("status") not in {"UNRESOLVED", None},
+        )
         if group.get("generator") == "G8" and group.get("anchor_date") == reasoning_date:
             if leader.get("status") != "UNRESOLVED" or leader.get("thscode") is not None:
                 v.append(f"竞争组 {group_id}: G8起算日当天不得确认或暂定leader")
@@ -862,6 +914,11 @@ def check_plan(stage_b: dict, stage_c: dict, candidate_pools: list[dict] | None 
             if left not in group.get("members", []) or right not in group.get("members", []):
                 v.append(f"竞争组 {group_id}: pairwise_relations[{index}] 引用了组外代码")
                 continue
+            _check_evidence_refs(
+                v, f"竞争组 {group_id}.pairwise_relations[{index}]",
+                relation.get("evidence_refs"), facts,
+                require_nonempty=relation.get("relation") not in {"UNRESOLVED", "NOT_COMPARABLE", None},
+            )
             left_fact = group_rows.get(left, {})
             right_fact = group_rows.get(right, {})
             left_time = left_fact.get("limit_time")
@@ -977,8 +1034,11 @@ def check_plan(stage_b: dict, stage_c: dict, candidate_pools: list[dict] | None 
         path = paths.get(path_name) or {}
         for claim_name in ("capital_source", "buyer", "seller", "destination_layer", "successor"):
             claim = path.get(claim_name) or {}
-            if claim.get("status") == "SUPPORTED" and not claim.get("evidence"):
-                v.append(f"路径 {path_name}.{claim_name}: SUPPORTED 必须有直接证据")
+            _check_evidence_refs(
+                v, f"路径 {path_name}.{claim_name}",
+                claim.get("evidence_refs"), facts,
+                require_nonempty=claim.get("status") == "SUPPORTED",
+            )
         if not tick_available or not buyer_feedback_available:
             for claim_name in ("capital_source", "buyer", "seller"):
                 if (path.get(claim_name) or {}).get("status") == "SUPPORTED":

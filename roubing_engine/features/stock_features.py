@@ -37,7 +37,8 @@ def _one(g: pd.DataFrame, anchor: str | None, lookback: int) -> dict:
     g = g.sort_values("trade_date")
     closes = [float(x) for x in g["close"].tolist()]
     highs = [float(x) for x in g["high"].tolist()]
-    turns = [float(x) for x in g["turnover"].dropna().tolist()] if "turnover" in g else []
+    amount_col = "amount" if "amount" in g else "turnover" if "turnover" in g else None
+    turns = [float(x) for x in g[amount_col].dropna().tolist()] if amount_col else []
     if len(closes) < 2:
         return {"available": False}
     last, prev = closes[-1], closes[-2]
@@ -83,7 +84,11 @@ def _one(g: pd.DataFrame, anchor: str | None, lookback: int) -> dict:
             "span_pct": round((high / low - 1) * 100, 2),
         }
 
-    last_turnover = float(g["turnover"].iloc[-1]) if "turnover" in g and pd.notna(g["turnover"].iloc[-1]) else None
+    last_turnover = (
+        float(g[amount_col].iloc[-1])
+        if amount_col and pd.notna(g[amount_col].iloc[-1])
+        else None
+    )
 
     return {
         "available": True,
@@ -99,6 +104,7 @@ def _one(g: pd.DataFrame, anchor: str | None, lookback: int) -> dict:
         "prior_high": round(prior_high, 3),
         "pre_t_ranges": prior_ranges,
         "turnover_pctile_250d": _pctile(turns[-250:], last_turnover),
+        "amount_source_column": amount_col,
         "up_day_streak": streak,
         "ma5": _ma(closes, 5), "ma10": _ma(closes, 10), "ma20": _ma(closes, 20),
         "above_ma5": (last >= _ma(closes, 5)) if _ma(closes, 5) else None,

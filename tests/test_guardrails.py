@@ -393,10 +393,17 @@ class SchemaAndFidelityTests(unittest.TestCase):
             "tomorrow_must_do": ["任务"], "acceptable_variants": [],
             "failure_signals": ["失败"], "cancel_if": ["取消"], "output_tier": "待验证候选",
             "evidence": ["事实来源"],
+            "evidence_refs": [
+                {"id": "F-STOCK-A", "evidence_kind": "OBSERVED_FACT",
+                 "source_field": "candidate_pools.pool[].fact_id"},
+            ],
         }
 
     def _valid_stage_c(self):
-        claim = {"status": "UNKNOWN", "statement": "无法确认", "evidence": []}
+        claim = {
+            "status": "UNKNOWN", "statement": "无法确认",
+            "evidence": [], "evidence_refs": [],
+        }
         return {
             "as_of": "20260908 CLOSE",
             "execution_task": {
@@ -430,7 +437,10 @@ class SchemaAndFidelityTests(unittest.TestCase):
             "group_id": "g", "generator": "G8", "anchor_date": "2026-09-08",
             "theme": "示例", "comparison_basis": ["同方向同起算"], "members": ["A.SH"],
             "not_comparable_with": [],
-            "leader_state": {"status": "UNRESOLVED", "thscode": None, "evidence": []},
+            "leader_state": {
+                "status": "UNRESOLVED", "thscode": None,
+                "evidence": [], "evidence_refs": [],
+            },
             "pairwise_relations": [], "next_confirmation": ["次日确认"],
             "coverage_status": "PARTIAL", "next_day_tasks": ["逐一验证"],
             "uniqueness_status": "UNRESOLVED",

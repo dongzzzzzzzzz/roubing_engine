@@ -4,7 +4,10 @@ from __future__ import annotations
 import time
 from contextlib import contextmanager
 
-from eltdx import TdxClient
+try:
+    from eltdx import TdxClient
+except ModuleNotFoundError:  # pragma: no cover - exercised by import-only tests
+    TdxClient = None
 
 from roubing_engine.config import DEFAULT_TIMEOUT
 
@@ -36,6 +39,10 @@ def to_thscode(full_code: str) -> str:
 
 @contextmanager
 def client(timeout: int = DEFAULT_TIMEOUT):
+    if TdxClient is None:
+        raise RuntimeError(
+            "eltdx package is not installed; live intraday collection is unavailable"
+        )
     c = TdxClient(timeout=timeout)
     c.__enter__()
     try:

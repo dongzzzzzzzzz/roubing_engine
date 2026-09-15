@@ -54,14 +54,35 @@ def load_dump() -> dict:
         "volume": df[resolved["volume"]],
     })
     if resolved["turnover"]:
+        out["amount"] = df[resolved["turnover"]]
         out["turnover"] = df[resolved["turnover"]]
+    else:
+        out["amount"] = pd.NA
     # trade_date YYYYMMDD from ms (Asia/Shanghai)
     ms = df[resolved["date_ms"]].astype("int64")
     out["trade_date"] = pd.to_datetime(ms, unit="ms", utc=True).dt.tz_convert(
         "Asia/Shanghai").dt.strftime("%Y%m%d")
+    out["event_time"] = pd.to_datetime(ms, unit="ms", utc=True).dt.tz_convert(
+        "Asia/Shanghai").dt.strftime("%Y-%m-%d 15:00:00 Asia/Shanghai")
+    out["eltdx_code"] = out["thscode"].str.split(".").str[0]
     out["adjust"] = df["adjusted"].astype(str) if "adjusted" in df.columns else "none"
-    out["source"] = "financial_api_dump"
-    out["fetched_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
+    out["adj_open"] = out["open"]
+    out["adj_high"] = out["high"]
+    out["adj_low"] = out["low"]
+    out["adj_close"] = out["close"]
+    out["volume_unit"] = "share"
+    out["source"] = "Financial-API"
+    out["interface"] = "daily_k.dump"
+    fetched_at = dt.datetime.now(dt.timezone.utc).isoformat()
+    out["fetched_at"] = fetched_at
+    out["request_id"] = (
+        "financial-api-daily-k:"
+        + out["thscode"].astype(str) + ":" + out["trade_date"].astype(str)
+    )
+    out = out.sort_values(["thscode", "trade_date"])
+    prev_close = out.groupby("thscode")["close"].shift(1)
+    out["change_pct"] = ((out["close"] / prev_close - 1) * 100).round(4)
+    out.loc[prev_close.isna() | (prev_close == 0), "change_pct"] = pd.NA
 
     out = out.dropna(subset=["thscode", "trade_date", "close"])
     out = out.drop_duplicates(subset=["thscode", "trade_date"], keep="last")

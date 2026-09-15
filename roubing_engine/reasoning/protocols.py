@@ -18,27 +18,23 @@ ENVIRONMENT_HYPOTHESES = [
 ]
 
 STAGE1_OBSERVATIONS = [
-    ("S1-INDEX-FAST-DOWN", "指数是否快速下行或系统性下跌"),
-    ("S1-PREVIOUS-BUYER-REWARD", "昨日强股和昨日买方是否得到奖励"),
-    ("S1-CAPACITY-PRICE-PROGRESS", "容量票是否有价格推进和板块带动"),
-    ("S1-PROFIT-LOSS-DIFFUSION", "赚钱效应/亏钱效应是否扩散"),
-    ("S1-OLD-NEW-TAKEOVER", "新旧方向之间是否发生承接或切换"),
+    ("S1-INDEX-TREND", "指数处于上升、震荡还是快速下跌"),
+    ("S1-TOTAL_TURNOVER_SUPPORT", "总成交是否支持大资金持续进攻"),
+    ("S1-LARGE_CAP_BUYER_FEEDBACK", "大成交股票是否持续给买方正反馈"),
+    ("S1-YESTERDAY_STRONG_FEEDBACK", "昨日强势股是延续、分化、被核还是连续跌停"),
+    ("S1-PROFIT_EFFECT_SPREAD", "赚钱效应集中在核心还是向板块扩散"),
+    ("S1-OLD_NEW_TAKEOVER", "旧主流是否有承接，新方向是否形成替代"),
 ]
 
 LIFECYCLE_STAGES = [
     "RANDOM_HOTSPOT",
-    "START_TRIAL",
+    "LAUNCH_TEST",
     "CONTINUATION_CANDIDATE",
-    "WEAK_MAINSTREAM",
     "MAINSTREAM_CONFIRMED",
-    "MAIN_UP",
-    "DIVERGENCE",
+    "FIRST_OR_MAJOR_DIVERGENCE",
     "REPAIR",
-    "OSCILLATION",
-    "SECOND_WAVE_CANDIDATE",
-    "DECLINE_CANDIDATE",
-    "ENDED",
-    "DATA_INSUFFICIENT",
+    "OSCILLATION_OR_SECOND_WAVE",
+    "DECLINE_OR_ENDED",
 ]
 
 GENERATORS = [

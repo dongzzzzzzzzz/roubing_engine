@@ -12,13 +12,14 @@ from roubing_engine.reasoning import (
     runner,
     schemas,
     semantic_audit,
+    validate_pipeline,
 )
 from roubing_engine.reasoning.validation_factpack import _auction_timeline
 
 
 class V2ProtocolTests(unittest.TestCase):
     def test_protocol_declares_full_environment_and_generator_coverage(self):
-        self.assertEqual(len(protocols.STAGE1_OBSERVATIONS), 5)
+        self.assertEqual(len(protocols.STAGE1_OBSERVATIONS), 6)
         self.assertEqual(protocols.ENVIRONMENT_HYPOTHESES, [
             "MAIN_TREND", "ROTATION", "DECLINE", "REGIME_SWITCH",
         ])
@@ -59,7 +60,7 @@ class V2ProtocolTests(unittest.TestCase):
         macro = {
             "method_trace": [
                 {"step_id": step, "status": "NOT_APPLICABLE", "fact_ids": [],
-                 "counter_fact_ids": [], "judgment": "x", "downstream_effect": [],
+                 "counter_fact_ids": [], "reason_code": step, "judgment": "x", "downstream_effect": [],
                  "forbidden_conclusions": [], "audit_status": "PASS"}
                 for step in protocols.expected_stage1_step_ids()
             ],
@@ -131,7 +132,7 @@ class V2ProtocolTests(unittest.TestCase):
             }],
             "method_trace": [
                 {"step_id": f"S3-{g}", "status": "NOT_APPLICABLE",
-                 "fact_ids": [], "counter_fact_ids": [], "judgment": "x",
+                 "fact_ids": [], "counter_fact_ids": [], "reason_code": f"S3-{g}", "judgment": "x",
                  "downstream_effect": [], "forbidden_conclusions": [],
                  "audit_status": "PASS"}
                 for g in protocols.expected_generator_ids()
@@ -189,6 +190,65 @@ class V2ProtocolTests(unittest.TestCase):
             "unknowns": [],
         }
         self.assertEqual(runner.validate(m5, schemas.M5_OPEN_ACTION_SCHEMA), [])
+
+    def test_vtail_requires_prefrozen_tail_confirmation_leaf(self):
+        plan = {
+            "action_plan": {
+                "primary": {"thscode": "A.SH", "action_type": "LOW_ABSORB"},
+                "backup": None,
+            },
+        }
+        m5 = {
+            "current_action_candidate": "A.SH",
+            "action_trigger": {"method": "TAIL_CONFIRMATION", "thscode": "A.SH"},
+        }
+        self.assertIsNotNone(validate_pipeline._tail_leaf(plan, m5))
+        self.assertNotEqual(
+            validate_pipeline._tail_leaf(plan, m5).get("action_type"),
+            "TAIL_CONFIRMATION",
+        )
+
+    def test_vtail_schema_validates_tail_result(self):
+        result = {
+            "tplus1": "2026-03-05",
+            "snapshot": "VTAIL",
+            "as_of": "2026-03-05 14:56:59 Asia/Shanghai",
+            "current_action_candidate": "A.SH",
+            "tail_event_validation": {
+                "tail_event_trigger": "尾盘主动突破",
+                "required_board_reflux": "板块回流",
+                "required_breakout_state": "站上阻力",
+                "regulatory_condition": "规则允许",
+                "latest_valid_time": "14:56:59",
+                "cancel_conditions": ["未触发"],
+                "conclusion": "TAIL_REJECTS",
+                "observed": ["事件未发生"],
+            },
+            "decision": "NO_ACTION",
+            "method_trace": [
+                {"step_id": f"VTAIL-{i}", "status": "REJECTS",
+                 "observed": ["x"], "fact_ids": [], "judgment": "x"}
+                for i in range(4)
+            ],
+            "unknowns": [],
+        }
+        self.assertEqual(runner.validate(result, schemas.VTAIL_SCHEMA), [])
+
+    def test_m6_ledger_audit_triggers_only_on_semantic_state_change(self):
+        unchanged = {
+            "next_ledger_patch": {
+                "environment": None, "directions": [], "nodes": [],
+                "roles": [], "competition_groups": [], "no_action_conditions": [],
+            },
+            "role_migrations": [{"status": "UNCHANGED"}],
+            "exit_reviews": [{"decision": "HOLD"}],
+        }
+        changed = {
+            **unchanged,
+            "role_migrations": [{"status": "REPLACED"}],
+        }
+        self.assertFalse(close_review_pipeline._semantic_state_changed(unchanged))
+        self.assertTrue(close_review_pipeline._semantic_state_changed(changed))
 
     def test_auction_timeline_projects_three_checkpoints(self):
         frame = pd.DataFrame([

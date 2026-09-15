@@ -338,6 +338,12 @@ def build(yyyymmdd: str, client=None, with_index: bool = True) -> dict:
             "value": facts.get("data_completeness"),
         },
         {
+            "fact_id": fact_id(yyyymmdd, "CTX", "BLOCK_SCOPE_REPORT"),
+            "fact_type": "BLOCK_SCOPE_REPORT",
+            "status": (facts.get("block_scope_report") or {}).get("status", "BLOCKED_DATA"),
+            "value": facts.get("block_scope_report"),
+        },
+        {
             "fact_id": fact_id(yyyymmdd, "CTX", "PREVIOUS_STATE_STATUS"),
             "fact_type": "PREVIOUS_STATE_STATUS",
             "status": ("AVAILABLE" if (facts.get("previous_state_summary") or {}).get("available")

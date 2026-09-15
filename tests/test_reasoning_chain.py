@@ -5,6 +5,7 @@ from pathlib import Path
 
 from roubing_engine.reasoning.day_factpack import build as build_factpack
 from roubing_engine.reasoning.task_resolver import (
+    GENERATOR_TASK, TASK_CONTRACT_VERSION, _task_id,
     build_task_pools, resolve, select_task_pools, summarize_tasks,
 )
 from roubing_engine.reasoning.plan_compiler import compile_plan
@@ -49,6 +50,23 @@ def selected_stage_b(facts: dict, theme: str, *, action_node: dict | None = None
 
 
 class TaskResolverTests(unittest.TestCase):
+    def test_g5_keeps_low_level_symbiosis_separate_from_g4_catch_up(self):
+        self.assertEqual(GENERATOR_TASK["G4"], "CATCH_UP")
+        self.assertEqual(GENERATOR_TASK["G5"], "LOW_LEVEL_SYMBIOSIS")
+        self.assertNotEqual(GENERATOR_TASK["G5"], GENERATOR_TASK["G4"])
+
+    def test_task_id_identity_excludes_stock_codes_and_pool_state(self):
+        first = _task_id(
+            "2026-03-02", "NODE-G5", "G5", "LOW_LEVEL_SYMBIOSIS", "PRIMARY")
+        second = _task_id(
+            "2026-03-02", "NODE-G5", "G5", "LOW_LEVEL_SYMBIOSIS", "PRIMARY")
+        changed_node = _task_id(
+            "2026-03-02", "NODE-G5B", "G5", "LOW_LEVEL_SYMBIOSIS", "PRIMARY")
+        self.assertEqual(first, second)
+        self.assertNotEqual(first, changed_node)
+        self.assertIn("20260302", first)
+        self.assertTrue(TASK_CONTRACT_VERSION)
+
     def test_no_primary_path_produces_no_stock_tasks(self):
         result = resolve({"as_of": "20260105 CLOSE", "primary_path": {
             "status": "NONE", "theme": None, "direction_fact_id": None,

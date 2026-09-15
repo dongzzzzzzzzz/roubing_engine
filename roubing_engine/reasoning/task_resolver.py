@@ -23,6 +23,7 @@ TASK_TYPES = {
     "PANIC_REPAIR_LEADER": "恐慌修复主动带动者",
     "FIRST_ACTIVE_DIVERGENCE": "突破后第一次主动分歧验证",
     "CATCH_UP": "补涨",
+    "LOW_LEVEL_SYMBIOSIS": "二波分歧低位伴生",
     "SECOND_WAVE_COMPANION": "二波伴生",
 }
 
@@ -31,7 +32,7 @@ GENERATOR_TASK = {
     "G2": "FIRST_BOARD_DIFFUSION",
     "G3": "SECOND_WAVE_COMPANION",
     "G4": "CATCH_UP",
-    "G5": "CATCH_UP",
+    "G5": "LOW_LEVEL_SYMBIOSIS",
     "G6": "DIRECTION_REPAIR",
     "G7": "CAPACITY_CARRIER_VALIDATION",
     "G8": "SAME_LEVEL_PROMOTION",
@@ -82,6 +83,10 @@ TASK_RULE_IDS = {
         "G03_SECOND_WAVE_UPGRADE", "G05_LOW_SYMBIOSIS", "PRIM_RESONANCE",
         "DISC_NO_HINDSIGHT", "DISC_NO_FIXED_SCORE", "DISC_SNAPSHOT_NOT_THRESHOLD",
     ],
+    "LOW_LEVEL_SYMBIOSIS": [
+        "G05_LOW_SYMBIOSIS", "PRIM_RESONANCE",
+        "DISC_NO_HINDSIGHT", "DISC_NO_FIXED_SCORE", "DISC_SNAPSHOT_NOT_THRESHOLD",
+    ],
     "HIGH_LOW_SWITCH": [
         "G10_HIGH_LOW_SWITCH", "PRIM_SEPARATION", "PRIM_RESONANCE",
         "DISC_NO_HINDSIGHT", "DISC_NO_FIXED_SCORE", "DISC_SNAPSHOT_NOT_THRESHOLD",
@@ -101,11 +106,14 @@ DEFAULT_TASK_RULE_IDS = [
 ]
 
 
-def _task_id(date: str, theme: str, task_type: str,
-             candidate_ids: list[str], validation_ids: list[str]) -> str:
-    identity = "|".join((date, theme, task_type,
-                         ",".join(sorted(candidate_ids)),
-                         ",".join(sorted(validation_ids))))
+TASK_CONTRACT_VERSION = "roubing-task-contract-v20260915"
+
+
+def _task_id(date: str, node_id: str, generator: str, task_type: str,
+             path_kind: str | None) -> str:
+    identity = "|".join((
+        date, node_id, generator, task_type, TASK_CONTRACT_VERSION, path_kind or "UNSET",
+    ))
     digest = hashlib.sha256(identity.encode("utf-8")).hexdigest()[:10].upper()
     return f"TASK-{date.replace('-', '')}-{digest}"
 
@@ -150,6 +158,8 @@ TASK_PAIR_EVIDENCE_FAMILIES = {
         "TASK_COMPLETION_PRESTATE", "DIRECTION_RESPONSE"],
     "SECOND_WAVE_COMPANION": [
         "ROLE_CONTINUITY_OR_MIGRATION", "TASK_COMPLETION_PRESTATE", "DIRECTION_RESPONSE"],
+    "LOW_LEVEL_SYMBIOSIS": [
+        "TASK_COMPLETION_PRESTATE", "DIRECTION_RESPONSE"],
 }
 
 
@@ -226,7 +236,10 @@ def _make_task(*, date: str, theme: str, direction_fact_id: str,
     status = "ACTION_READY" if candidate_ids and not missing_explicit else (
         "BLOCKED" if missing_explicit else "EMPTY_VALID")
     return {
-        "task_id": _task_id(task_anchor, theme, task_type, candidate_ids, validation_ids),
+        "task_id": _task_id(
+            task_anchor, str(node.get("node_id") or ""),
+            str(node.get("generator") or ""), task_type, node.get("path_kind")),
+        "task_contract_version": TASK_CONTRACT_VERSION,
         "task_type": task_type,
         "task_name": TASK_TYPES[task_type],
         "status": status,
@@ -483,6 +496,7 @@ def summarize_tasks(task_bundle: dict) -> dict:
     allowed = (
         "task_id", "task_type", "task_name", "status", "path_kind", "theme",
         "direction_fact_id", "node_id", "node_type", "node_action_status",
+        "task_contract_version",
         "anchor_date", "required_function", "required_rule_ids", "scope_logic",
         "completion_signals", "failure_signals", "data_gaps", "eligibility_fact_ids",
     )

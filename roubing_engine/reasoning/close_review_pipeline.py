@@ -6,7 +6,9 @@ import json
 from pathlib import Path
 
 from roubing_engine.config import PROJECT_ROOT
-from roubing_engine.reasoning import prompts, protocols, provenance, runner, schemas, task_package
+from roubing_engine.reasoning import (
+    contracts, prompts, protocols, provenance, runner, schemas, task_package,
+)
 from roubing_engine.rules.retrieve import render_markdown, select
 from roubing_engine.features.stock_features import features_for
 from roubing_engine.state.ledger import append_followup, apply_close_review
@@ -61,6 +63,20 @@ def _review_facts(plan: dict, validation_results: dict, tplus1: str) -> dict:
     }
 
 
+def _semantic_state_changed(result: dict) -> bool:
+    patch = result.get("next_ledger_patch") or {}
+    for key in ("directions", "nodes", "roles", "competition_groups"):
+        if patch.get(key):
+            return True
+    if any(row.get("status") not in {"UNCHANGED", "DATA_INSUFFICIENT"}
+           for row in result.get("role_migrations") or []):
+        return True
+    if any(row.get("decision") in {"EXIT", "REDUCE", "DATA_INSUFFICIENT"}
+           for row in result.get("exit_reviews") or []):
+        return True
+    return False
+
+
 def run_close_review(plan_date: str, tplus1: str, backend: str = "codex",
                      dry_run: bool = False) -> dict:
     run_dir = RUNS / plan_date
@@ -104,6 +120,44 @@ def run_close_review(plan_date: str, tplus1: str, backend: str = "codex",
          "validation_results.json", "rules.md", "protocol.json", "schema.json"],
     )
     problems = runner.validate(result, schemas.CLOSE_REVIEW_SCHEMA)
+    for index, row in enumerate(result.get("task_results") or []):
+        if row.get("status") in {"COMPLETED", "FAILED", "CANCELLED"}:
+            problems.extend(
+                f"task_results[{index}]: {problem}"
+                for problem in contracts.validate_evidence_refs(
+                    "task_result", row.get("evidence_refs"))
+            )
+        elif row.get("evidence_refs"):
+            problems.extend(
+                f"task_results[{index}]: {problem}"
+                for problem in contracts.validate_evidence_refs(
+                    "task_result", row.get("evidence_refs"))
+            )
+    for index, row in enumerate(result.get("role_migrations") or []):
+        if row.get("status") not in {"UNCHANGED", "DATA_INSUFFICIENT"}:
+            problems.extend(
+                f"role_migrations[{index}]: {problem}"
+                for problem in contracts.validate_evidence_refs(
+                    "role_migration", row.get("evidence_refs"))
+            )
+        elif row.get("evidence_refs"):
+            problems.extend(
+                f"role_migrations[{index}]: {problem}"
+                for problem in contracts.validate_evidence_refs(
+                    "role_migration", row.get("evidence_refs"))
+            )
+        if row.get("counter_evidence_refs"):
+            problems.extend(
+                f"role_migrations[{index}].counter: {problem}"
+                for problem in contracts.validate_evidence_refs(
+                    "role_migration.counter", row.get("counter_evidence_refs"))
+            )
+    for index, row in enumerate(result.get("holding_reviews") or []):
+        for problem in contracts.validate_holding_review(row):
+            problems.append(f"holding_reviews[{index}]: {problem}")
+    for index, row in enumerate(result.get("exit_reviews") or []):
+        for problem in contracts.validate_exit_review(row):
+            problems.append(f"exit_reviews[{index}]: {problem}")
     if result.get("plan_date") != str(plan.get("plan_date")):
         problems.append("$.plan_date: does not match executable plan")
     if result.get("tplus1") != tplus1:
@@ -112,13 +166,42 @@ def run_close_review(plan_date: str, tplus1: str, backend: str = "codex",
     provenance.write(result, draft_path)
     if problems:
         raise RuntimeError("M6 close review invalid: " + "; ".join(problems))
+    audit_result = None
+    if _semantic_state_changed(result):
+        audit_dir = run_dir / f"m6_ledger_audit_{tplus1}"
+        task_package.write_package(audit_dir, prompts.semantic_audit_instructions("M6"), {
+            "stage_result.json": provenance.model_view(result),
+            "stage_facts.json": facts,
+            "rules.md": rules,
+            "protocol.json": {"pack": protocols.PACKS["M6"].__dict__},
+            "schema.json": schemas.AUDIT_SCHEMA,
+        })
+        audit_task = runner.AgentTask(
+            task_dir=audit_dir,
+            instructions=prompts.semantic_audit_instructions("M6"),
+            reasoning_effort=protocols.PACKS["M6"].audit_reasoning_effort,
+        )
+        audit_result = runner.run(audit_task, backend=backend)
+        audit_result = provenance.stamp(
+            audit_result, backend, audit_dir,
+            ["stage_result.json", "stage_facts.json", "rules.md", "protocol.json", "schema.json"],
+        )
+        audit_problems = runner.validate(audit_result, schemas.AUDIT_SCHEMA)
+        if audit_result.get("verdict") == "PASS" and audit_result.get("violations"):
+            audit_problems.append("$.violations: PASS audit must have an empty violations list")
+        audit_path = run_dir / f"m6_ledger_audit_result_{tplus1}.json"
+        provenance.write(audit_result, audit_path)
+        if audit_problems or audit_result.get("verdict") != "PASS":
+            raise RuntimeError("M6 ledger audit failed: " + "; ".join(
+                audit_problems or audit_result.get("violations", [])))
     result_path = run_dir / f"close_review_{tplus1}.json"
     provenance.write(result, result_path)
     append_followup(plan_date, tplus1, snapshot="CLOSE", result_file=str(result_path),
                     status="M6_CLOSE_REVIEW")
     apply_close_review(plan_date, tplus1, result, result_file=str(result_path))
     return {"ok": True, "plan_date": plan_date, "tplus1": tplus1,
-            "backend": backend, "result_file": str(result_path)}
+            "backend": backend, "result_file": str(result_path),
+            "ledger_audit": (audit_result or {}).get("verdict") or "SKIPPED"}
 
 
 def main() -> None:

@@ -222,7 +222,7 @@ def _run_child(cmd: list[str], *, cwd: Path, timeout: int, env: dict,
 
 
 def _inline_context(task: AgentTask) -> str:
-    if not task.inline_context:
+    if not task.inline_context or not task.task_dir.exists():
         return ""
     skip = {
         "instructions.md", "schema.json", "stdout.log", "stderr.log",

@@ -29,6 +29,17 @@ def _condition_text(leaf: dict | None) -> list[str]:
     ) for item in (leaf.get(field) or [])]
 
 
+def _tail_contract_violations(leaf: dict | None) -> list[str]:
+    if not leaf or leaf.get("action_type") != "TAIL_CONFIRMATION":
+        return []
+    required = [
+        "tail_event_trigger", "required_board_reflux", "required_breakout_state",
+        "regulatory_condition", "latest_valid_time", "cancel_conditions",
+    ]
+    missing = [key for key in required if not leaf.get(key)]
+    return [f"TAIL_CONFIRMATION 缺少冻结尾盘事件字段: {missing}"] if missing else []
+
+
 def _pair_order_violations(action: dict, pairwise_rows: list[dict],
                            task: dict) -> list[str]:
     """Reject a PRIMARY/BACKUP order not proved by this task's functions."""
@@ -102,6 +113,9 @@ def _compile_multi_path(stage_b: dict, stage_c: dict, task_bundle: dict,
                 violations.append(f"{path_kind}/{task_id}/{code}: 叶子身份与路径任务不一致")
             if code not in candidates:
                 violations.append(f"{path_kind}/{task_id}/{code}: 叶子不在路径候选中")
+            violations.extend(
+                f"{path_kind}/{task_id}/{code}: {problem}"
+                for problem in _tail_contract_violations(leaf))
             for condition in _condition_text(leaf):
                 if _FIXED_THRESHOLD.search(condition):
                     violations.append(
@@ -318,6 +332,8 @@ def compile_plan(stage_b: dict, stage_c: dict, task_bundle: dict,
             violations.append(f"{tier} {code}: 不属于选中执行任务")
         if not leaf.get("task_to_complete"):
             violations.append(f"{tier} {code}: 缺独立任务")
+        violations.extend(
+            f"{tier} {code}: {problem}" for problem in _tail_contract_violations(leaf))
         for text in _condition_text(leaf):
             if _FIXED_THRESHOLD.search(text):
                 violations.append(f"{tier} {code}: 动作条件包含固定数字阈值 `{text}`")

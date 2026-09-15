@@ -9,6 +9,7 @@ only assemble task packages (deterministic, no agent) for inspection.
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import hashlib
 import json
 import os
@@ -28,7 +29,7 @@ RUNS = PROJECT_ROOT / "runs"
 
 
 def _invalidate_previous_run_outputs(run_dir: Path, *, keep_stage_b_draft: bool) -> list[str]:
-    """Remove exact generated artifacts that could masquerade as this run.
+    """Archive exact generated artifacts that could masquerade as this run.
 
     Market warehouse data and deferred T+1 inputs are outside this list.  A
     verified Stage-B draft may be kept only for the explicit resume path.
@@ -52,27 +53,32 @@ def _invalidate_previous_run_outputs(run_dir: Path, *, keep_stage_b_draft: bool)
             "stage_b_canonicalizations.json", "stage_b_resume.json",
             "stage_b_fidelity_result.json",
         ])
-    removed = []
+    archived = []
+    archive_dir = run_dir / "_superseded" / dt.datetime.now(
+        dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+    def archive(path: Path, relative: str) -> None:
+        target = archive_dir / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        path.replace(target)
+        archived.append(relative)
+
     for relative in relative_files:
         path = run_dir / relative
         if path.exists() and path.is_file():
-            path.unlink()
-            removed.append(relative)
+            archive(path, relative)
     for card in run_dir.glob("battlecard_*.md"):
         if card.is_file():
-            card.unlink()
-            removed.append(card.name)
+            archive(card, card.name)
     for generated in list(run_dir.glob("m*_audit_result_*.json")) + list(run_dir.glob("m*_retry_*/output/result.json")):
         if generated.is_file():
-            generated.unlink()
-            removed.append(str(generated.relative_to(run_dir)))
-    return sorted(removed)
+            archive(generated, str(generated.relative_to(run_dir)))
+    return sorted(archived)
 
 
 def _write_status(run_dir: Path, status: str, **details) -> dict:
     payload = {"status": status, **details}
-    (run_dir / "run_status.json").write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+    provenance.write(payload, run_dir / "run_status.json")
     return payload
 
 
@@ -410,6 +416,10 @@ def run_pipeline(date: str, backend: str = "codex", dry_run: bool = False,
     facts = build_factpack(date, client=None, with_index=with_daily)
     (run_dir / "factpack.json").write_text(
         json.dumps(facts, ensure_ascii=False, indent=2), encoding="utf-8")
+    from roubing_engine.warehouse.contract_report import validate_warehouse
+    warehouse_report = validate_warehouse()
+    (run_dir / "warehouse_contract_report.json").write_text(
+        json.dumps(warehouse_report, ensure_ascii=False, indent=2), encoding="utf-8")
 
     if not facts.get("available"):
         return {"ok": False, "reason": "no facts", "date": date}
@@ -430,10 +440,11 @@ def run_pipeline(date: str, backend: str = "codex", dry_run: bool = False,
         "schema.json": schemas.M1_SCHEMA,
     })
 
-    # M2/M3 packages are materialized as placeholders in dry-run mode so the
+    # M2/C1/C2 packages are materialized as placeholders in dry-run mode so the
     # user can inspect the exact staged protocol without launching models.
     m2_dir = run_dir / "m2_nodes"
-    m3_dir = run_dir / "m3_plan"
+    c1_dir = run_dir / "stage_c1"
+    c2_dir = run_dir / "stage_c2"
     m2_rules = render_markdown(select(
         kinds=["generator", "node", "primitive", "discipline"], as_of=date))
     m3_rules = render_markdown(select(
@@ -446,18 +457,25 @@ def run_pipeline(date: str, backend: str = "codex", dry_run: bool = False,
             "protocol.json": _protocol_payload("M2"),
             "schema.json": schemas.M2_SCHEMA,
         })
-        task_package.write_package(m3_dir, prompts.m3_plan_instructions(), {
-            "plan_facts.json": {"note": "placeholder (dry-run, M2 not executed)"},
-            "macro_result.json": {"note": "placeholder"},
-            "node_result.json": {"note": "placeholder"},
-            "task_candidates.json": {"status": "DRY_RUN_PLACEHOLDER", "tasks": []},
+        task_package.write_package(c1_dir, prompts.stage_c1_instructions(), {
+            "facts.json": _task_selection_facts(facts),
+            "stage_b.json": {"note": "placeholder (dry-run, M2 not executed)"},
+            "task_summaries.json": {"status": "DRY_RUN_PLACEHOLDER", "tasks": []},
+            "rules.md": m3_rules,
+            "protocol.json": _protocol_payload("M3"),
+            "schema.json": schemas.STAGE_C1_SCHEMA,
+        })
+        task_package.write_package(c2_dir, prompts.stage_c_instructions(), {
+            "facts.json": {"note": "placeholder (dry-run, C1 not executed)"},
+            "stage_b.json": {"note": "placeholder"},
+            "c1_decision.json": {"note": "placeholder"},
             "selected_candidate_pools.json": [],
             "rules.md": m3_rules,
             "protocol.json": _protocol_payload("M3"),
             "schema.json": schemas.STAGE_C_SCHEMA,
         })
         return {"ok": True, "dry_run": True, "date": date,
-                "packages": [str(m1_dir), str(m2_dir), str(m3_dir)],
+                "packages": [str(m1_dir), str(m2_dir), str(c1_dir), str(c2_dir)],
                 "themes": len(facts.get("themes", [])),
                 "observations": len(facts.get("stage_b_observation_universe", []))}
 
@@ -486,47 +504,7 @@ def run_pipeline(date: str, backend: str = "codex", dry_run: bool = False,
         provenance.write(macro_result, run_dir / "macro_result.draft.json")
         return {"ok": False, "date": date, "backend": backend,
                 **_write_status(run_dir, "BLOCKED_SCHEMA_M1", problems=m1_problems)}
-    macro_result, m1_audit, m1_extra_dirs = _audit_and_retry_pack(
-        pack_id="M1", run_dir=run_dir, stage_dir=m1_dir,
-        facts_file="macro_facts.json", facts_payload=macro_facts,
-        result=macro_result, result_schema=schemas.M1_SCHEMA,
-        rules=m1_rules, backend=backend, program_problems=[])
-    stage_dirs.extend(m1_extra_dirs)
     provenance.write(macro_result, run_dir / "macro_result.json")
-    if m1_audit.get("verdict") != "PASS":
-        _write_token_report(run_dir, stage_dirs)
-        return {"ok": False, "date": date, "backend": backend,
-                **_write_status(run_dir, "BLOCKED_AUDIT_M1",
-                                problems=m1_audit.get("violations", []))}
-
-    has_path = (macro_result.get("primary_path") or {}).get("status") == "SELECTED"
-    has_pending = bool((yesterday or {}).get("nodes"))
-    if not has_path and not has_pending:
-        stage_b_result = {**macro_result, "nodes": [], "data_gaps": macro_result.get("data_gaps") or []}
-        stage_b_result = provenance.stamp(stage_b_result, backend, m1_dir,
-                                          ["macro_facts.json", "rules.md", "schema.json"])
-        stage_c_result = _no_action_stage_c(
-            facts.get("as_of"), "M1 未形成主路径且无前日待续节点，停止后续模型调用",
-            (macro_result.get("primary_path") or {}).get("rule_ids") or [])
-        provenance.write(stage_b_result, run_dir / "stage_b_result.json")
-        provenance.write(stage_c_result, run_dir / "stage_c_result.json")
-        from roubing_engine.reasoning.plan_compiler import compile_plan
-        compiled = compile_plan(stage_b_result, stage_c_result, {
-            "task_candidates": [], "no_action_rule_ids": []
-        }, [], facts)
-        provenance.write(compiled, run_dir / "compiled_plan.draft.json")
-        if compiled.get("verdict") != "PASS":
-            _write_token_report(run_dir, stage_dirs)
-            return {"ok": False, "date": date, "backend": backend,
-                    **_write_status(run_dir, "BLOCKED_PLAN_COMPILER",
-                                    problems=compiled.get("violations", []))}
-        provenance.write(compiled["executable_plan"], run_dir / "executable_plan.json")
-        from roubing_engine.state.ledger import save_ledger
-        save_ledger(date, stage_b_result, stage_c_result)
-        _write_token_report(run_dir, stage_dirs)
-        status = _write_status(run_dir, "APPROVED", audit_verdict="PASS",
-                               stop_condition="NO_PATH_NO_PENDING_NODE")
-        return {"ok": True, "date": date, "backend": backend, "status": status["status"]}
 
     # M2: generator applicability and legal nodes
     node_facts = projections.project_node_facts(facts, macro_result, yesterday)
@@ -564,18 +542,7 @@ def run_pipeline(date: str, backend: str = "codex", dry_run: bool = False,
         _write_token_report(run_dir, stage_dirs)
         return {"ok": False, "date": date, "backend": backend,
                 **_write_status(run_dir, "BLOCKED_SCHEMA_M2", problems=m2_problems)}
-    node_result, m2_audit, m2_extra_dirs = _audit_and_retry_pack(
-        pack_id="M2", run_dir=run_dir, stage_dir=m2_dir,
-        facts_file="node_facts.json", facts_payload=node_facts,
-        result=node_result, result_schema=schemas.M2_SCHEMA,
-        rules=m2_rules, backend=backend, program_problems=[])
-    stage_dirs.extend(m2_extra_dirs)
     provenance.write(node_result, run_dir / "node_result.json")
-    if m2_audit.get("verdict") != "PASS":
-        _write_token_report(run_dir, stage_dirs)
-        return {"ok": False, "date": date, "backend": backend,
-                **_write_status(run_dir, "BLOCKED_AUDIT_M2",
-                                problems=m2_audit.get("violations", []))}
 
     b_result = {
         "as_of": macro_result.get("as_of"),
@@ -621,67 +588,120 @@ def run_pipeline(date: str, backend: str = "codex", dry_run: bool = False,
         return {"ok": False, "date": date, "backend": backend,
                 **_write_status(run_dir, "BLOCKED_FIDELITY_STAGE_B", problems=b_fidelity)}
 
-    # Program expands candidate pools only after audited ACTION_READY nodes.
+    # Program expands pools only after M2 has opened legal ACTION_READY nodes.
+    # C1 still sees only the stock-free task summaries.
     from roubing_engine.reasoning.task_resolver import (
-        build_task_pools, resolve,
+        build_task_pools, resolve, select_task_pools, summarize_tasks,
     )
     task_bundle = resolve(b_result, facts)
     candidate_pools = build_task_pools(task_bundle, facts)
+    task_summaries = summarize_tasks(task_bundle)
     (run_dir / "task_candidates.json").write_text(
         json.dumps(task_bundle, ensure_ascii=False, indent=2), encoding="utf-8")
+    (run_dir / "task_summaries.json").write_text(
+        json.dumps(task_summaries, ensure_ascii=False, indent=2), encoding="utf-8")
     (run_dir / "candidate_pools.json").write_text(
         json.dumps(candidate_pools, ensure_ascii=False, indent=2), encoding="utf-8")
 
-    selected_pools = [pool for pool in candidate_pools
-                      if pool.get("status") == "ACTION_READY"]
+    if not task_bundle.get("task_candidates"):
+        c1_result = {
+            "as_of": facts.get("as_of"),
+            "decision_order": ["方向关系", "节点前态与阻力变化", "节点所缺功能", "匹配执行任务"],
+            **(_no_action_stage_c(
+                facts.get("as_of"), "M2 未打开 ACTION_READY 执行任务，节点只观察",
+                task_bundle.get("no_action_rule_ids") or [])["task_selection"]),
+            "unknowns": [],
+        }
+    else:
+        c1_facts = _task_selection_facts(facts)
+        task_package.write_package(c1_dir, prompts.stage_c1_instructions(), {
+            "facts.json": c1_facts,
+            "stage_b.json": provenance.model_view(b_result),
+            "task_summaries.json": task_summaries,
+            "rules.md": m3_rules,
+            "protocol.json": _protocol_payload("M3"),
+            "schema.json": schemas.STAGE_C1_SCHEMA,
+        })
+        try:
+            c1_task = runner.AgentTask(
+                task_dir=c1_dir,
+                instructions=prompts.stage_c1_instructions(),
+                reasoning_effort=protocols.PACKS["M3"].core_reasoning_effort,
+            )
+            c1_result = runner.run(c1_task, backend=backend)
+        except Exception as e:  # noqa: BLE001
+            _write_token_report(run_dir, stage_dirs)
+            return {"ok": False, "date": date, "backend": backend,
+                    **_write_status(run_dir, "BLOCKED_MODEL_C1",
+                                    problems=[_model_error(e, c1_dir)])}
+        stage_dirs.append(c1_dir)
+        c1_result = provenance.stamp(
+            c1_result, backend, c1_dir,
+            ["facts.json", "stage_b.json", "task_summaries.json",
+             "rules.md", "protocol.json", "schema.json"],
+        )
+        c1_result, c1_canonicalizations = _canonicalize_stage_c1_tasks(c1_result)
+        (run_dir / "stage_c1_canonicalizations.json").write_text(json.dumps({
+            "changes": c1_canonicalizations,
+            "status": "CHANGED" if c1_canonicalizations else "UNCHANGED",
+        }, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    c1_problems = runner.validate(c1_result, schemas.STAGE_C1_SCHEMA)
+    if c1_result.get("as_of") != facts.get("as_of"):
+        c1_problems.append("$.as_of: does not match frozen facts")
+    from roubing_engine.evaluation.fidelity import check_task_selection
+    c1_problems.extend(check_task_selection(b_result, c1_result, task_bundle, facts))
+    provenance.write(c1_result, run_dir / "stage_c1_result.draft.json")
+    (run_dir / "stage_c1_fidelity_result.json").write_text(json.dumps({
+        "violations": c1_problems,
+        "verdict": "PASS" if not c1_problems else "NEEDS_REVISION",
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
+    if c1_problems:
+        _write_token_report(run_dir, stage_dirs)
+        return {"ok": False, "date": date, "backend": backend,
+                **_write_status(run_dir, "BLOCKED_SCHEMA_C1", problems=c1_problems)}
+
+    selected_pools = select_task_pools(c1_result, candidate_pools)
+    (run_dir / "selected_candidate_pools.json").write_text(
+        json.dumps(selected_pools, ensure_ascii=False, indent=2), encoding="utf-8")
     if not selected_pools:
         c_result = _no_action_stage_c(
-            facts.get("as_of"), "M2 无审计通过的 ACTION_READY 候选池，节点只观察",
+            facts.get("as_of"), "C1 未选择主任务或独立替代任务，保持空仓路径",
             task_bundle.get("no_action_rule_ids") or [])
+        c_result["task_selection"] = {
+            "primary_task": c1_result.get("primary_task") or {},
+            "alternative_task": c1_result.get("alternative_task") or {},
+            "no_action_conditions": c1_result.get("no_action_conditions") or [],
+        }
     else:
-        plan_facts = projections.project_plan_facts(facts, selected_pools)
-        task_package.write_package(m3_dir, prompts.m3_plan_instructions(), {
-            "plan_facts.json": plan_facts,
-            "macro_result.json": provenance.model_view(macro_result),
-            "node_result.json": provenance.model_view(node_result),
-            "task_candidates.json": task_bundle,
+        plan_facts = _stock_plan_facts(facts, selected_pools)
+        task_package.write_package(c2_dir, prompts.stage_c_instructions(), {
+            "facts.json": plan_facts,
+            "stage_b.json": provenance.model_view(b_result),
+            "c1_decision.json": provenance.model_view(c1_result),
             "selected_candidate_pools.json": selected_pools,
             "rules.md": m3_rules,
             "protocol.json": _protocol_payload("M3"),
             "schema.json": schemas.STAGE_C_SCHEMA,
         })
         try:
-            c_task = runner.AgentTask(
-                task_dir=m3_dir,
-                instructions=prompts.m3_plan_instructions(),
+            c2_task = runner.AgentTask(
+                task_dir=c2_dir,
+                instructions=prompts.stage_c_instructions(),
                 reasoning_effort=protocols.PACKS["M3"].core_reasoning_effort,
             )
-            c_result = runner.run(c_task, backend=backend)
+            c_result = runner.run(c2_task, backend=backend)
         except Exception as e:  # noqa: BLE001
             _write_token_report(run_dir, stage_dirs)
             return {"ok": False, "date": date, "backend": backend,
-                    **_write_status(run_dir, "BLOCKED_MODEL_M3",
-                                    problems=[_model_error(e, m3_dir)])}
-        stage_dirs.append(m3_dir)
+                    **_write_status(run_dir, "BLOCKED_MODEL_C2",
+                                    problems=[_model_error(e, c2_dir)])}
+        stage_dirs.append(c2_dir)
         c_result = provenance.stamp(
-            c_result, backend, m3_dir,
-            ["plan_facts.json", "macro_result.json", "node_result.json",
-             "task_candidates.json", "selected_candidate_pools.json",
-             "rules.md", "protocol.json", "schema.json"],
+            c_result, backend, c2_dir,
+            ["facts.json", "stage_b.json", "c1_decision.json",
+             "selected_candidate_pools.json", "rules.md", "protocol.json", "schema.json"],
         )
-        plan_program_problems = semantic_audit.check_plan_coverage(c_result)
-        if not plan_program_problems:
-            c_result, m3_audit, m3_extra_dirs = _audit_and_retry_pack(
-                pack_id="M3", run_dir=run_dir, stage_dir=m3_dir,
-                facts_file="plan_facts.json", facts_payload=plan_facts,
-                result=c_result, result_schema=schemas.STAGE_C_SCHEMA,
-                rules=m3_rules, backend=backend, program_problems=[])
-            stage_dirs.extend(m3_extra_dirs)
-            if m3_audit.get("verdict") != "PASS":
-                _write_token_report(run_dir, stage_dirs)
-                return {"ok": False, "date": date, "backend": backend,
-                        **_write_status(run_dir, "BLOCKED_AUDIT_M3",
-                                        problems=m3_audit.get("violations", []))}
     c_problems = runner.validate(c_result, schemas.STAGE_C_SCHEMA)
     if c_result.get("as_of") != facts.get("as_of"):
         c_problems.append("$.as_of: does not match frozen facts")
@@ -732,6 +752,7 @@ def run_pipeline(date: str, backend: str = "codex", dry_run: bool = False,
         "stage_b.json": provenance.model_view(b_result),
         "macro_result.json": provenance.model_view(macro_result),
         "node_result.json": provenance.model_view(node_result),
+        "stage_c1.json": provenance.model_view(c1_result),
         "stage_c.json": provenance.model_view(c_result),
         "task_candidates.json": task_bundle,
         "candidate_pools.json": candidate_pools,
@@ -749,7 +770,8 @@ def run_pipeline(date: str, backend: str = "codex", dry_run: bool = False,
         a_result = {"verdict": "AUDIT_ERROR", "violations": [str(e)], "counter_arguments": []}
     a_result = provenance.stamp(
         a_result, backend, a_dir,
-        ["facts.json", "stage_b.json", "macro_result.json", "node_result.json", "stage_c.json",
+        ["facts.json", "stage_b.json", "macro_result.json", "node_result.json",
+         "stage_c1.json", "stage_c.json",
          "task_candidates.json", "candidate_pools.json", "compiled_plan.draft.json",
          "rules.md", "audit_evidence_manifest.json", "audit_evidence_coverage.md",
          "schema.json"])

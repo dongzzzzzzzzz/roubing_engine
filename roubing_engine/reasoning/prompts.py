@@ -17,6 +17,9 @@ HARD_CONTRACT = """
 - 不得自动定义 A/B/C/D；新股票字母载体一律 UNKNOWN。
 - 不得把所有炸板二分为主动/被动；无完整委托流不得断言撤单者。
 - regulatory_context 或候选池若标记监管规则 BLOCKED_DATA，不得计算异动距离或声称仍有监管空间。
+- facts.block_scope_report 是数据缺口边界合同：LOCAL_DOWNGRADE 只能阻断其中
+  blocked_conclusions 列出的具体结论，不得扩大成环境、方向生命周期、T1任务或收盘账本整体
+  BLOCKED_DATA；SYSTEM_BLOCK 也只能阻断其 listed 盘口/委托/撤单类结论。
 - 每个结论尽量引用 rules.md 的规则 id 和 facts 中的事实。
 - 输出必须是合法 JSON；系统会把最终响应保存到 ./output/result.json，不要另行读写文件，不要附加解释文字。
 """.strip()
@@ -26,11 +29,12 @@ def m1_macro_instructions() -> str:
     return f"""你是 roubing V2 六包推理中的 M1：环境 + 方向生命周期。
 
 读取 macro_facts.json、rules.md、yesterday_state.json、protocol.json。
-本包只做 Stage 0-2：冻结信息边界、五项观察、四环境假设、环境裁决、全部方向生命周期、
+本包只做 Stage 0-2：冻结信息边界、六项环境观察、四环境假设、环境裁决、全部方向生命周期、
 方向横向比较和三路径候选。你看不到逐票观察集，也不得写任何股票动作。
 
 必须按 protocol.json 完整输出：
-- Stage 1 五项观察全部进入 method_trace；
+- Stage 1 六项观察全部进入 method_trace，且顺序为：指数状态、总成交支持、大成交买方反馈、
+  昨日强势反馈、赚钱效应扩散、新旧承接；
 - MAIN_TREND、ROTATION、DECLINE、REGIME_SWITCH 四种环境假设全部写入 environment_hypotheses，
   并在 method_trace 写 S1-HYPOTHESIS-*；
 - direction_state_facts 中每个方向必须且只能有一条 direction_evaluations；
@@ -143,10 +147,14 @@ def stage_b_instructions() -> str:
 2. direction_state_facts 中每一个方向都必须且只能输出一条 direction_evaluations，
    不得只写最后看中的方向；
 3. 对每个方向分别说明已观察事实、推断、反证、与市场的关系及数据缺口；
-4. 对仍可能成为路径的方向建立 direction_comparisons，横向比较持续性、梯队完整性、
+4. 对每个方向输出完整逐日生命周期字段、主流五问和催化生命周期；这些字段不是填空，
+   每一项都必须是 judgment object，包含 status、evidence_kind、value、observed、inference、
+   supporting_fact_ids、counter_fact_ids、rule_ids、unknowns；字段不足时 status 写
+   DATA_INSUFFICIENT，unknowns 写缺什么，不能编 value 冒充结论；
+5. 对仍可能成为路径的方向建立 direction_comparisons，横向比较持续性、梯队完整性、
    失败反馈、逐方向昨日买方反馈、容量承载和方向内部响应；只有形成多关系支配时才选
    primary_path，各有优劣或边界不清时必须 NONE；
-5. 主路径确定后才识别 G1—G12 方法节点。方法节点描述当前市场关系，不等于明日执行任务。
+6. 主路径确定后才识别 G1—G12 方法节点。方法节点描述当前市场关系，不等于明日执行任务。
 
 状态与缺口边界：
 - 环境状态和执行优先路径是两层。缺前日账本/昨日买方时，不能声称环境已完成轮动、
@@ -188,6 +196,14 @@ G8 必须是明确同日起步/共同首板队列；3板、2板、首板混合�
 当天后塞入 G8。
 
 最终响应只返回 JSON，结构（键名固定）：
+注意：下面凡是 judgment object，都必须按这个结构输出：
+{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT",
+  "evidence_kind":"OBSERVED_FACT|AUTHOR_INTERPRETATION|MODEL_INFERENCE|DATA_INSUFFICIENT|POST_ASOF_OUTCOME",
+  "value":"结论值；不足时写 UNKNOWN/null/[]，但不能省略",
+  "observed":["可核对事实描述"],
+  "inference":"基于事实和规则的推理，不是填空",
+  "supporting_fact_ids":["F-..."],"counter_fact_ids":["F-..."],
+  "rule_ids":["规则ID"],"unknowns":["缺失数据或无法确认项"]}}
 {{
   "as_of": "facts.json 的 as_of",
   "environment": {{"status": "MAIN_TREND|ROTATION|DECLINE|REGIME_SWITCH|DATA_INSUFFICIENT",
@@ -197,7 +213,42 @@ G8 必须是明确同日起步/共同首板队列；3板、2板、首板混合�
                    "migrated_from": "昨日环境或 null", "tomorrow_checks": ["明日验证"]}},
   "direction_evaluations": [
      {{"theme": "与direction_state_facts完全一致", "direction_fact_id": "F-...",
-       "stage": "启动候选|延续候选|启动|延续|分歧|修复|主升|震荡|二波|退潮|热点候选|无法确认",
+       "stage": "中文摘要，不作为程序状态",
+       "first_candidate_date": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"YYYY-MM-DD或null","observed":["事实"],"inference":"如何确定首次候选日","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "current_day_index": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":1,"observed":["事实"],"inference":"从首次候选日起算第几日","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "stage_yesterday": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"RANDOM_HOTSPOT|LAUNCH_TEST|CONTINUATION_CANDIDATE|MAINSTREAM_CONFIRMED|FIRST_OR_MAJOR_DIVERGENCE|REPAIR|OSCILLATION_OR_SECOND_WAVE|DECLINE_OR_ENDED|null","observed":["昨日账本事实"],"inference":"昨日阶段来源；缺账本则说明不足","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "stage_today": {{"status":"APPLICABLE","value":"RANDOM_HOTSPOT|LAUNCH_TEST|CONTINUATION_CANDIDATE|MAINSTREAM_CONFIRMED|FIRST_OR_MAJOR_DIVERGENCE|REPAIR|OSCILLATION_OR_SECOND_WAVE|DECLINE_OR_ENDED","observed":["当日事实"],"inference":"为什么是该阶段，不得机械套三天十家","supporting_fact_ids":["F"],"counter_fact_ids":["F"],"rule_ids":["规则"],"unknowns":[]}},
+       "stage_change": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"升级/维持/降级/无法确认","observed":["事实"],"inference":"相对昨日如何迁移","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "pioneer_state": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"先锋延续/断板/未知等","observed":["事实"],"inference":"先锋是否完成角色任务","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "capacity_state": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"容量推进/滞涨/未知等","observed":["事实"],"inference":"容量核心/大成交买方反馈判断","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "back_row_feedback": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"扩散/失去溢价/未知等","observed":["事实"],"inference":"后排和助攻反馈判断","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "board_index_state": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"连续走强/突破/回落/未知","observed":["事实"],"inference":"板块指数判断","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "buyer_feedback": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"买方正反馈/负反馈/未知","observed":["事实"],"inference":"昨日买方是否能带利润离开","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "first_divergence_date": {{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"YYYY-MM-DD或null","observed":["事实"],"inference":"首次/大分歧日期判断","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "divergence_order": {{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"首次/大分歧/无/未知","observed":["事实"],"inference":"分歧发生位置和顺序","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "repair_history": {{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":["历次分歧与修复"],"observed":["事实"],"inference":"修复历史；次数不能代替质量","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "repair_quality": {{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"核心/容量/板块共同修复情况","observed":["事实"],"inference":"修复质量判断","supporting_fact_ids":["F"],"counter_fact_ids":["F"],"rule_ids":["规则"],"unknowns":[]}},
+       "catalyst_state": {{
+         "catalyst_type": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"EVENT|POLICY|INDUSTRY|EARNINGS|UNKNOWN","observed":["事实"],"inference":"催化来源类型","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "catalyst_stage": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"NEW|CONTINUING|DIFFUSING|REPEATED|REALIZATION_RISK|INVALIDATED","observed":["事实"],"inference":"首次、扩散、重复兑现或证伪判断","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "first_seen_or_repeated": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"首次/持续/重复兑现/未知","observed":["事实"],"inference":"涨停原因是否首次出现","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "keyword_only_stocks": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":["仅关键词相关对象"],"observed":["事实"],"inference":"哪些只是关键词相关","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "capital_selected_stocks": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":["实际被资金选择对象"],"observed":["事实"],"inference":"哪些得到资金选择","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "reason_continuity": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"持续/中断/未知","observed":["事实"],"inference":"原因是否持续出现","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "next_day_buyer_premium": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"有溢价/无溢价/未知","observed":["事实"],"inference":"次日买方反馈","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "post_divergence_repair": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"能修复/不能修复/未知","observed":["事实"],"inference":"分歧后修复判断；催化不能直接生成买点","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}}
+       }},
+       "regulatory_constraints": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":["当日有效监管/异动空间约束"],"observed":["事实"],"inference":"监管如何约束路径","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "upgrade_conditions": {{"status":"APPLICABLE","value":["升级为下一阶段需要什么事实"],"observed":["当前未满足项"],"inference":"为何这些是升级条件","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "downgrade_conditions": {{"status":"APPLICABLE","value":["降级/取消需要什么事实"],"observed":["风险事实"],"inference":"为何这些会降级","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "tomorrow_validation": {{"status":"APPLICABLE","value":["明日验证点"],"observed":["今日留下的验证缺口"],"inference":"明天验证什么才能确认/取消","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+       "mainstream_questions": {{
+         "startup_continuation_divergence": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"YES|NO|UNKNOWN","observed":["事实"],"inference":"是否经历启动、次日延续和后续分歧","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "front_capacity_diffusion_layers": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"YES|NO|UNKNOWN","observed":["事实"],"inference":"是否同时存在前排高度、容量核心和扩散层","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "board_index_strength_or_breakout": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"YES|NO|UNKNOWN","observed":["事实"],"inference":"板块指数是否连续走强或突破","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "major_divergence_core_capacity_repair": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"YES|NO|UNKNOWN","observed":["事实"],"inference":"大分歧后核心和容量是否率先修复","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+         "internal_takeover_after_core_constraint": {{"status":"APPLICABLE|DATA_INSUFFICIENT","value":"YES|NO|UNKNOWN","observed":["事实"],"inference":"原核心受限后内部是否出现新承接载体","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}}
+       }},
        "market_relation": "LEADS|CONFIRMS|FOLLOWS|WEAKENS|ISOLATED|UNRESOLVED",
        "path_status": "PRIMARY|COMPETITOR|OBSERVATION|REJECTED|BLOCKED_DATA",
        "observed_facts": ["事实的中文解释"], "inferences": ["基于事实的推断"],
@@ -241,6 +292,10 @@ G8 必须是明确同日起步/共同首板队列；3板、2板、首板混合�
 
 
 def _legacy_stage_c_instructions() -> str:
+    raise RuntimeError(
+        "legacy Stage C prompt is retired; use stage_c1_instructions() and "
+        "stage_c_instructions() with task_resolver-selected pools"
+    )
     return f"""你是 roubing 交易逻辑的“执行任务、股票功能、同任务竞争与次日预案”模块（Stage C）。
 
 请阅读当前目录下：
@@ -303,7 +358,17 @@ def _legacy_stage_c_instructions() -> str:
   为 {{"status":"UNRESOLVED","thscode":null,...}}，uniqueness_status 也必须为 UNRESOLVED。
 - 选中任务的 required_rule_ids 是正式推理必须引用的规则合同。execution_task、对应的
   competition_group、action_competition_group、pairwise_comparison 和 action_plan 都必须输出
-  rule_ids；每只 candidate.evidence 必须同时包含自己的 F-... fact_id 和至少一个 required_rule_id。
+  rule_ids；每只 candidate.evidence_refs 必须同时包含自己的 F-... fact_id 和至少一个 required_rule_id。
+  所有 SUPPORTED 路径声明、leader_state、逐对比较和 M6 任务/角色迁移也必须输出 evidence_refs；
+  每条证据写 id、evidence_kind、source_field；
+  事实证据用 OBSERVED_FACT，作者解释用 AUTHOR_INTERPRETATION，模型推断用 MODEL_INFERENCE，
+  数据缺口用 DATA_INSUFFICIENT。POST_ASOF_OUTCOME 不能支撑当前计划。
+- 每只 candidate 必须同时输出 functional_role 英文功能角色合同和 stock_expectation 逐票预期合同。
+  英文功能角色只能是 TOTAL_CORE、EMOTION_HEIGHT_CORE、CAPACITY_CORE、BRANCH_CORE、
+  ASSIST_OR_COMPANION、CATCH_UP、LOW_LEVEL_SYMBIOSIS、SECOND_WAVE_CARRIER、
+  OLD_CORE_RESIDUAL、FOLLOWER、UNKNOWN。字母 A/B/D 只能放 author_letter_label，
+  永远不能当功能角色。逐票预期必须按 T日角色→T日表现→T日板块→同组第二名→监管剩余空间
+  的顺序生成，不得写固定高开比例、固定封单额、通用量能倍数或预期分数。
 
 最终响应只返回 JSON，结构（键名固定）：
 {{
@@ -318,19 +383,19 @@ def _legacy_stage_c_instructions() -> str:
     "primary": {{
       "observed_facts": ["只写facts/stage_b/candidate_pools可核对事实"],
       "ai_inferences": ["基于事实的推断，不伪装成事实"], "unknowns": ["无法确认项"],
-      "capital_source": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "钱从哪来", "evidence": ["证据"]}},
-      "buyer": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "谁可能买", "evidence": ["证据"]}},
-      "seller": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "谁必须卖", "evidence": ["证据"]}},
-      "destination_layer": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "资金可能落到哪一层", "evidence": ["证据"]}},
-      "successor": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "谁可能接棒", "evidence": ["证据"]}},
+      "capital_source": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "钱从哪来", "evidence": ["兼容文本"], "evidence_refs":[{{"id":"F-或规则ID","evidence_kind":"OBSERVED_FACT|AUTHOR_INTERPRETATION|MODEL_INFERENCE|DATA_INSUFFICIENT","source_field":"facts或rules"}}]}},
+      "buyer": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "谁可能买", "evidence": ["兼容文本"], "evidence_refs":[]}},
+      "seller": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "谁必须卖", "evidence": ["兼容文本"], "evidence_refs":[]}},
+      "destination_layer": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "资金可能落到哪一层", "evidence": ["兼容文本"], "evidence_refs":[]}},
+      "successor": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "谁可能接棒", "evidence": ["兼容文本"], "evidence_refs":[]}},
       "confirm": ["竞价/开盘确认"], "cancel": ["取消条件"]}},
     "alternative": {{
       "observed_facts": ["可核对事实"], "ai_inferences": ["推断"], "unknowns": ["未知"],
-      "capital_source": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": []}},
-      "buyer": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": []}},
-      "seller": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": []}},
-      "destination_layer": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": []}},
-      "successor": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": []}},
+      "capital_source": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": [], "evidence_refs":[]}},
+      "buyer": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": [], "evidence_refs":[]}},
+      "seller": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": [], "evidence_refs":[]}},
+      "destination_layer": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": [], "evidence_refs":[]}},
+      "successor": {{"status": "SUPPORTED|HYPOTHESIS|UNKNOWN", "statement": "说明", "evidence": [], "evidence_refs":[]}},
       "trigger": ["主路径何条失效才接管"], "cancel": ["替代路径自身取消条件"]}},
     "no_action": {{"observed_facts": ["可核对事实"], "ai_inferences": ["推断"],
       "unknowns": ["未知"], "trigger": ["无新买家/卖压无承接/空间透支/无合适载体/证据不足中的具体原因"]}}
@@ -342,11 +407,12 @@ def _legacy_stage_c_instructions() -> str:
       "members": ["组内候选thscode"],
       "not_comparable_with": ["容易被误比但实际不可比的对象及原因"],
       "leader_state": {{"status": "UNRESOLVED|PROVISIONAL|CONFIRMED|REPLACED|CANCELLED",
-                         "thscode": "组内代码或null", "evidence": ["事实"]}},
+                         "thscode": "组内代码或null", "evidence": ["兼容文本"],
+                         "evidence_refs":[{{"id":"F-或规则ID","evidence_kind":"OBSERVED_FACT","source_field":"facts"}}]}},
       "pairwise_relations": [{{"left_thscode": "代码", "right_thscode": "代码",
         "left_event_time": "候选池limit_time或null", "right_event_time": "候选池limit_time或null",
         "relation": "LEFT_EARLIER|RIGHT_EARLIER|SAME_TIME|UNRESOLVED|NOT_COMPARABLE",
-        "evidence": ["只写可核对事实"]}}],
+        "evidence": ["兼容文本"], "evidence_refs":[{{"id":"F-...","evidence_kind":"OBSERVED_FACT","source_field":"candidate_pool.limit_time"}}]}}],
       "next_confirmation": ["次日如何确认或推翻"],
       "coverage_status": "COMPLETE|PARTIAL|MISSING", "rule_ids": ["选中任务required_rule_ids"],
       "next_day_tasks": ["全组次日需逐一验证的任务"],
@@ -363,7 +429,8 @@ def _legacy_stage_c_instructions() -> str:
       "left_advantages": [], "right_advantages": [], "unresolved": [],
       "conclusion": "LEFT_PRIMARY|RIGHT_PRIMARY|CONDITIONAL|NO_EDGE", "rule_ids": ["required_rule_ids"],
       "evidence_families": ["TASK_COMPLETION_PRESTATE|INDEPENDENCE_AND_EVENT_ORDER|DIRECTION_RESPONSE|DIVERGENCE_TOLERANCE|CAPACITY_CARRYING|ROLE_CONTINUITY_OR_MIGRATION"],
-      "fact_ids": ["F-..."]}}
+      "fact_ids": ["F-..."],
+      "evidence_refs":[{{"id":"F-或规则ID","evidence_kind":"OBSERVED_FACT|AUTHOR_INTERPRETATION|MODEL_INFERENCE","source_field":"facts/rules"}}]}}
   ],
   "action_plan": {{"status": "SINGLE|CONDITIONAL_PAIR|NO_ACTION", "task_id": "TASK-...或null",
     "primary": {{"thscode": "", "task_to_complete": "",
@@ -384,6 +451,33 @@ def _legacy_stage_c_instructions() -> str:
       "role": "总核心|容量核心|情绪核心|分支核心|助攻伴飞|补涨|低位伴生|二波载体|旧核心残余|跟风|UNKNOWN",
       "role_family": "核心|容量|补涨|伴飞|二波伴生|旧核心残余|跟风|UNKNOWN",
       "role_status": "CANDIDATE|PROVISIONAL|CONFIRMED|REPLACED|CANCELLED|UNKNOWN",
+      "functional_role": {
+        "role": "TOTAL_CORE|EMOTION_HEIGHT_CORE|CAPACITY_CORE|BRANCH_CORE|ASSIST_OR_COMPANION|CATCH_UP|LOW_LEVEL_SYMBIOSIS|SECOND_WAVE_CARRIER|OLD_CORE_RESIDUAL|FOLLOWER|UNKNOWN",
+        "role_status": "CANDIDATE|PROVISIONAL|CONFIRMED|REPLACED|CANCELLED|UNKNOWN",
+        "entered_by_event": ["进入该角色候选的事件"],
+        "current_function": "当前承担的功能",
+        "must_complete_next": ["次日必须完成什么"],
+        "invalidated_by": ["什么事实使该角色失效"],
+        "previous_role": "上一角色或null",
+        "possible_next_roles": ["可能迁移到的英文功能角色"],
+        "active_or_passive_relation": "INDEPENDENTLY_ACTIVE|INDEPENDENCE_NOT_CONFIRMED|PUSHED_BY_REFERENCE|ROLE_REPLACED|UNKNOWN",
+        "author_letter_label": "A|B|D|UNKNOWN"
+      },
+      "stock_expectation": {
+        "current_role": "使用 functional_role.role",
+        "today_state": "ONE_WORD_LIMIT|FAST_LIMIT|TURNOVER_LIMIT|HEAVY_BROKEN_LIMIT|RALLY_AND_FADE|LIMIT_DOWN|FIRST_MAJOR_DIVERGENCE|POST_BREAKOUT_DIVERGENCE|BELOW_RESISTANCE_DIVERGENCE|HIGH_LEVEL_ADVANCE_FAILURE|OTHER_OBSERVED",
+        "self_benchmark": "相对自身昨日/历史惯性的预期",
+        "peer_benchmark": "相对同组第二名/竞争者的预期",
+        "environment_benchmark": "相对环境和方向状态的预期",
+        "auction_expectation": "竞价必须体现的关系，不写固定百分比",
+        "open_expectation": "开盘承接/主动性必须体现的关系",
+        "board_response_expectation": "板块/容量/助攻响应预期",
+        "role_task": "该角色次日任务",
+        "minimum_confirmation": "最低确认事实",
+        "direct_cancel": "直接取消事实",
+        "regulatory_constraint": "监管/异动空间约束",
+        "generation_order": ["T_DAY_ROLE","T_DAY_PERFORMANCE","T_DAY_BOARD_STATE","SAME_GROUP_SECOND_PLACE","CURRENT_REGULATION_AND_REMAINING_SPACE"]
+      },
       "capacity_tasks": {{"price_progression": "", "pullback_recovery": "", "sector_leadership": "", "center_of_gravity": "", "replacement_state": ""}},
       "agency_event_model": {{"reference": "", "event_sequence": [""], "target_behavior": "", "data_sufficiency": "SUFFICIENT|PARTIAL|INSUFFICIENT|UNKNOWN", "conclusion": "ACTIVE|PASSIVE|UNKNOWN"}},
       "letter_carrier": "UNKNOWN 或作者点名字母",
@@ -395,7 +489,11 @@ def _legacy_stage_c_instructions() -> str:
       "failure_signals": ["出现即降级或取消"],
       "cancel_if": ["取消条件"],
       "output_tier": "主候选|待验证候选|替代候选|取消或不行动",
-      "evidence": ["规则id 或事实"]}}
+      "evidence": ["兼容字段：规则id或事实id"],
+      "evidence_refs": [
+        {"id":"F-...","evidence_kind":"OBSERVED_FACT","source_field":"candidate_pools.pool[].fact_id","note":"候选自身事实"},
+        {"id":"G08_UNIQUENESS","evidence_kind":"AUTHOR_INTERPRETATION","source_field":"rules.md","note":"方法规则"}
+      ]}}
   ],
   "excluded_candidates": [
     {{"thscode": "候选池中未进入逐票作战卡的股票", "name": "原样抄candidate_pools",
@@ -532,17 +630,17 @@ candidate.competitors 只能填写同一个 competition_group 内的其他 ACTIO
     "theme":"方向","missing_function":"C1原文","selection_logic":["C1原文"],
     "supporting_fact_ids":["F"],"rule_ids":["required rules"],"rejected_task_ids":[]}},
    "path_analysis":{{"observed_facts":["事实"],"ai_inferences":["推断"],"unknowns":["未知"],
-    "capital_source":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[]}},
-    "buyer":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[]}},
-    "seller":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[]}},
-    "destination_layer":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[]}},
-    "successor":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[]}},
+    "capital_source":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[],"evidence_refs":[]}},
+    "buyer":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[],"evidence_refs":[]}},
+    "seller":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[],"evidence_refs":[]}},
+    "destination_layer":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[],"evidence_refs":[]}},
+    "successor":{{"status":"SUPPORTED|HYPOTHESIS|UNKNOWN","statement":"说明","evidence":[],"evidence_refs":[]}},
     "confirm":["本路径确认"],"trigger":["替代路径独立接管条件；主路径可空"],"cancel":["取消"]}},
    "competition_group":{{"group_id":"方向-节点-任务-起算日","generator":"G1..G12",
     "anchor_date":"冻结日期","theme":"冻结方向","comparison_basis":["同任务关系"],
     "members":["完整动作池代码"],"not_comparable_with":["验证对象或不同任务"],
     "leader_state":{{"status":"UNRESOLVED|PROVISIONAL|CONFIRMED|REPLACED|CANCELLED",
-      "thscode":"代码或null","evidence":["证据"]}},"pairwise_relations":[],
+      "thscode":"代码或null","evidence":["兼容文本"],"evidence_refs":[]}},"pairwise_relations":[],
     "next_confirmation":["次日确认"], "coverage_status": "COMPLETE|PARTIAL|MISSING",
     "next_day_tasks": ["全组次日需逐一验证的任务"],"rule_ids":["required rules"],
     "uniqueness_status": "UNRESOLVED|CONFIRMED|REPLACED|CANCELLED"}},
@@ -550,6 +648,7 @@ candidate.competitors 只能填写同一个 competition_group 内的其他 ACTIO
      "comparison_dimensions":["本任务功能维度"],"left_advantages":[],"right_advantages":[],
      "unresolved":[],"conclusion":"LEFT_PRIMARY|RIGHT_PRIMARY|CONDITIONAL|NO_EDGE",
      "fact_ids":["F-事实"],"evidence_families":["任务合同允许的证据家庭"],
+     "evidence_refs":[{{"id":"F-或规则ID","evidence_kind":"OBSERVED_FACT|AUTHOR_INTERPRETATION|MODEL_INFERENCE","source_field":"facts/rules"}}],
      "rule_ids":["required rules"]}}],
    "action_plan":{{"status":"SINGLE|CONDITIONAL_PAIR|NO_ACTION","task_id":"TASK或null",
     "primary":{{"thscode":"代码","task_id":"TASK","path_kind":"PRIMARY|ALTERNATIVE",
@@ -716,10 +815,50 @@ def m5_open_action_instructions() -> str:
 - 回踩关键位停止下跌并拐头 -> LOW_ABSORB；
 - 越过预定阻力并主动推进 -> BREAKOUT_FOLLOW；
 - 经真实卖压和换手重新封住 -> RESEAL；
-- 必须等收盘确认监管、回流或突破 -> CLOSE_CONFIRM；
+- 盘后叶子已冻结尾盘事件合同且必须等事件确认 -> TAIL_CONFIRMATION；
 - 否则 NONE。
 
 输出必须满足 schema.json。
+
+{HARD_CONTRACT}
+"""
+
+
+def vtail_instructions() -> str:
+    return f"""你是 roubing V2 的 VTAIL：只验证盘后已经冻结的尾盘确认事件。
+
+读取 executable_plan.json、tail_validation_facts.json、m5_open_action_result.json、rules.md、schema.json。
+只有 action_type=TAIL_CONFIRMATION 的当前叶子能进入本包；普通计划不得在 09:35 后继续找买点。
+
+严格顺序：
+1. 原样抄当前叶子的 tail_event_trigger、required_board_reflux、required_breakout_state、
+   regulatory_condition、cancel_conditions、latest_valid_time；
+2. 只监听这些预先定义事件，不新增股票、不新增条件、不设置通用买入时刻；
+3. 若事件在收盘竞价开始前仍未发生，输出 NO_ACTION；
+4. 缺少尾盘事实时输出 DATA_INSUFFICIENT，不能把早盘强度延伸成尾盘确认；
+5. 终态只能 BUY / NO_ACTION / DATA_INSUFFICIENT。
+
+输出 ./output/result.json：
+{{
+ "tplus1":"YYYY-MM-DD",
+ "snapshot":"VTAIL",
+ "as_of":"tail_validation_facts.as_of",
+ "current_action_candidate":"代码或null",
+ "tail_event_validation":{{
+   "tail_event_trigger":"原样抄冻结叶子",
+   "required_board_reflux":"原样抄冻结叶子",
+   "required_breakout_state":"原样抄冻结叶子",
+   "regulatory_condition":"原样抄冻结叶子",
+   "latest_valid_time":"原样抄冻结叶子",
+   "cancel_conditions":["原样抄冻结叶子"],
+   "conclusion":"TAIL_CONFIRMS|TAIL_REJECTS|DATA_INSUFFICIENT",
+   "observed":["只写tail_validation_facts中可见事实"]
+ }},
+ "decision":"BUY|NO_ACTION|DATA_INSUFFICIENT",
+ "method_trace":[{{"step_id":"VTAIL-...","status":"CONFIRMS|PARTIAL|REJECTS|DATA_INSUFFICIENT|NOT_APPLICABLE",
+   "observed":["事实"],"fact_ids":["F"],"judgment":"判断"}}],
+ "unknowns":["未知项"]
+}}
 
 {HARD_CONTRACT}
 """
@@ -734,6 +873,7 @@ def audit_instructions() -> str:
 - node_result.json：M2 G1-G12 适用性、合法节点和节点问题回答；
 - stage_b.json：兼容产物，合并了 M1/M2 的环境、方向、节点和方法痕迹；
 - task_candidates.json、candidate_pools.json：节点真正打开的任务及完整池；
+- stage_c1.json：T1 盲选任务结果，必须没有股票代码、候选数量或池状态理由；
 - stage_c.json：M3 股票功能、同任务竞争和最终主/替代/不行动计划；
 - compiled_plan.draft.json：即将进入次日验证的封闭叶子；
 - rules.md：Stage B、Stage C 和审计纪律规则的完整并集；
@@ -745,7 +885,7 @@ def audit_instructions() -> str:
 必须按 audit_evidence_coverage.md 逐项核查；任何实际使用的方法类别若状态为 PARTIAL_DATA，
 必须作为审计违规/覆盖缺口写入 violations，不能假装全部语境已经覆盖。
 必须逐项核对：M1 是否被单一高度绑架；M2 是否漏掉 G1-G12 或绕过环境门禁；
-M3 是否按候选少/容易 SINGLE 选任务；候选是否越过冻结池；节点起算日与股票启动日是否混淆；被反推是否被写成
+T1/C1 是否按候选少/容易 SINGLE 选任务；M3 是否重新选择任务；候选是否越过冻结池；节点起算日与股票启动日是否混淆；被反推是否被写成
 角色替代；替代路径是否有自身节点、任务、股票和独立成立条件；最终是否最多两只冻结叶子。
 
 最终响应只返回 JSON：
@@ -793,12 +933,41 @@ def m6_close_review_instructions() -> str:
 2. 再查角色是否继续完成任务；
 3. 再查板块路径是否被推翻；
 4. 检查角色迁移：旧失职→新主动→板块响应→旧被反推→后续确认；
-5. 输出退出原因：该强不强、角色替代、秩序恶化、高位推进失败、结构破坏、
-   催化/监管/环境失效；
-6. 去持仓偏见重算下一交易日环境、方向、节点、角色、竞争组、任务和三路径。
+5. 逐持仓输出 holding_reviews 十项检查：总核心是否继续领涨/修复/带动，容量是否大成交后
+   仍推进，助攻/低位是否有溢价和梯队，监管和异动空间是否有效，修复高点/上板质量/
+   板块响应是否衰减，昨日买方利润垫、最佳助攻、高中低容量梯队、分歧后接手、
+   扩散次日奖励是否成立；
+6. 输出退出原因枚举：FAILED_EXPECTATION、ROLE_REPLACED、BOARD_ORDER_DETERIORATED、
+   HIGH_LEVEL_ADVANCE_FAILED、STRUCTURE_BROKEN、CATALYST_REGULATION_ENV_INVALIDATED；
+   exit_style 只能是 EARLY_RISK_REDUCTION 或 WAIT_FOR_STRUCTURE_BREAK，且必须沿用买入前冻结口径；
+   五日线只能作为结构参考，不得作为唯一退出规则；
+7. 去持仓偏见重算下一交易日环境、方向、节点、角色、竞争组、任务和三路径。
 
 缺收盘、分时、逐笔或持仓事实时，不得编造退出或角色替代，必须 DATA_INSUFFICIENT。
 输出必须满足 schema.json。
+
+输出字段必须包含：
+{{
+  "tplus1":"YYYY-MM-DD",
+  "plan_date":"YYYYMMDD",
+  "task_results":[{{"thscode":"代码","task_id":"任务","status":"COMPLETED|FAILED|CANCELLED|DATA_INSUFFICIENT|NOT_TRIGGERED","evidence":["兼容文本"],"evidence_refs":[{{"id":"F-...","evidence_kind":"OBSERVED_FACT","source_field":"validation_results"}}],"failed_conditions":["失败条件"]}}],
+  "role_migrations":[{{"thscode":"代码","previous_role":"旧角色或null","new_role":"新角色或null","status":"UNCHANGED|UPGRADED|DOWNGRADED|REPLACED|CANCELLED|DATA_INSUFFICIENT","evidence":["兼容文本"],"evidence_refs":[],"counter_evidence":["兼容文本"],"counter_evidence_refs":[]}}],
+  "holding_reviews":[{{"thscode":"代码","task_id":"任务",
+    "total_core_lead_repair_board_assist":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "capacity_core_progression_after_volume":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "assist_and_low_level_premium_ladder":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "regulation_and_abnormal_space_valid":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "repair_high_quality_board_response_decay":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "buyer_profit_cushion":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "best_assist_continuation":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "ladder_integrity":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "real_capital_takeover_after_divergence":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}},
+    "diffusion_next_day_reward":{{"status":"APPLICABLE|NOT_APPLICABLE|DATA_INSUFFICIENT","value":"判断","observed":["事实"],"inference":"推理","supporting_fact_ids":["F"],"counter_fact_ids":[],"rule_ids":["规则"],"unknowns":[]}}
+  }}],
+  "exit_reviews":[{{"thscode":"代码","decision":"HOLD|EXIT|REDUCE|NO_POSITION|DATA_INSUFFICIENT","exit_reason":"FAILED_EXPECTATION|ROLE_REPLACED|BOARD_ORDER_DETERIORATED|HIGH_LEVEL_ADVANCE_FAILED|STRUCTURE_BROKEN|CATALYST_REGULATION_ENV_INVALIDATED","exit_style":"EARLY_RISK_REDUCTION|WAIT_FOR_STRUCTURE_BREAK","reason":["不能用固定计数器"],"rule_ids":["规则"]}}],
+  "next_ledger_patch":{{"environment":null,"directions":[],"nodes":[],"roles":[],"competition_groups":[],"no_action_conditions":[]}},
+  "unknowns":[]
+}}
 
 {HARD_CONTRACT}
 """

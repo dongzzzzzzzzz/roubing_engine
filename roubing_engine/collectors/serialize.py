@@ -20,13 +20,26 @@ def _pick(obj, fields):
     return {f: getattr(obj, f, None) for f in fields}
 
 
-def _stamp(rows, thscode, trade_date, default_seconds: int | None = None):
+def _eltdx_code(thscode: str) -> str:
+    return str(thscode).split(".")[0]
+
+
+def _stamp(rows, thscode, trade_date, dataset: str,
+           default_seconds: int | None = None):
     fetched = _now_iso()
-    for r in rows:
+    for index, r in enumerate(rows):
         r["thscode"] = thscode
+        r["eltdx_code"] = _eltdx_code(thscode)
         r["trade_date"] = trade_date
         r["source"] = "eltdx"
+        r["interface"] = dataset
         r["fetched_at"] = fetched
+        r["request_id"] = (
+            f"eltdx:{dataset}:{thscode}:{trade_date}:"
+            f"{r.get('time_label') or r.get('trade_datetime') or index}"
+        )
+        if "volume" in r and "volume_unit" not in r:
+            r["volume_unit"] = "share"
         seconds = row_seconds(r)
         if seconds is None:
             seconds = default_seconds
@@ -64,8 +77,10 @@ def serialize_auction(auction, thscode, trade_date):
     if auction and auction.series and auction.series.points:
         rows = [_pick(p, AUCTION_FIELDS) for p in auction.series.points]
         for row in rows:
+            row["auction_time"] = row.get("time_label")
+            row["rank_in_group"] = None
             row["session_type"] = session_type(row_seconds(row))
-    return _stamp(rows, thscode, trade_date)
+    return _stamp(rows, thscode, trade_date, "auction_point")
 
 
 def serialize_opening(auction, thscode, trade_date):
@@ -84,22 +99,37 @@ def serialize_opening(auction, thscode, trade_date):
         # derive the change percentage from the previous daily close.
         if row.get("open_price") is None:
             row["open_price"] = row.get("price")
+        row["open_volume"] = row.get("volume")
+        if row.get("open_amount") is None:
+            row["open_amount"] = row.get("trade_amount_yuan")
         rows = [row]
-    return _stamp(rows, thscode, trade_date, default_seconds=9 * 3600 + 25 * 60)
+    return _stamp(rows, thscode, trade_date, "opening_match",
+                  default_seconds=9 * 3600 + 25 * 60)
 
 
 def serialize_minutes(minute_series, thscode, trade_date):
     rows = []
     if minute_series and getattr(minute_series, "points", None):
         rows = [_pick(p, MINUTE_FIELDS) for p in minute_series.points]
-    return _stamp(rows, thscode, trade_date)
+        for row in rows:
+            row["minute"] = row.get("time_label") or row.get("time")
+            price = row.get("price")
+            row.setdefault("open", price)
+            row.setdefault("high", price)
+            row.setdefault("low", price)
+            row.setdefault("close", price)
+            row["amount"] = None
+    return _stamp(rows, thscode, trade_date, "minute_bar")
 
 
 def serialize_trades(trade_page, thscode, trade_date):
     rows = []
     if trade_page and getattr(trade_page, "ticks", None):
         rows = [_pick(t, TRADE_FIELDS) for t in trade_page.ticks]
-    return _stamp(rows, thscode, trade_date)
+        for row in rows:
+            row["tick_time"] = row.get("time_label") or row.get("trade_datetime")
+            row["amount"] = row.get("trade_amount_yuan")
+    return _stamp(rows, thscode, trade_date, "trade_tick")
 
 
 def serialize_universe(rows_obj, trade_date):

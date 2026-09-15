@@ -13,9 +13,11 @@ import datetime as dt
 import hashlib
 
 import pandas as pd
+import pyarrow.parquet as pq
 
 from roubing_engine.config import WAREHOUSE
 from roubing_engine.collectors.storage import partition_profile
+from roubing_engine.reasoning import contracts
 from roubing_engine.rules.themes import canonical_theme, hierarchy_for
 from roubing_engine.warehouse.daily_loader import DAILY_BAR
 
@@ -42,15 +44,34 @@ def fact_id(yyyymmdd: str, scope: str, identity: str) -> str:
     return f"F-{yyyymmdd}-{scope.upper()}-{digest}"
 
 
+def _daily_amount_col() -> str | None:
+    """Prefer the contract column ``amount``; tolerate legacy ``turnover``."""
+    if not DAILY_BAR.exists():
+        return None
+    try:
+        names = set(pq.read_schema(DAILY_BAR).names)
+    except Exception:  # noqa: BLE001 - caller will record the data gap
+        return None
+    if "amount" in names:
+        return "amount"
+    if "turnover" in names:
+        return "turnover"
+    return None
+
+
 def _daily_market_facts(yyyymmdd: str) -> tuple[dict, dict[str, float]]:
-    """Full-market close breadth/turnover and per-code daily return."""
+    """Full-market close breadth/amount and per-code daily return."""
     if not DAILY_BAR.exists():
         return {"available": False, "reason": "stock_daily_bar missing"}, {}
+    amount_col = _daily_amount_col()
     day = dt.date(int(yyyymmdd[:4]), int(yyyymmdd[4:6]), int(yyyymmdd[6:]))
     start = (day - dt.timedelta(days=14)).strftime("%Y%m%d")
+    columns = ["thscode", "trade_date", "close"]
+    if amount_col:
+        columns.append(amount_col)
     frame = pd.read_parquet(
         DAILY_BAR,
-        columns=["thscode", "trade_date", "close", "turnover"],
+        columns=columns,
         filters=[("trade_date", ">=", start), ("trade_date", "<=", yyyymmdd)],
     )
     dates = sorted(str(value) for value in frame["trade_date"].dropna().unique())
@@ -60,8 +81,9 @@ def _daily_market_facts(yyyymmdd: str) -> tuple[dict, dict[str, float]]:
     if not prior:
         return {"available": False, "reason": "previous market day missing"}, {}
     previous_date = prior[-1]
-    current = frame[frame["trade_date"] == yyyymmdd][["thscode", "close", "turnover"]]
-    previous = frame[frame["trade_date"] == previous_date][["thscode", "close", "turnover"]]
+    current_cols = ["thscode", "close"] + ([amount_col] if amount_col else [])
+    current = frame[frame["trade_date"] == yyyymmdd][current_cols]
+    previous = frame[frame["trade_date"] == previous_date][current_cols]
     merged = current.merge(previous, on="thscode", suffixes=("_today", "_previous"))
     merged = merged[(merged["close_previous"] > 0) & merged["close_today"].notna()]
     merged["ret_pct"] = (merged["close_today"] / merged["close_previous"] - 1) * 100
@@ -69,8 +91,8 @@ def _daily_market_facts(yyyymmdd: str) -> tuple[dict, dict[str, float]]:
     up = int((merged["ret_pct"] > 0).sum())
     down = int((merged["ret_pct"] < 0).sum())
     flat = int((merged["ret_pct"] == 0).sum())
-    turnover_today = float(current["turnover"].dropna().sum())
-    turnover_previous = float(previous["turnover"].dropna().sum())
+    amount_today = float(current[amount_col].dropna().sum()) if amount_col else 0.0
+    amount_previous = float(previous[amount_col].dropna().sum()) if amount_col else 0.0
     return {
         "available": True,
         "previous_trade_date": previous_date,
@@ -78,10 +100,16 @@ def _daily_market_facts(yyyymmdd: str) -> tuple[dict, dict[str, float]]:
         "n_advance": up,
         "n_decline": down,
         "n_flat": flat,
-        "turnover_today": round(turnover_today, 2),
-        "turnover_previous": round(turnover_previous, 2),
-        "turnover_change_pct": round((turnover_today / turnover_previous - 1) * 100, 2)
-        if turnover_previous else None,
+        "amount_today": round(amount_today, 2) if amount_col else None,
+        "amount_previous": round(amount_previous, 2) if amount_col else None,
+        "amount_change_pct": round((amount_today / amount_previous - 1) * 100, 2)
+        if amount_previous else None,
+        # legacy aliases kept for older prompt/tests; values are the same yuan amount.
+        "turnover_today": round(amount_today, 2) if amount_col else None,
+        "turnover_previous": round(amount_previous, 2) if amount_col else None,
+        "turnover_change_pct": round((amount_today / amount_previous - 1) * 100, 2)
+        if amount_previous else None,
+        "amount_source_column": amount_col,
     }, returns
 
 
@@ -109,17 +137,20 @@ def _direction_facts(uni: pd.DataFrame, yyyymmdd: str) -> list[dict]:
         lambda raw: canonical_theme(raw, yyyymmdd)[0] or "(未标注)")
     opening = _read("opening_match", yyyymmdd)
     opening_codes = set(opening["thscode"].astype(str)) if not opening.empty else set()
-    turnover_by_code: dict[str, float] = {}
+    amount_by_code: dict[str, float] = {}
     if DAILY_BAR.exists():
         try:
-            day = pd.read_parquet(DAILY_BAR, columns=["thscode", "trade_date", "turnover"],
-                                  filters=[("trade_date", "=", yyyymmdd)])
-            turnover_by_code = {
-                str(row["thscode"]): float(row["turnover"])
-                for _, row in day.iterrows() if pd.notna(row.get("turnover"))
-            }
+            amount_col = _daily_amount_col()
+            if amount_col:
+                day = pd.read_parquet(DAILY_BAR,
+                                      columns=["thscode", "trade_date", amount_col],
+                                      filters=[("trade_date", "=", yyyymmdd)])
+                amount_by_code = {
+                    str(row["thscode"]): float(row[amount_col])
+                    for _, row in day.iterrows() if pd.notna(row.get(amount_col))
+                }
         except Exception:  # noqa: BLE001 - preserve a structured data gap
-            turnover_by_code = {}
+            amount_by_code = {}
     out = []
     for theme, group in work.groupby("_theme", dropna=False):
         up = group[group["status"] == "limit_up"]
@@ -128,8 +159,8 @@ def _direction_facts(uni: pd.DataFrame, yyyymmdd: str) -> list[dict]:
             ladder[str(int(value))] += 1
         codes = {str(value) for value in group["thscode"].dropna()}
         opening_covered = len(codes & opening_codes)
-        turnover = sum(turnover_by_code.get(code, 0.0) for code in codes)
-        known_turnover = sum(1 for code in codes if code in turnover_by_code)
+        amount = sum(amount_by_code.get(code, 0.0) for code in codes)
+        known_amount = sum(1 for code in codes if code in amount_by_code)
         out.append({
             "theme": theme,
             "n_limit_up": int((group["status"] == "limit_up").sum()),
@@ -143,11 +174,11 @@ def _direction_facts(uni: pd.DataFrame, yyyymmdd: str) -> list[dict]:
                            "PARTIAL" if opening_covered else "MISSING"),
             },
             "turnover": {
-                "value_yuan": round(turnover, 2) if known_turnover else None,
-                "known_codes": known_turnover,
+                "value_yuan": round(amount, 2) if known_amount else None,
+                "known_codes": known_amount,
                 "eligible_event_rows": len(codes),
-                "status": ("AVAILABLE" if known_turnover == len(codes) and codes else
-                           "PARTIAL" if known_turnover else "MISSING"),
+                "status": ("AVAILABLE" if known_amount == len(codes) and codes else
+                           "PARTIAL" if known_amount else "MISSING"),
             },
             "diffusion": {
                 "available": False,
@@ -261,6 +292,98 @@ def _direction_feedback(previous_feedback: dict, yyyymmdd: str) -> dict[str, dic
             "rows": rows,
         }
     return out
+
+
+def _block_scope_report(data_completeness: dict) -> dict:
+    """Map missing collectors to exact blocked conclusions.
+
+    This is the source-level rail for TODO 5: a missing intraday/depth dataset
+    may downgrade the specific active-order conclusion it supports, but it may
+    not erase EOD environment, direction lifecycle, task semantics, or the
+    close ledger when daily/event facts exist.
+    """
+    blocks: list[dict] = []
+
+    def available(dataset: str) -> bool:
+        return bool((data_completeness.get(dataset) or {}).get("available"))
+
+    def add(block: dict) -> None:
+        block = {
+            "blocks_eod_reasoning": False,
+            **block,
+        }
+        block["validation"] = contracts.validate_block_scope(block)
+        blocks.append(block)
+
+    if not available("auction_point") and available("opening_match"):
+        add({
+            "scope": "LOCAL_DOWNGRADE",
+            "reason": "ONLY_0925_AVAILABLE",
+            "datasets": ["auction_point", "opening_match"],
+            "available_conclusions": list(
+                contracts.LOCAL_DOWNGRADE_RULES["ONLY_0925_AVAILABLE"][:1]
+            ),
+            "blocked_conclusions": [
+                "09:15-09:20撤单衰减",
+                "竞价全过程排位迁移",
+                "完整竞价买卖盘意图",
+            ],
+        })
+
+    if not available("minute_bar") and not available("trade_tick"):
+        add({
+            "scope": "LOCAL_DOWNGRADE",
+            "reason": "MISSING_INTRADAY",
+            "datasets": ["minute_bar", "trade_tick"],
+            "available_conclusions": list(
+                contracts.LOCAL_DOWNGRADE_RULES["MISSING_INTRADAY"]
+            ),
+            "blocked_conclusions": [
+                "09:35开盘承接",
+                "分时主动带动",
+                "尾盘确认",
+                "盘中角色替代",
+            ],
+        })
+    elif available("minute_bar") and not available("trade_tick"):
+        add({
+            "scope": "LOCAL_DOWNGRADE",
+            "reason": "MINUTE_WITHOUT_TICKS",
+            "datasets": ["minute_bar", "trade_tick"],
+            "available_conclusions": list(
+                contracts.LOCAL_DOWNGRADE_RULES["MINUTE_WITHOUT_TICKS"][:1]
+            ),
+            "blocked_conclusions": [
+                "秒级主动大单顺序",
+                "逐笔级主动/被动归因",
+            ],
+        })
+
+    if not available("depth_snapshot"):
+        add({
+            "scope": "SYSTEM_BLOCK",
+            "reason": "HISTORICAL_DEPTH_AND_ORDER_QUEUE_UNRECOVERABLE",
+            "datasets": ["depth_snapshot"],
+            "blocked_conclusions": [
+                "完整委托队列变化",
+                "撤单主体/队列意图确认",
+                "全盘口压单/托单动态意图",
+            ],
+        })
+
+    invalid = [item for block in blocks for item in block.get("validation") or []]
+    return {
+        "status": "PASS" if not invalid else "INVALID",
+        "blocks": blocks,
+        "invalid_blocks": invalid,
+        "eod_reasoning_blocked": any(
+            block.get("blocks_eod_reasoning") is True for block in blocks
+        ),
+        "policy": (
+            "LOCAL_DOWNGRADE 只能阻断 listed blocked_conclusions；"
+            "不得据此把环境、方向生命周期、T1任务、收盘账本整体写成 BLOCKED_DATA。"
+        ),
+    }
 
 
 def compile_day(yyyymmdd: str) -> dict:
@@ -391,8 +514,9 @@ def compile_day(yyyymmdd: str) -> dict:
 
     # Completeness is a coverage profile, not just a partition-exists boolean.
     have = {ds: partition_profile(ds, yyyymmdd)
-            for ds in ("universe", "auction_point", "opening_match", "minute_bar", "trade_tick",
-                       "announcement", "hot_topic")}
+            for ds in ("universe", "auction_point", "opening_match", "minute_bar",
+                       "trade_tick", "depth_snapshot", "announcement", "hot_topic")}
+    block_scope_report = _block_scope_report(have)
 
     context_data = _context_status(yyyymmdd)
     environment_facts = [
@@ -441,6 +565,7 @@ def compile_day(yyyymmdd: str) -> dict:
         "context_data": context_data,
         "previous_buyer_feedback": previous_feedback,
         "data_completeness": have,
+        "block_scope_report": block_scope_report,
         "theme_registry_policy": "evidence-backed aliases only; unknown reasons remain separate",
         "theme_hierarchy": hierarchy_for(
             [item.get("theme") for item in direction_state_facts if item.get("theme")],
